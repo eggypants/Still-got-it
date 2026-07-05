@@ -1,4 +1,4 @@
-const SAVE_KEY = 'still-got-it-save-v1';
+import { SAVE_KEY } from "./state.js";
 
 export function saveGame(state) {
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
@@ -9,8 +9,7 @@ export function loadGame() {
   if (!raw) return null;
   try {
     return JSON.parse(raw);
-  } catch (error) {
-    console.warn('Save file could not be parsed', error);
+  } catch {
     return null;
   }
 }
