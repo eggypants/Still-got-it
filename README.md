@@ -1,48 +1,43 @@
-# Still Got It
+# Still Got It v0.2 Real Flat Build
 
-A tiny, modular browser dating sim prototype set in Sunset Pines retirement village.
+A flat-file GitHub Pages prototype for **Still Got It**, now rebuilt as a friendship life sim rather than a dating sim.
 
-This version includes:
+## What this build does
 
-- Name and pronoun selection
-- Three residents: Rhonda, Pablo, and Miranda
-- Separate Trust and Romance values
-- Player-initiated romance only
-- A Day 6 Crossroads event determined by the resident you are closest to
-- Success/failure outcomes that affect each relationship's maximum potential
-- Save/load using browser localStorage
-- Multiple ending components: romance, closest friendship, and village legacy
+- Runs entirely in the browser.
+- Uses flat files only: no folders needed.
+- Has a 7-day proof route.
+- Uses a real noticeboard/activity loop.
+- Hides friendship numbers from the player.
+- Includes Journal, Residents, Settings tabs.
+- Lets the player stay in their apartment and miss things.
+- Includes Rhonda's concert success/failure arc.
+- Includes small Pablo/Miranda background moments.
 
-## How to play locally
+## Uploading to GitHub Pages from mobile
 
-Open `index.html` in a browser. If your browser blocks ES modules from local files, upload it to GitHub Pages instead.
+Upload these files directly into the repository root:
 
-## How to put it on GitHub Pages
+- `index.html`
+- `style.css`
+- `main.js`
+- `state.js`
+- `data.js`
+- `engine.js`
+- `ui.js`
+- `save.js`
+- `README.md`
 
-1. Create a new GitHub repository, for example `still-got-it`.
-2. Upload everything in this folder, keeping the folder structure exactly the same.
-3. Make sure `index.html` is in the repository root.
-4. Go to **Settings → Pages**.
-5. Under **Build and deployment**, choose:
-   - Source: **Deploy from a branch**
-   - Branch: **main**
-   - Folder: **/ (root)**
-6. Save.
-7. Wait a minute, then open the GitHub Pages URL.
+Do not upload a containing folder.
 
-## Adding a character
+If replacing an older branch, upload these files on that branch and choose to replace files with the same names.
 
-Add a new entry in `js/characters.js`, then add scenes in `js/scenes.js`, and eventually a Crossroads event in `js/crossroads.js`.
+## GitHub Pages settings
 
-The engine reads character and scene data rather than hard-coding a route, so the village can grow without rewriting the whole game.
+Use:
 
-## Design notes
+- Source: Deploy from a branch
+- Branch: main
+- Folder: / root
 
-The key design idea is scarcity. A single playthrough should not let the player become close to everyone. Trust grows slowly, romance must be initiated by the player, and the Crossroads event rewards paying attention to each character's deeper emotional problem.
-
-
-## Mobile flat upload option
-
-If GitHub on mobile will not upload folders, use the flat version of this project. Upload every file from this folder directly into the repo root. Do not upload the containing folder itself.
-
-The flat version has `index.html`, `style.css`, and all `.js` files in the same place, so it does not need `css/` or `js/` folders.
+If you are working through a pull request, upload these files to your `V02` branch, open a PR into `main`, then merge when ready.

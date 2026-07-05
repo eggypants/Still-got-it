@@ -1,93 +1,79 @@
-import { createNewState } from './state.js';
-import { applyChoice, finishGame, getCurrentCrossroadsEvent, getSceneById, resolveCrossroadsChoice, triggerCrossroadsIfNeeded } from './engine.js';
-import { clearSave, loadGame, saveGame } from './save.js';
-import { renderApp } from './ui.js';
+import { createInitialState } from "./state.js";
+import {
+  beginActivity,
+  chooseSceneOption,
+  continueAfterOutcome,
+  openTab,
+  startGame
+} from "./engine.js";
+import { clearSave, loadGame as loadSavedGame, saveGame as persistGame } from "./save.js";
+import { render } from "./ui.js";
 
-const app = document.querySelector('#app');
-let state = loadGame();
-let activeSceneId = null;
+let state = createInitialState();
+const app = document.getElementById("app");
 
-if (state) {
-  if (state.phase === 'playing') triggerCrossroadsIfNeeded(state);
-  if (state.phase === 'ending' && !state.ending) finishGame(state);
+const saved = loadSavedGame();
+if (saved && saved.version === "0.2-real-flat") {
+  state = saved;
 }
 
-const handlers = {
-  start(player) {
-    state = createNewState(player);
-    activeSceneId = null;
-    saveGame(state);
-    render();
+const actions = {
+  startGame(player) {
+    startGame(state, player);
+    persistGame(state);
+    update();
   },
 
-  openScene(sceneId) {
-    activeSceneId = sceneId;
-    render();
+  openTab(tabName) {
+    openTab(state, tabName);
+    update();
   },
 
-  backHome() {
-    activeSceneId = null;
-    render();
+  beginActivity(activityId) {
+    beginActivity(state, activityId);
+    update();
   },
 
-  chooseSceneChoice(sceneId, choiceId) {
-    const scene = getSceneById(state, sceneId);
-    const choice = scene?.choices.find(item => item.id === choiceId);
-
-    if (!scene || !choice) {
-      state.lastFeedback = 'Something went sideways. The committee has been informed.';
-      activeSceneId = null;
-      render();
-      return;
-    }
-
-    applyChoice(state, scene, choice);
-    activeSceneId = null;
-    saveGame(state);
-    render();
+  chooseSceneOption(index) {
+    chooseSceneOption(state, index);
+    persistGame(state);
+    update();
   },
 
-  chooseCrossroads(choiceId) {
-    const event = getCurrentCrossroadsEvent(state);
-    const choice = event.choices.find(item => item.id === choiceId);
-    if (!choice) return;
-
-    resolveCrossroadsChoice(state, choice);
-    activeSceneId = null;
-    saveGame(state);
-    render();
+  continueAfterOutcome() {
+    continueAfterOutcome(state);
+    persistGame(state);
+    update();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
-  save() {
-    if (!state) return;
-    saveGame(state);
-    window.alert('Saved. Sunset Pines remembers, which is more than can be said for the bridge roster.');
+  saveGame() {
+    persistGame(state);
+    alert("Saved.");
   },
 
-  load() {
-    const loaded = loadGame();
+  loadGame() {
+    const loaded = loadSavedGame();
     if (!loaded) {
-      window.alert('No save found yet.');
+      alert("No saved game found in this browser.");
       return;
     }
     state = loaded;
-    if (state.phase === 'playing') triggerCrossroadsIfNeeded(state);
-    if (state.phase === 'ending' && !state.ending) finishGame(state);
-    activeSceneId = null;
-    render();
+    update();
   },
 
-  newGame() {
-    if (state && !window.confirm('Start a new game and clear the current save?')) return;
+  resetGame() {
+    const yes = confirm("Reset this playthrough? This clears the local save in this browser.");
+    if (!yes) return;
     clearSave();
-    state = null;
-    activeSceneId = null;
-    render();
+    state = createInitialState();
+    update();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 
-function render() {
-  renderApp(app, state, handlers, activeSceneId);
+function update() {
+  render(app, state, actions);
 }
 
-render();
+update();

@@ -1,58 +1,43 @@
-import { characters } from './characters.js';
+export const SAVE_KEY = "still-got-it-v02-real";
 
-export const SLOT_NAMES = ['morning', 'afternoon', 'evening'];
-export const FINAL_DAY = 10;
-export const CROSSROADS_DAY = 6;
-
-const pronounSets = {
-  she: {
-    label: 'she/her', subject: 'she', object: 'her', possessiveAdjective: 'her', possessivePronoun: 'hers', reflexive: 'herself', be: 'is'
-  },
-  he: {
-    label: 'he/him', subject: 'he', object: 'him', possessiveAdjective: 'his', possessivePronoun: 'his', reflexive: 'himself', be: 'is'
-  },
-  they: {
-    label: 'they/them', subject: 'they', object: 'them', possessiveAdjective: 'their', possessivePronoun: 'theirs', reflexive: 'themself', be: 'are'
-  }
-};
-
-export function getPronounSet(key = 'they') {
-  return pronounSets[key] || pronounSets.they;
+export function createInitialState() {
+  return {
+    version: "0.2-real-flat",
+    view: "setup",
+    activeTab: "noticeboard",
+    player: {
+      name: "",
+      pronouns: "they/them"
+    },
+    dayIndex: 0,
+    slotIndex: 0,
+    activeSceneId: null,
+    pendingOutcome: null,
+    friendships: {
+      rhonda: 0,
+      pablo: 0,
+      miranda: 0,
+      bob: 0,
+      jean: 0,
+      al: 0
+    },
+    flags: {},
+    memories: [],
+    seenScenes: [],
+    log: []
+  };
 }
 
-export function createNewState({ name = 'New Resident', pronouns = 'they' } = {}) {
-  const relationships = {};
+export function cloneState(state) {
+  return structuredClone(state);
+}
 
-  for (const character of Object.values(characters)) {
-    relationships[character.id] = {
-      trust: 0,
-      romance: 0,
-      playerFlirted: false,
-      maxTrust: 100,
-      crossroadsOutcome: null
-    };
-  }
-
-  return {
-    version: 1,
-    phase: 'playing',
-    player: {
-      name: name.trim() || 'New Resident',
-      pronouns,
-      pronounSet: getPronounSet(pronouns)
-    },
-    day: 1,
-    slotIndex: 0,
-    relationships,
-    flags: {},
-    seenScenes: [],
-    choiceLog: [],
-    crossroads: {
-      chosenCharacterId: null,
-      eventId: null,
-      resolved: false
-    },
-    ending: null,
-    lastFeedback: null
+export function getPronouns(pronounChoice) {
+  const table = {
+    "she/her": { subject: "she", object: "her", possessive: "her", reflexive: "herself", be: "is", have: "has" },
+    "he/him": { subject: "he", object: "him", possessive: "his", reflexive: "himself", be: "is", have: "has" },
+    "they/them": { subject: "they", object: "them", possessive: "their", reflexive: "themself", be: "are", have: "have" }
   };
+
+  return table[pronounChoice] || table["they/them"];
 }

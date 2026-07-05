@@ -1,330 +1,347 @@
-import { characters } from './characters.js';
+import { CHARACTERS } from "./data.js";
 import {
-  choiceAvailable,
-  getAvailableActivities,
-  getCurrentCrossroadsEvent,
-  getRelationship,
-  getRomance,
-  getSceneById,
-  getSlotName,
-  getTrust,
-  relationshipTier,
-  titleCase
-} from './engine.js';
-import { CROSSROADS_DAY, FINAL_DAY } from './state.js';
+  buildEnding,
+  getCurrentDate,
+  getFriendshipLabel,
+  getMemoryText,
+  getNoticeboardItems,
+  getResidentNote,
+  resolveScene,
+  substituteScene
+} from "./engine.js";
 
-export function renderApp(app, state, handlers, activeSceneId = null) {
-  if (!state) {
-    renderSetup(app, handlers);
+export function render(app, state, actions) {
+  app.innerHTML = "";
+
+  if (state.view === "setup") {
+    app.appendChild(renderSetup(state, actions));
     return;
   }
 
-  if (state.phase === 'crossroads') {
-    renderCrossroads(app, state, handlers);
+  if (state.view === "ending") {
+    app.appendChild(renderEnding(state, actions));
     return;
   }
 
-  if (state.phase === 'ending') {
-    renderEnding(app, state, handlers);
-    return;
-  }
-
-  if (activeSceneId) {
-    const scene = getSceneById(state, activeSceneId);
-    if (scene) {
-      renderScene(app, state, scene, handlers);
-      return;
-    }
-  }
-
-  renderHome(app, state, handlers);
+  app.appendChild(renderGameShell(state, actions));
 }
 
-function renderSetup(app, handlers) {
-  app.innerHTML = `
-    <main class="setup-panel">
-      <p class="brand-kicker">Sunset Pines presents</p>
-      <h1>Still Got It</h1>
-      <p class="subtle">A tiny replayable dating sim about retirement village romance, specific compliments, and the dangerous eroticism of remembering someone’s tea order.</p>
+function renderSetup(state, actions) {
+  const screen = el("main", "screen setup");
 
-      <div class="card" style="box-shadow:none; margin-top: 18px;">
-        <h2>Move in</h2>
-        <p>You have ten days before the Sunset Pines festival. That is enough time for one romance, maybe one close friendship, and absolutely not enough time to understand the printer in the library.</p>
-        <form id="setup-form" class="form-grid">
-          <label>
-            Your name
-            <input name="name" maxlength="32" autocomplete="given-name" placeholder="New Resident" />
-          </label>
-          <label>
-            Pronouns
-            <select name="pronouns">
-              <option value="she">she/her</option>
-              <option value="he">he/him</option>
-              <option value="they" selected>they/them</option>
-            </select>
-          </label>
-          <button class="btn" type="submit">Start unpacking</button>
-        </form>
-      </div>
+  const card = el("section", "card");
+  const inner = el("div", "card-inner");
+  card.appendChild(inner);
 
-      <p class="footer-note">Prototype build: Rhonda, Pablo, and Miranda routes. More village chaos can be added as data.</p>
-    </main>
+  inner.appendChild(el("h1", null, "Still Got It"));
+  inner.appendChild(el("p", null, "A friendship life sim about moving into Sunset Pines and discovering that the good bit may not be over."));
+
+  const form = el("form", "form-grid");
+  form.innerHTML = `
+    <div class="field">
+      <label for="player-name">Your name</label>
+      <input id="player-name" name="name" autocomplete="name" maxlength="40" placeholder="New Resident" />
+    </div>
+    <div class="field">
+      <label for="pronouns">Pronouns</label>
+      <select id="pronouns" name="pronouns">
+        <option value="they/them">they/them</option>
+        <option value="she/her">she/her</option>
+        <option value="he/him">he/him</option>
+      </select>
+    </div>
+    <button class="primary-button" type="submit">Move in</button>
   `;
 
-  app.querySelector('#setup-form').addEventListener('submit', event => {
+  form.addEventListener("submit", event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    handlers.start({
-      name: data.get('name'),
-      pronouns: data.get('pronouns')
+    const data = new FormData(form);
+    actions.startGame({
+      name: data.get("name"),
+      pronouns: data.get("pronouns")
     });
   });
+
+  inner.appendChild(form);
+
+  const note = el("p", "small muted", "Tip: this version is a one-week proof route. It is deliberately small so the life-sim loop can be tested before the writing beast gets fed.");
+  inner.appendChild(note);
+
+  screen.appendChild(card);
+  return screen;
 }
 
-function renderHome(app, state, handlers) {
-  const activities = getAvailableActivities(state);
+function renderGameShell(state, actions) {
+  const screen = el("main", "screen");
+  screen.appendChild(renderTopbar(state));
+  screen.appendChild(renderTabs(state, actions));
 
-  app.innerHTML = `
-    ${renderTopbar(state)}
-    ${state.lastFeedback ? `<div class="feedback">${escapeHtml(state.lastFeedback)}</div>` : ''}
-    <div class="grid" style="margin-top:16px;">
-      <main class="noticeboard">
-        <p class="brand-kicker">Village noticeboard</p>
-        <h2>Day ${state.day}, ${titleCase(getSlotName(state))}</h2>
-        <p class="subtle">The Crossroads happens on Day ${CROSSROADS_DAY}. Whoever you are closest to then will pull you into their bigger story.</p>
-        <ul class="activity-list">
-          ${activities.map(activity => renderActivity(activity)).join('')}
-        </ul>
-      </main>
-      <aside>
-        ${renderRelationships(state)}
-        ${renderRecentLog(state)}
-      </aside>
-    </div>
-  `;
+  const stage = el("section", "stage");
 
-  bindCommonButtons(app, handlers);
-  app.querySelectorAll('[data-scene-id]').forEach(button => {
-    button.addEventListener('click', () => handlers.openScene(button.dataset.sceneId));
-  });
-}
+  const art = renderArtPanel(state);
+  stage.appendChild(art);
 
-function renderScene(app, state, scene, handlers) {
-  const choices = scene.choices.filter(choice => choiceAvailable(choice, state));
-  const character = scene.characterId ? characters[scene.characterId] : null;
+  const panel = el("section", "card panel");
+  const inner = el("div", "card-inner");
+  panel.appendChild(inner);
 
-  app.innerHTML = `
-    ${renderTopbar(state)}
-    <main class="scene-layout" style="margin-top:16px;">
-      <section class="card">
-        <p class="brand-kicker">${escapeHtml(scene.location || 'Sunset Pines')}</p>
-        <h2>${escapeHtml(scene.title)}</h2>
-        ${character ? `<div class="tag-row"><span class="tag">${escapeHtml(character.name)}</span><span class="tag">${escapeHtml(relationshipTier(state, character.id))}</span></div>` : ''}
-        <p class="story-text">${escapeHtml(readText(scene.text, state))}</p>
-      </section>
-      <section class="choice-panel">
-        <h3>Choose your approach</h3>
-        <ul class="choice-list">
-          ${choices.map(choice => renderChoice(choice)).join('')}
-        </ul>
-        <div class="toolbar"><button class="btn secondary" data-back-home>Back to noticeboard</button></div>
-      </section>
-    </main>
-  `;
+  if (state.view === "scene") {
+    inner.appendChild(renderScene(state, actions));
+  } else if (state.view === "outcome") {
+    inner.appendChild(renderOutcome(state, actions));
+  } else if (state.activeTab === "journal") {
+    inner.appendChild(renderJournal(state));
+  } else if (state.activeTab === "residents") {
+    inner.appendChild(renderResidents(state));
+  } else if (state.activeTab === "settings") {
+    inner.appendChild(renderSettings(actions));
+  } else {
+    inner.appendChild(renderNoticeboard(state, actions));
+  }
 
-  bindCommonButtons(app, handlers);
-  app.querySelector('[data-back-home]').addEventListener('click', handlers.backHome);
-  app.querySelectorAll('[data-choice-id]').forEach(button => {
-    button.addEventListener('click', () => handlers.chooseSceneChoice(scene.id, button.dataset.choiceId));
-  });
-}
+  stage.appendChild(panel);
+  screen.appendChild(stage);
 
-function renderCrossroads(app, state, handlers) {
-  const event = getCurrentCrossroadsEvent(state);
-  const character = event.characterId ? characters[event.characterId] : null;
-
-  app.innerHTML = `
-    ${renderTopbar(state)}
-    <main class="scene-layout" style="margin-top:16px;">
-      <section class="card">
-        <p class="brand-kicker">The Crossroads</p>
-        <h2>${escapeHtml(event.title)}</h2>
-        <p class="subtle">${escapeHtml(event.subtitle)}</p>
-        ${character ? `<div class="tag-row"><span class="tag">Closest bond: ${escapeHtml(character.name)}</span><span class="tag">Trust ${getTrust(state, character.id)}</span></div>` : ''}
-        <p class="story-text">${escapeHtml(readText(event.intro, state))}</p>
-      </section>
-      <section class="choice-panel">
-        <h3>This one matters</h3>
-        <p class="subtle">This will not end the relationship, but it will shape its ceiling.</p>
-        <ul class="choice-list">
-          ${event.choices.map(choice => renderChoice(choice)).join('')}
-        </ul>
-      </section>
-    </main>
-  `;
-
-  bindCommonButtons(app, handlers);
-  app.querySelectorAll('[data-choice-id]').forEach(button => {
-    const choice = event.choices.find(item => item.id === button.dataset.choiceId);
-    button.addEventListener('click', () => handlers.chooseCrossroads(choice.id));
-  });
-}
-
-function renderEnding(app, state, handlers) {
-  const ending = state.ending;
-
-  app.innerHTML = `
-    <main class="setup-panel">
-      <p class="brand-kicker">Festival night</p>
-      <h1>Ending</h1>
-      <div class="grid" style="margin-top: 16px;">
-        <section class="card">
-          <h2>${escapeHtml(ending.romance.title)}</h2>
-          <p>${escapeHtml(ending.romance.text)}</p>
-        </section>
-        <section class="card">
-          <h2>${escapeHtml(ending.bestFriend.title)}</h2>
-          <p>${escapeHtml(ending.bestFriend.text)}</p>
-        </section>
-        <section class="card">
-          <h2>${escapeHtml(ending.legacy.title)}</h2>
-          <p>${escapeHtml(ending.legacy.text)}</p>
-        </section>
-        <section class="card">
-          <h2>Roll credits</h2>
-          <p>${escapeHtml(ending.closingLine)}</p>
-          <div class="toolbar">
-            <button class="btn" data-new-game>Play again</button>
-            <button class="btn secondary" data-save>Save ending</button>
-          </div>
-        </section>
-      </div>
-    </main>
-  `;
-
-  bindCommonButtons(app, handlers);
+  return screen;
 }
 
 function renderTopbar(state) {
-  return `
-    <header class="topbar">
-      <section class="brand-card">
-        <p class="brand-kicker">Still Got It</p>
-        <h1>Sunset Pines</h1>
-        <p class="subtle">${escapeHtml(state.player.name)} · Day ${state.day}/${FINAL_DAY} · ${titleCase(getSlotName(state))}</p>
-        <div class="toolbar">
-          <button class="btn secondary" data-save>Save</button>
-          <button class="btn secondary" data-load>Load</button>
-          <button class="btn ghost" data-new-game>New game</button>
-        </div>
-      </section>
-      <section class="brand-card">
-        <h3>Design rule</h3>
-        <p class="subtle">Nobody falls for you by default. Build trust, make the first move, and pay attention when people tell you who they are.</p>
-      </section>
-    </header>
-  `;
+  const current = getCurrentDate(state);
+  const top = el("section", "card");
+  const inner = el("div", "card-inner topbar");
+  top.appendChild(inner);
+
+  const brand = el("div", "brand");
+  brand.appendChild(el("h1", null, "Still Got It"));
+  brand.appendChild(el("p", null, "Sunset Pines Retirement Village"));
+  inner.appendChild(brand);
+
+  const date = el("div", "date-pill");
+  date.appendChild(el("strong", null, `${current.weekday}`));
+  date.appendChild(el("span", null, `Week ${current.week} · ${current.slot}`));
+  inner.appendChild(date);
+
+  return top;
 }
 
-function renderRelationships(state) {
-  return `
-    <section class="card">
-      <h2>Residents</h2>
-      <div class="character-grid">
-        ${Object.values(characters).map(character => renderCharacterCard(state, character)).join('')}
-      </div>
-    </section>
-  `;
-}
+function renderTabs(state, actions) {
+  const tabs = el("nav", "tabs");
+  const items = [
+    ["noticeboard", "Noticeboard"],
+    ["journal", "Journal"],
+    ["residents", "Residents"],
+    ["settings", "Settings"]
+  ];
 
-function renderCharacterCard(state, character) {
-  const rel = getRelationship(state, character.id);
-  const trustPercent = Math.round((rel.trust / (rel.maxTrust || 100)) * 100);
-  const romancePercent = Math.round(rel.romance);
-  const outcome = rel.crossroadsOutcome ? `<span class="tag">Crossroads: ${escapeHtml(rel.crossroadsOutcome)}</span>` : '';
-
-  return `
-    <article class="character-card">
-      <div class="character-head">
-        <div class="portrait ${character.id}">${escapeHtml(character.icon)}</div>
-        <div>
-          <h3>${escapeHtml(character.name)} <span class="small">b. ${character.born}</span></h3>
-          <p class="small">${escapeHtml(character.tagline)}</p>
-        </div>
-      </div>
-      <div class="meter"><span style="width:${trustPercent}%"></span></div>
-      <p class="small">Trust ${rel.trust}/${rel.maxTrust} · ${escapeHtml(relationshipTier(state, character.id))}</p>
-      <div class="meter romance"><span style="width:${romancePercent}%"></span></div>
-      <p class="small">Romance ${rel.romance}/100 ${rel.playerFlirted ? '· signalled' : '· not signalled'}</p>
-      <div class="tag-row">${outcome}</div>
-    </article>
-  `;
-}
-
-function renderActivity(activity) {
-  const character = activity.characterId ? characters[activity.characterId] : null;
-  return `
-    <li>
-      <button class="activity-card" data-scene-id="${escapeHtml(activity.id)}">
-        <span class="activity-title">${escapeHtml(activity.title)}</span>
-        <span class="activity-meta">${escapeHtml(activity.location || character?.location || 'Sunset Pines')}</span>
-        <span>${escapeHtml(activity.summary || '')}</span>
-      </button>
-    </li>
-  `;
-}
-
-function renderChoice(choice) {
-  return `
-    <li>
-      <button class="choice-button" data-choice-id="${escapeHtml(choice.id)}">
-        <span class="choice-title">${escapeHtml(choice.text)}</span>
-        ${choice.meta ? `<span class="choice-meta">${escapeHtml(choice.meta)}</span>` : ''}
-      </button>
-    </li>
-  `;
-}
-
-function renderRecentLog(state) {
-  const recent = state.choiceLog.slice(-5).reverse();
-  if (!recent.length) {
-    return `
-      <section class="card" style="margin-top:16px;">
-        <h2>Memory</h2>
-        <p class="subtle">No choices yet. Suspiciously peaceful.</p>
-      </section>
-    `;
+  for (const [id, label] of items) {
+    const button = el("button", `tab-button ${state.activeTab === id && state.view === "noticeboard" ? "active" : ""}`, label);
+    button.type = "button";
+    button.addEventListener("click", () => actions.openTab(id));
+    tabs.appendChild(button);
   }
 
-  return `
-    <section class="card" style="margin-top:16px;">
-      <h2>Memory</h2>
-      <ul class="log-list">
-        ${recent.map(entry => `
-          <li class="log-item small">
-            Day ${entry.day}, ${escapeHtml(entry.slot)} — ${escapeHtml(entry.choiceId.replaceAll('_', ' '))}
-          </li>
-        `).join('')}
-      </ul>
-    </section>
-  `;
+  return tabs;
 }
 
-function bindCommonButtons(app, handlers) {
-  app.querySelectorAll('[data-save]').forEach(button => button.addEventListener('click', handlers.save));
-  app.querySelectorAll('[data-load]').forEach(button => button.addEventListener('click', handlers.load));
-  app.querySelectorAll('[data-new-game]').forEach(button => button.addEventListener('click', handlers.newGame));
+function renderArtPanel(state) {
+  let kicker = "Artwork space";
+  let title = "Sunset Pines";
+
+  if (state.view === "scene") {
+    const scene = substituteScene(resolveScene(state, state.activeSceneId), state);
+    kicker = scene.location || "Scene";
+    title = scene.art || scene.title;
+  } else if (state.view === "outcome" && state.pendingOutcome) {
+    kicker = state.pendingOutcome.location || "Scene";
+    title = state.pendingOutcome.art || state.pendingOutcome.title;
+  } else if (state.activeTab === "journal") {
+    kicker = "Journal";
+    title = "Things you noticed";
+  } else if (state.activeTab === "residents") {
+    kicker = "Residents";
+    title = "People you know";
+  } else if (state.activeTab === "settings") {
+    kicker = "Settings";
+    title = "Save and reset";
+  } else {
+    const current = getCurrentDate(state);
+    kicker = `${current.weekday} ${current.slot}`;
+    title = "Noticeboard";
+  }
+
+  const art = el("aside", "art-panel");
+  art.appendChild(el("p", "kicker", kicker));
+  art.appendChild(el("h2", null, title));
+  return art;
 }
 
-function readText(value, state) {
-  return typeof value === 'function' ? value(state) : value;
+function renderNoticeboard(state, actions) {
+  const wrapper = el("div", "noticeboard");
+  const current = getCurrentDate(state);
+  wrapper.appendChild(el("h2", null, `${current.weekday} ${current.slot}`));
+  wrapper.appendChild(el("p", "muted", "Choose where to spend this part of the day. The other notices won’t wait around."));
+
+  const list = el("div", "notice-list");
+  const items = getNoticeboardItems(state);
+
+  for (const item of items) {
+    const card = el("article", "notice-item");
+    card.appendChild(el("h3", null, item.title));
+    card.appendChild(el("p", null, `${item.location} · ${item.note}`));
+    const button = el("button", "choice-button", "Go");
+    button.type = "button";
+    button.addEventListener("click", () => actions.beginActivity(item.id));
+    card.appendChild(button);
+    list.appendChild(card);
+  }
+
+  wrapper.appendChild(list);
+  return wrapper;
 }
 
-function escapeHtml(value = '') {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+function renderScene(state, actions) {
+  const scene = substituteScene(resolveScene(state, state.activeSceneId), state);
+  const wrapper = el("div", "scene-card");
+
+  wrapper.appendChild(el("h2", null, scene.title));
+  wrapper.appendChild(renderSceneText(scene.content));
+
+  const choices = el("div", "choice-list");
+  for (const [index, choice] of scene.choices.entries()) {
+    const button = el("button", "choice-button", choice.text);
+    button.type = "button";
+    button.addEventListener("click", () => actions.chooseSceneOption(index));
+    choices.appendChild(button);
+  }
+  wrapper.appendChild(choices);
+
+  return wrapper;
+}
+
+function renderOutcome(state, actions) {
+  const wrapper = el("div", "scene-card");
+  wrapper.appendChild(el("h2", null, state.pendingOutcome.title));
+  wrapper.appendChild(renderSceneText(state.pendingOutcome.content));
+  const button = el("button", "primary-button", "Continue");
+  button.type = "button";
+  button.addEventListener("click", actions.continueAfterOutcome);
+  wrapper.appendChild(button);
+  return wrapper;
+}
+
+function renderSceneText(content) {
+  const box = el("div", "scene-text");
+  for (const block of content || []) {
+    const p = document.createElement("p");
+    if (block.speaker) {
+      const speaker = el("span", "speaker", block.speaker);
+      p.appendChild(speaker);
+    }
+    p.appendChild(document.createTextNode(block.text));
+    box.appendChild(p);
+  }
+  return box;
+}
+
+function renderJournal(state) {
+  const wrapper = el("div", "panel");
+  wrapper.appendChild(el("h2", null, "Journal"));
+
+  if (!state.memories.length) {
+    wrapper.appendChild(el("p", "muted", "Nothing written down yet. Go places. Sit with people. Listen."));
+    return wrapper;
+  }
+
+  const list = el("div", "journal-list");
+  for (const memoryId of state.memories) {
+    const item = el("article", "journal-item");
+    item.appendChild(el("p", null, getMemoryText(memoryId)));
+    list.appendChild(item);
+  }
+  wrapper.appendChild(list);
+  return wrapper;
+}
+
+function renderResidents(state) {
+  const wrapper = el("div", "panel");
+  wrapper.appendChild(el("h2", null, "Residents"));
+  wrapper.appendChild(el("p", "muted", "No numbers. Just a sense of where things stand."));
+
+  const list = el("div", "resident-list");
+  for (const [id, character] of Object.entries(CHARACTERS)) {
+    const item = el("article", "resident-item");
+    item.appendChild(el("h3", null, `${character.name} · born ${character.born}`));
+    item.appendChild(el("p", null, character.short));
+    item.appendChild(el("div", "relationship-word", getFriendshipLabel(state.friendships[id] || 0, id, state)));
+    item.appendChild(el("p", "small", getResidentNote(id, state)));
+    list.appendChild(item);
+  }
+  wrapper.appendChild(list);
+  return wrapper;
+}
+
+function renderSettings(actions) {
+  const wrapper = el("div", "panel");
+  wrapper.appendChild(el("h2", null, "Settings"));
+  wrapper.appendChild(el("p", "muted", "Saves are stored in this browser on this device."));
+
+  const row = el("div", "button-row");
+  const save = el("button", "primary-button", "Save game");
+  save.type = "button";
+  save.addEventListener("click", actions.saveGame);
+  row.appendChild(save);
+
+  const load = el("button", "secondary-button", "Load game");
+  load.type = "button";
+  load.addEventListener("click", actions.loadGame);
+  row.appendChild(load);
+
+  const reset = el("button", "secondary-button", "Reset game");
+  reset.type = "button";
+  reset.addEventListener("click", actions.resetGame);
+  row.appendChild(reset);
+
+  wrapper.appendChild(row);
+  wrapper.appendChild(el("div", "status-line", "GitHub Pages friendly. Flat files only. No server."));
+  return wrapper;
+}
+
+function renderEnding(state, actions) {
+  const ending = buildEnding(state);
+  const screen = el("main", "screen");
+
+  const art = el("aside", "art-panel");
+  art.appendChild(el("p", "kicker", "One week later"));
+  art.appendChild(el("h2", null, "The door"));
+  screen.appendChild(art);
+
+  const card = el("section", "card");
+  const inner = el("div", "card-inner");
+  card.appendChild(inner);
+  inner.appendChild(el("h2", null, "One week later"));
+
+  const list = el("div", "ending-list");
+  for (const line of ending.lines) {
+    const item = el("article", "journal-item");
+    item.appendChild(el("p", null, line));
+    list.appendChild(item);
+  }
+  inner.appendChild(list);
+
+  const row = el("div", "button-row");
+  const restart = el("button", "primary-button", "Start again");
+  restart.type = "button";
+  restart.addEventListener("click", actions.resetGame);
+  row.appendChild(restart);
+  inner.appendChild(row);
+
+  screen.appendChild(card);
+  return screen;
+}
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
 }
