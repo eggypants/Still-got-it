@@ -69,14 +69,33 @@ attractive alternative (opportunity cost is the design).
 ### Character routines (template anchors)
 
 These are where each character's recurring scene lives — the routine the player
-learns by attending, never from the noticeboard:
+learns by attending, never from the noticeboard. Catch-up variants are allowed
+inside these recurring scenes when a critical memory would otherwise be trapped
+behind one missable SPECIAL. The noticeboard must stay neutral; the clicked scene
+may reveal who is actually there:
 
 - Rhonda: lounge mornings (Mon/Wed/Thu), movie night (Wed eve)
 - Pablo: café mornings (Tue/Fri/Sun), café supper evenings
 - Miranda: gardens (Tue/Thu aft, Wed/Sat/Sun morn)
 - Bob: workshop (Mon/Wed/Fri aft, Sun aft)
-- Jean: library (Tue/Thu morn, Sat aft), choir (Tue eve)
+- Jean: library (Tue/Thu morn, Sat aft), writing circle (Tue eve)
 - Al: cards (Mon/Wed/Fri/Sat eve), lounge gossip (Mon/Thu/Sat)
+
+## Grapevine / gossip system (planned)
+
+Needed but not built yet: a second-hand information layer that tells the player
+something is moving somewhere without giving them the answer. It should live
+separately from memories in the journal, likely as "Things you've heard".
+
+Rules:
+- Grapevine entries can point toward rooms, routines, moods, or timing.
+- Grapevine entries must not unlock the best Crossroads choice by themselves.
+- First-hand memories remain the pressure-point key.
+- Noticeboard items still do not identify residents unless a resident has
+  publicly posted under their own name.
+
+Example: "Someone says Bob has been in the workshop with the radio off" is good.
+"Bob misses June and needs help going to the reunion" is not.
 
 ## Scene budget per character (target for full game)
 
@@ -103,7 +122,7 @@ clock in it. Week 3: names drift through the wall and the player knows them now.
 Week 4: the kettle works; the door can still stay closed; it is a choice now,
 not a default. Never stated as growth. The hermit ending stays non-judgmental.
 
-## Systems reference (engine v0.3)
+## Systems reference (engine v0.4.2)
 
 - Hidden friendship integer per character, floor 0. Bands: 1 Familiar, 2
   Friendly, 5 Warm, 8 Close. Never shown as numbers.
@@ -112,7 +131,9 @@ not a default. Never stated as growth. The hermit ending stays non-judgmental.
   playable.
 - Conditional content blocks `{ when, text }` — dropped when unmet. Outcome
   blocks are filtered AFTER effects apply, so a choice can set a flag its own
-  outcome then reflects.
+  outcome then reflects. Variant/content `when` supports `flag`, `notFlag`,
+  `anyFlag`, `memory`, `notMemory`, `seenScene`, `minFriendship`, `week`, and
+  `weeks`.
 - Choice gates: `requiresMemory`, `requiresFlag`, `requiresNotFlag`,
   `requiresFriendship`.
 - Schedule: WEEKLY_TEMPLATE (rhythm) + SPECIALS (story beats; add / replace /

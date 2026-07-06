@@ -1,6 +1,6 @@
 // Pablo — arc owner file. Belief: 'Love means providing until there is nothing left to give.'
 // Crossroads: the harvest feast (week 3, day 20 evening).
-// Key image: Carmen’s rice — salted from a height, like an accusation, never once wrong.
+// Key image: Carmen’s rice — seasoned by taste, never exactly the same, never once wrong.
 export const PABLO_SCENES = {
   "generic_cafe_pablo": {
     "title": "Tea in the café",
@@ -50,7 +50,7 @@ export const PABLO_SCENES = {
           },
           {
             "speaker": "PABLO",
-            "text": "She salted it from a height, over the whole pot. Like an accusation. Never measured. Forty years, never the same twice, never once wrong."
+            "text": "She never measured. She tasted, frowned, added a little more, tasted again. Forty years, never the same twice, never once wrong."
           },
           {
             "text": "He finishes the copy, checks it against the original, and then keeps the original."
@@ -202,7 +202,7 @@ export const PABLO_SCENES = {
         ],
         "choices": [
           {
-            "text": "“Carmen never measured and it was never once wrong. It doesn’t have to be perfect — it has to be hers. Let us make it with you.”",
+            "text": "Make Carmen’s rice.",
             "requiresMemory": "pablo_carmen_rice",
             "outcome": [
               {
@@ -216,7 +216,7 @@ export const PABLO_SCENES = {
                 "text": "It is not a joke, and then it is."
               },
               {
-                "text": "He talks you through it. Jean stirs. You watch the rice. And when the moment comes, he hands Miranda the salt and points at the height, and she throws it over the whole pot like an accusation."
+                "text": "He talks you through it. Jean stirs. You watch the rice. When the moment comes, he tastes the pot, frowns, and adds a careful pinch of salt."
               },
               {
                 "text": "At the feast, it goes in the centre of the table. He tells nobody what it is."

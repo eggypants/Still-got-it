@@ -7,7 +7,7 @@ character. This file is the operating manual.
 ## The prime directives
 
 1. **Run `node validate.js` after every edit.** Exit code 0 or you do not hand
-   files back. It checks every reference and plays the game four ways. If you
+   files back. It checks every reference and plays the game six ways. If you
    cannot run node, say so explicitly and flag the delivery as unvalidated.
 2. **Edit one data file per task.** The files are split so you can hold your
    whole working set in view. Never rewrite engine.js, ui.js, state.js, save.js,
@@ -99,21 +99,24 @@ visible to them until Reset.
 ## Known open work (priority order)
 
 Built and validated: Rhonda route, Bob arc, Miranda arc, Pablo arc, player-arc
-apartment week variants, concert convergence for all four. Remaining:
+apartment week variants, concert convergence for all four, and catch-up variants
+for the current critical memories. Remaining:
 
-1. Jean arc (fig tree) — day 17 aft. Follow the Bob/Miranda/Pablo pattern
-   exactly: recurring variant ladder (library/choir), key memory
+1. Jean arc (fig tree / spoken-word piece) — day 17 aft. Follow the Bob/Miranda/Pablo pattern
+   exactly: recurring variant ladder (library/writing circle), key memory
    (jean_festival_days, see kit), Crossroads with observer base + Warm-gated
    pressure point, concert pair in data-concert.js (insert after Pablo's pair
    in ALL THREE branches), ending lines + resident notes in engine.js, flag
    names to the validator engine-read list, and a simulated run in validate.js.
 2. Al arc (dance night) — day 19 eve. Same checklist.
 3. Duets: Jean+Al and Rhonda+Bob beats (data-duets.js)
-4. Week-4 consequence scenes for every Crossroads (short; kits have specs for
+4. Grapevine system: separate journal section for second-hand hints. It should
+   point toward routines/places, never unlock pressure-point choices by itself.
+5. Week-4 consequence scenes for every Crossroads (short; kits have specs for
    Bob and suggestions for others)
-5. Rhonda week-2 gap: one small bespoke scene (kit has the spec)
-6. Concert scene texture: with 6 arcs converging, re-read the full concert in
+6. Rhonda week-2 gap: one small bespoke scene (kit has the spec)
+7. Concert scene texture: with 6 arcs converging, re-read the full concert in
    each branch for rhythm — the conditional blocks must read as one room, not
    a checklist
-7. Art: the art panel is a placeholder gradient; real art slots in via the
+8. Art: the art panel is a placeholder gradient; real art slots in via the
    existing `art` field when it exists

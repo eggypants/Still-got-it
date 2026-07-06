@@ -1,4 +1,4 @@
-// Engine v0.3. Pure logic, no DOM. Data comes merged from data-index.js.
+// Engine v0.4.2. Pure logic, no DOM. Data comes merged from data-index.js.
 //
 // New in 0.3:
 //   - 28-day calendar driven by WEEKLY_TEMPLATE + SPECIALS (see data-core.js)
@@ -18,9 +18,11 @@
 //   { notFlag: "x" }              – state.flags.x is falsy
 //   { anyFlag: ["a","b"] }        – at least one flag truthy
 //   { memory: "id" }              – memory collected
+//   { notMemory: "id" }           – memory not collected
 //   { seenScene: "sceneId" }      – scene already played
 //   { minFriendship: { id: n } }  – every listed friendship >= n
 //   { week: n }                   – current week equals n
+//   { weeks: [n, m] }              – current week is in the list
 
 import { DAYS, MEMORIES, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, CHARACTERS, SCENES } from "./data-index.js";
 import { getPronouns } from "./state.js";
@@ -88,8 +90,10 @@ export function matchWhen(state, when) {
   if (when.notFlag && state.flags[when.notFlag]) return false;
   if (when.anyFlag && !when.anyFlag.some(flag => state.flags[flag])) return false;
   if (when.memory && !state.memories.includes(when.memory)) return false;
+  if (when.notMemory && state.memories.includes(when.notMemory)) return false;
   if (when.seenScene && !state.seenScenes.includes(when.seenScene)) return false;
   if (when.week && DAYS[state.dayIndex] && DAYS[state.dayIndex].week !== when.week) return false;
+  if (when.weeks && DAYS[state.dayIndex] && !when.weeks.includes(DAYS[state.dayIndex].week)) return false;
   if (when.minFriendship) {
     for (const [id, min] of Object.entries(when.minFriendship)) {
       if ((state.friendships[id] || 0) < min) return false;

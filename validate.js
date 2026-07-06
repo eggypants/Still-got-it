@@ -65,11 +65,13 @@ console.log("3. Scene shape and reference integrity");
 {
   const checkWhen = (when, where) => {
     if (!when) return;
-    const known = ["flag", "notFlag", "anyFlag", "memory", "seenScene", "minFriendship", "week"];
+    const known = ["flag", "notFlag", "anyFlag", "memory", "notMemory", "seenScene", "minFriendship", "week", "weeks"];
     for (const key of Object.keys(when)) {
       if (!known.includes(key)) err(`${where}: unknown when-condition "${key}"`);
     }
     if (when.memory && !MEMORIES[when.memory]) err(`${where}: unknown memory "${when.memory}"`);
+    if (when.notMemory && !MEMORIES[when.notMemory]) err(`${where}: unknown memory "${when.notMemory}"`);
+    if (when.weeks && (!Array.isArray(when.weeks) || when.weeks.some(w => !Number.isInteger(w) || w < 1 || w > 4))) err(`${where}: invalid weeks condition`);
     if (when.seenScene && !SCENES[when.seenScene]) err(`${where}: unknown scene "${when.seenScene}"`);
     if (when.minFriendship) {
       for (const id of Object.keys(when.minFriendship)) {
@@ -121,12 +123,64 @@ console.log("3. Scene shape and reference integrity");
       checkWhen(variant.when, vwhere);
       checkBlocks(variant.content, vwhere);
       checkChoices(variant.choices, vwhere);
+      if (variant.content && !Object.prototype.hasOwnProperty.call(variant, "choices") && (scene.choices || []).length > 1) {
+        warn(`${vwhere}: overrides content but inherits multiple base choices — check that the choices still answer the displayed scene`);
+      }
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+console.log("4. Prose lint warnings");
+{
+  const proseTics = [
+    { pattern: /\bspiritually\b/i, label: "secular 'spiritually'" },
+    { pattern: /like an accusation/i, label: "ornamental simile: 'like an accusation'" },
+    { pattern: /from a height/i, label: "Salt Bae-ish cooking image: 'from a height'" },
+    { pattern: /\bpalpable\b/i, label: "AI prose tic: 'palpable'" },
+    { pattern: /soft chuckle/i, label: "AI prose tic: 'soft chuckle'" },
+    { pattern: /barely above a whisper/i, label: "AI prose tic: 'barely above a whisper'" },
+    { pattern: /\ba mix of\b/i, label: "AI prose tic: 'a mix of'" },
+    { pattern: /smiles despite (himself|herself|themself|themselves)/i, label: "overused smile beat" },
+    { pattern: /almost smiles/i, label: "overused smile beat: 'almost smiles'" },
+    { pattern: /whole personality/i, label: "quip tic: 'whole personality'" },
+    { pattern: /^Beat\.?$/i, label: "screenplay tic: standalone 'Beat.'" }
+  ];
+
+  const checkText = (value, where) => {
+    if (typeof value !== "string") return;
+    for (const tic of proseTics) {
+      if (tic.pattern.test(value)) warn(`${where}: ${tic.label}`);
+    }
+  };
+
+  const scanBlocks = (blocks, where) => {
+    for (const [i, block] of (blocks || []).entries()) checkText(block.text, `${where} block[${i}]`);
+  };
+
+  const scanChoices = (choices, where) => {
+    for (const [i, choice] of (choices || []).entries()) {
+      checkText(choice.text, `${where} choice[${i}] text`);
+      scanBlocks(choice.outcome, `${where} choice[${i}] outcome`);
+    }
+  };
+
+  for (const [id, memory] of Object.entries(MEMORIES)) checkText(memory, `memory "${id}"`);
+  for (const [id, scene] of Object.entries(SCENES)) {
+    const where = `scene "${id}"`;
+    checkText(scene.title, `${where} title`);
+    scanBlocks(scene.content, where);
+    scanChoices(scene.choices, where);
+    for (const [vi, variant] of (scene.variants || []).entries()) {
+      scanBlocks(variant.content, `${where} variant[${vi}]`);
+      scanChoices(variant.choices, `${where} variant[${vi}]`);
     }
   }
 }
 
 // ---------------------------------------------------------------------------
-console.log("4. Reachability: every scene appears on the schedule");
+console.log("5. Reachability: every scene appears on the schedule");
 {
   const scheduled = new Set(["apartment_morning", "apartment_afternoon", "apartment_evening"]);
   for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) scheduled.add(item.sceneId);
@@ -136,8 +190,53 @@ console.log("4. Reachability: every scene appears on the schedule");
   }
 }
 
+
 // ---------------------------------------------------------------------------
-console.log("5. Flag hygiene: flags read somewhere should be set somewhere");
+console.log("6. Critical memory availability");
+{
+  const requiredMemories = new Map();
+  const grantedMemories = new Map();
+
+  const noteRequired = (memoryId, sceneId) => {
+    if (!requiredMemories.has(memoryId)) requiredMemories.set(memoryId, new Set());
+    requiredMemories.get(memoryId).add(sceneId);
+  };
+  const noteGranted = (memoryId, sceneId) => {
+    if (!grantedMemories.has(memoryId)) grantedMemories.set(memoryId, new Set());
+    grantedMemories.get(memoryId).add(sceneId);
+  };
+  const scanChoicesForMemories = (choices, sceneId) => {
+    for (const choice of choices || []) {
+      if (choice.requiresMemory) noteRequired(choice.requiresMemory, sceneId);
+      for (const memoryId of choice.effects?.memories || []) noteGranted(memoryId, sceneId);
+    }
+  };
+
+  for (const [sceneId, scene] of Object.entries(SCENES)) {
+    scanChoicesForMemories(scene.choices, sceneId);
+    for (const variant of scene.variants || []) scanChoicesForMemories(variant.choices, sceneId);
+  }
+
+  const scheduleOccurrences = new Map();
+  const bump = sceneId => scheduleOccurrences.set(sceneId, (scheduleOccurrences.get(sceneId) || 0) + 1);
+  for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) bump(item.sceneId);
+  for (const special of Object.values(SPECIALS)) for (const item of special.items) bump(item.sceneId);
+
+  for (const [memoryId, requiredScenes] of requiredMemories.entries()) {
+    const grantScenes = grantedMemories.get(memoryId) || new Set();
+    if (!grantScenes.size) {
+      err(`memory "${memoryId}" is required by ${[...requiredScenes].join(", ")} but never granted`);
+      continue;
+    }
+    const totalScheduledAccess = [...grantScenes].reduce((sum, sceneId) => sum + (scheduleOccurrences.get(sceneId) || 0), 0);
+    if (totalScheduledAccess <= 1) {
+      warn(`memory "${memoryId}" gates a later choice but is only available through one scheduled scene: ${[...grantScenes].join(", ")}`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
 {
   const setFlags = new Set();
   const collectSet = choices => {
@@ -188,7 +287,7 @@ console.log("5. Flag hygiene: flags read somewhere should be set somewhere");
 }
 
 // ---------------------------------------------------------------------------
-console.log("6. Simulated playthroughs");
+console.log("8. Simulated playthroughs");
 
 function playRun(name, pickFn, assertions) {
   const state = createInitialState();

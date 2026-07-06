@@ -155,7 +155,7 @@ export const MIRANDA_SCENES = {
         "text": "Twice, people offer to help carry things. Twice, she says she has a system."
       },
       {
-        "text": "The judges take forty minutes. Sunset Pines wins its category."
+        "text": "The judges take forty minutes. Summer Hills wins its category."
       },
       {
         "text": "There is scattered applause. Miranda accepts a certificate and a handshake."
@@ -256,10 +256,10 @@ export const MIRANDA_SCENES = {
                 "text": "By two o’clock the garden is ready. Miranda has been sitting for half an hour, directing traffic with a teacup."
               },
               {
-                "text": "The judges take forty minutes. Sunset Pines wins its category."
+                "text": "The judges take forty minutes. Summer Hills wins its category."
               },
               {
-                "text": "The applause is loud. Some of it is for the garden."
+                "text": "The applause is loud. Some of it is clearly for Miranda. She pretends not to notice."
               }
             ],
             "effects": {

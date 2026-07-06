@@ -173,7 +173,7 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "Well? What brings you to the kingdom this morning?"
+        "text": "Well? What brings you to retirement living?"
       }
     ],
     "choices": [
@@ -267,7 +267,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Now. The paper says a man from television is opening a supermarket in Cranbourne. I require someone to be appalled with."
+            "text": "Now. The paper says a studio is remaking a perfectly good old comedy. I require someone to be appalled with."
           }
         ],
         "choices": [
@@ -288,7 +288,7 @@ export const RHONDA_SCENES = {
             }
           },
           {
-            "text": "“You could open a supermarket.”",
+            "text": "“You could star in the remake.”",
             "outcome": [
               {
                 "speaker": "RHONDA",
@@ -331,6 +331,59 @@ export const RHONDA_SCENES = {
           {
             "speaker": "RHONDA",
             "text": "Unlikely, but one must allow for miracles."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Sit with her.",
+            "outcome": [
+              {
+                "text": "You sit. Rhonda pretends to keep reading, then slides the entertainment pages toward you."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "Page three. Tell me whether I am being unfair. I dislike being unfair by myself."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 1
+              }
+            }
+          },
+          {
+            "text": "Ask what she’s reading.",
+            "outcome": [
+              {
+                "speaker": "RHONDA",
+                "text": "Proof that nobody with cheekbones should be trusted before lunch."
+              },
+              {
+                "text": "She shows you the article anyway. Her coffee goes cold while she explains the entire thing."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 1
+              }
+            }
+          },
+          {
+            "text": "Let her complain first.",
+            "outcome": [
+              {
+                "text": "You wait. Rhonda turns one more page, sighs, and begins exactly where she intended to."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "You are learning. Slowly, but it counts."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 1
+              }
+            }
           }
         ]
       }
@@ -425,7 +478,7 @@ export const RHONDA_SCENES = {
             "text": "A vase."
           },
           {
-            "text": "Beat."
+            "text": "Rhonda lets that sit for a moment."
           },
           {
             "speaker": "RHONDA",
@@ -870,7 +923,7 @@ export const RHONDA_SCENES = {
             "text": "This one. Awful play. Terrible reviews. We performed for twenty-seven people and a damp patch on the ceiling."
           },
           {
-            "text": "She smiles despite herself."
+            "text": "The memory gets the better of her for a second."
           },
           {
             "speaker": "RHONDA",
@@ -904,7 +957,7 @@ export const RHONDA_SCENES = {
         "text": "Pinned crookedly over the usual notices is a fresh sheet of paper."
       },
       {
-        "text": "SUNSET PINES AUTUMN CONCERT. Performers wanted. Singers, readers, musicians, dancers, comedians, magicians, poets, and persons with unclear but enthusiastic talents. See Rhonda. Do not see Al. He has already suggested a costume change."
+        "text": "SUMMER HILLS AUTUMN CONCERT. Performers wanted. Singers, readers, musicians, dancers, comedians, magicians, poets, and persons with unclear but enthusiastic talents. See Rhonda. Do not see Al. He has already suggested a costume change."
       },
       {
         "text": "Below it, in different handwriting: I STAND BY THE COSTUME CHANGE. — Al"
@@ -1298,7 +1351,7 @@ export const RHONDA_SCENES = {
             "text": "Sadly, no."
           },
           {
-            "text": "Bob almost smiles."
+            "text": "Bob looks down at his clipboard."
           },
           {
             "text": "Rehearsal resumes. It is not good, but it is louder than it was."
@@ -1430,6 +1483,82 @@ export const RHONDA_SCENES = {
             "skipped_final_rehearsal": true
           }
         }
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "seenScene": "rhonda_final_rehearsal"
+        },
+        "content": [
+          {
+            "text": "The hall has reached the stage of rehearsal where everyone knows what they are meant to do and several people are doing something else."
+          },
+          {
+            "text": "Rhonda stands near the front row with her script folded in one hand and a pencil behind one ear."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "Good. You’re here. I need either assistance or a witness. Possibly both."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Take a seat where she can see you.",
+            "outcome": [
+              {
+                "text": "You sit in the front row. Rhonda looks over twice during Al’s song and once during Bob’s reading."
+              },
+              {
+                "text": "By the end, the pencil has migrated from behind her ear to her hand to the table, but the script is still folded closed."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 1
+              },
+              "flags": {
+                "helped_final_rehearsal": true
+              }
+            }
+          },
+          {
+            "text": "Ask what still needs doing.",
+            "outcome": [
+              {
+                "speaker": "RHONDA",
+                "text": "Everything, briefly. Then nothing, abruptly. That is theatre."
+              },
+              {
+                "text": "She gives you a list anyway. Most of it is chairs. Some of it is diplomacy."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 2
+              },
+              "flags": {
+                "helped_final_rehearsal": true
+              }
+            }
+          },
+          {
+            "text": "Leave before you are given a clipboard.",
+            "outcome": [
+              {
+                "text": "You retreat before Rhonda can assign you responsibility for curtains, morale, or Al."
+              },
+              {
+                "text": "Behind you, she calls for quiet and nearly gets it."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "skipped_final_rehearsal": true
+              }
+            }
+          }
+        ]
       }
     ]
   },

@@ -42,7 +42,7 @@ export const CHARACTERS = {
   jean: {
     name: "Jean",
     born: 1947,
-    short: "Old hippie, lifelong organiser, Rae’s mum, still impossible to pin down.",
+    short: "Retired librarian, freelance writer, old organiser, still impossible to pin down.",
     defaultNote: "She seems to know everyone."
   },
   al: {
@@ -61,7 +61,7 @@ export const MEMORIES = {
   miranda_accepts_help: "Miranda let Pablo carry a crate of seedlings, then pretended she hadn’t needed help.",
   bob_june_roses: "Bob keeps a photograph in his toolbox: his wife June, standing in front of roses she grew from cuttings.",
   miranda_good_tablecloth: "Miranda kept her family’s one good tablecloth mended for thirty years. You can be poor or you can look poor, she says. Only one of those is compulsory.",
-  pablo_carmen_rice: "Pablo carries Carmen’s rice recipe in his wallet, behind the photographs. She salted it from a height, like an accusation, and it was never once wrong."
+  pablo_carmen_rice: "Pablo carries Carmen’s rice recipe in his wallet, behind the photographs. Carmen seasoned by taste, frowned at the pot, added a little more, and was always right."
 };
 
 // ---------------------------------------------------------------------------
@@ -92,7 +92,7 @@ export const WEEKLY_TEMPLATE = {
     { id: "tpl-garden-pm", title: "Garden volunteers", location: "Gardens", note: "Bring gloves, or borrow the ones with suspicious stains.", sceneId: "generic_garden_miranda" }
   ],
   "Tuesday-2": [
-    { id: "tpl-choir", title: "Choir rehearsal", location: "Hall", note: "Old songs, new arguments, and a piano slightly out of tune.", sceneId: "generic_choir_jean" },
+    { id: "tpl-writing", title: "Writing circle", location: "Library", note: "Notebooks, pens, and drafts nobody quite admits are drafts.", sceneId: "generic_writing_jean" },
     { id: "tpl-lounge-pm", title: "Lounge after dinner", location: "Community Lounge", note: "Armchairs, biscuits, and conversations that outlast the tea.", sceneId: "generic_lounge_evening" }
   ],
 

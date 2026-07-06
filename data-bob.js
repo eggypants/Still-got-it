@@ -93,7 +93,7 @@ export const BOB_SCENES = {
             }
           },
           {
-            "text": "“She has a good laugh.”",
+            "text": "“She has a great smile.”",
             "outcome": [
               {
                 "text": "Bob looks at the photograph for a moment."
@@ -199,7 +199,7 @@ export const BOB_SCENES = {
           },
           {
             "speaker": "BOB",
-            "text": "Went every year, when June was here. She’d iron the shirt twice. Said the first time was for the shirt and the second was for her nerves."
+            "text": "Went every year, when June was here. She’d iron the shirt twice. Said the first time was for the shirt and the second was for the man in it."
           },
           {
             "text": "The driver toots the horn, friendly."

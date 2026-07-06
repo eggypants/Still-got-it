@@ -1,10 +1,10 @@
-# Still Got It — v0.4
+# Still Got It — v0.4.2
 
-A friendship life sim set in Sunset Pines Retirement Village. 28 days, four weeks,
+A friendship life sim set in Summer Hills Retirement Village. 28 days, four weeks,
 three time slots a day, ending at the Autumn Concert. Flat-file, no build step,
 GitHub Pages friendly.
 
-## What's new in 0.3
+## What's new in 0.4.2
 
 - Full 28-day / 4-week calendar (previously a 7-day proof route)
 - Village schedule split into a recurring WEEKLY_TEMPLATE plus SPECIALS story beats
@@ -15,8 +15,12 @@ GitHub Pages friendly.
 - The concert converges all four arcs; endings reflect each
 - Data split into per-character files so arcs can be edited in isolation
 - `validate.js`: run `node validate.js` after any edit; it checks all references
-  and plays the game four ways before you deploy
-- Save version bumped to 0.3-flat — old saves reset on first load
+  and plays the game six ways before you deploy
+- Save version bumped to 0.4.2-catchup — old saves reset on first load
+- Added catch-up variants for easy-to-miss memory beats while keeping noticeboard titles neutral
+- Added `notMemory` and `weeks` variant conditions
+- Added validator coverage for critical memories that only have one scheduled access point
+- Added a repeat variant for the duplicated final rehearsal slot
 
 ## Files (all in repo root — no folders)
 

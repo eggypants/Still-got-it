@@ -27,21 +27,18 @@ export const DUET_SCENES = {
       },
       {
         "speaker": "PABLO",
-        "text": "I remember food, drink, birthdays, grudges. In that order."
+        "text": "People tell you things all day. It is polite to keep one or two."
       },
       {
-        "text": "Miranda picks up the cup."
+        "text": "Miranda holds the cup a moment before drinking."
       },
       {
         "speaker": "MIRANDA",
-        "text": "Tea isn’t food."
+        "text": "Most people don’t."
       },
       {
         "speaker": "PABLO",
-        "text": "In England it is a whole personality."
-      },
-      {
-        "text": "Miranda almost smiles."
+        "text": "Most people are busy being interesting."
       }
     ],
     "choices": [

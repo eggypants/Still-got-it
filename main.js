@@ -1,4 +1,4 @@
-import { createInitialState } from "./state.js";
+import { createInitialState, SAVE_VERSION } from "./state.js";
 import {
   beginActivity,
   chooseSceneOption,
@@ -13,7 +13,7 @@ let state = createInitialState();
 const app = document.getElementById("app");
 
 const saved = loadSavedGame();
-if (saved && saved.version === "0.3-flat") {
+if (saved && saved.version === SAVE_VERSION) {
   state = saved;
 }
 
@@ -60,7 +60,7 @@ const actions = {
       alert("No saved game found in this browser.");
       return;
     }
-    if (loaded.version !== "0.3-flat") {
+    if (loaded.version !== SAVE_VERSION) {
       alert("That save is from an older version and cannot be loaded. Start a new month instead.");
       return;
     }

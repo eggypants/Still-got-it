@@ -7,7 +7,7 @@ export const AL_SCENES = {
     "art": "Community Lounge",
     "content": [
       {
-        "text": "Al deals cards with the confidence of a man who has been forgiven for worse things than bad shuffling. He loses one hand, wins two, and claims the score is spiritually even."
+        "text": "Al deals cards with the confidence of a man who has been forgiven for worse things than bad shuffling. He loses one hand, wins two, and claims the scorekeeper is holding a grudge."
       }
     ],
     "choices": [

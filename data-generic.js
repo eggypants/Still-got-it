@@ -68,6 +68,79 @@ export const GENERIC_SCENES = {
           }
         }
       }
+    ],
+    "variants": [
+      {
+        "when": {
+          "weeks": [2, 3],
+          "minFriendship": {
+            "pablo": 2
+          },
+          "notMemory": "pablo_carmen_rice"
+        },
+        "content": [
+          {
+            "text": "Supper is almost over when Pablo brings out one last bowl for the table to try. He says it is only rice, which makes everyone suspicious."
+          },
+          {
+            "text": "He stands behind his chair while people eat. In his hand is a folded recipe card, soft at the edges."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Carmen never wrote it properly. She tasted, frowned, added a little more, and then it was right. This is not that. But it is close enough for supper."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Tell him people want seconds.",
+            "outcome": [
+              {
+                "text": "Pablo looks toward the table. Jean is already scraping the serving spoon around the bowl."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "Then perhaps it is close enough to survive."
+              },
+              {
+                "text": "He folds the card and returns it to his wallet, behind the photographs."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 2
+              },
+              "memories": [
+                "pablo_carmen_rice"
+              ],
+              "flags": {
+                "pablo_recipe_seen": true
+              }
+            }
+          },
+          {
+            "text": "Stay quiet and let the table answer.",
+            "outcome": [
+              {
+                "text": "The table answers by emptying the bowl. Pablo pretends not to watch."
+              },
+              {
+                "text": "When he clears it away, the serving spoon is clean. He looks annoyed by how much this matters."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 1
+              },
+              "memories": [
+                "pablo_carmen_rice"
+              ],
+              "flags": {
+                "pablo_recipe_seen": true
+              }
+            }
+          }
+        ]
+      }
     ]
   },
   "generic_market": {
@@ -404,6 +477,80 @@ export const GENERIC_SCENES = {
         ],
         "effects": {}
       }
+    ],
+    "variants": [
+      {
+        "when": {
+          "weeks": [3, 4],
+          "minFriendship": {
+            "rhonda": 2
+          },
+          "notMemory": "rhonda_hat_laugh"
+        },
+        "content": [
+          {
+            "text": "The cinema room is dark except for the projector glow. The film is an old comedy with fast doors, faster exits, and one woman in a feathered hat."
+          },
+          {
+            "text": "Rhonda laughs before the rest of the room, exactly half a second before the joke lands."
+          },
+          {
+            "text": "Afterwards she stays in her seat while the lights come up."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "I had a part once where I lost a hat. Ridiculous little thing. Every night, when the hat went, the room lost it."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Ask about the timing.",
+            "outcome": [
+              {
+                "text": "Rhonda turns to you, pleased that you noticed."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "Exactly. Half a second early and they see it coming. Half a second late and it is dead. Comedy is a knife edge in silly shoes."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 2
+              },
+              "memories": [
+                "rhonda_hat_laugh"
+              ],
+              "flags": {
+                "rhonda_told_hat_story": true
+              }
+            }
+          },
+          {
+            "text": "Say the laugh must have stayed with her.",
+            "outcome": [
+              {
+                "text": "Rhonda looks at the blank screen."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "It did. Applause fades politely. A laugh like that gets into the walls."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 2
+              },
+              "memories": [
+                "rhonda_hat_laugh"
+              ],
+              "flags": {
+                "rhonda_told_hat_story": true
+              }
+            }
+          }
+        ]
+      }
     ]
   },
   "generic_lounge_evening": {
@@ -427,6 +574,78 @@ export const GENERIC_SCENES = {
           }
         ],
         "effects": {}
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "weeks": [2, 3, 4],
+          "minFriendship": {
+            "rhonda": 3
+          },
+          "notMemory": "rhonda_miss_performing"
+        },
+        "content": [
+          {
+            "text": "The lounge after dinner is busy enough that no one notices the old programme on Rhonda’s lap until she closes it."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "Tiny theatre. Terrible seats. Twenty-seven people and a damp patch on the ceiling."
+          },
+          {
+            "text": "She taps the programme once with her finger."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "Best laugh I ever got. Not glamorous. Just alive."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Ask if she misses it.",
+            "outcome": [
+              {
+                "speaker": "RHONDA",
+                "text": "No."
+              },
+              {
+                "text": "She says it too quickly."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "Yes. Not in the way people think."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 2
+              },
+              "memories": [
+                "rhonda_miss_performing"
+              ]
+            }
+          },
+          {
+            "text": "Let the programme stay closed.",
+            "outcome": [
+              {
+                "text": "You do not ask. Rhonda keeps one hand on the programme while Al tells a story from across the room."
+              },
+              {
+                "text": "When someone laughs, Rhonda looks toward the sound before she remembers not to."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "rhonda": 1
+              },
+              "memories": [
+                "rhonda_miss_performing"
+              ]
+            }
+          }
+        ]
       }
     ]
   }

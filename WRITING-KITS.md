@@ -4,6 +4,14 @@ One kit per character. Paste the relevant kit (plus the shared rules below) into
 the writing model together with the HANDOFF.md prompt template. The design brief
 remains the source of truth for backstory; kits are the working distillation.
 
+### Current prose guardrails
+
+- Quips are rare. Most dialogue should answer the previous line, ask a practical question, dodge something, or change the subject like a human.
+- Do not let every scene become quick clever repartee. Wit belongs to specific characters and specific moments, not the house style.
+- Ban secular “spiritually”. Use it only when a scene is actually about spirituality, religion, ghosts, ritual, or faith.
+- Avoid ornamental AI similes that cannot literally happen. If a phrase draws attention to itself before it reveals character, cut it.
+- Noticeboard items must stay neutral. They may hint through objects, mood, and routine, but they must not reveal which resident will appear unless that resident publicly posted the event under their own name.
+
 ## Shared rules (paste with every kit)
 
 Voice: plain narration, short paragraphs, dry Australian register. Characters
@@ -78,8 +86,7 @@ letting others care for him is closeness, not weakness. Register: warm,
 food-first metaphors used practically not poetically, hospitality as reflex,
 deflects care by feeding the carer. Grief present as habit: he still cooks for
 six. Key memory (to author): the wife's signature dish and one detail of her
-making it — suggested: she salted by throwing it over the pot "like an
-accusation." Memory id: `pablo_carmen_rice` (name the wife; brief says wife
+making it — she seasoned by taste, frowned at the pot, added a little more, and was always right. Memory id: `pablo_carmen_rice` (name the wife; brief says wife
 died ten years ago, name not fixed — pick one and add to DESIGN.md).
 Crossroads: harvest feast (week 3, day 20 evening). Base: he substitutes a
 different dish; nobody notices; the recipe card stays in his wallet. Pressure
@@ -105,6 +112,8 @@ to Rae's generation, using her own memory back at her (a thing can matter
 without her carrying it). Success consequence: she attends the concert as an
 audience member with nothing to organise, and enjoys it — hardest scene in the
 game to write plainly; resist all temptation to have her say so.
+
+Jean canon update: retired librarian and freelance writer. She is not a choir character. Her concert contribution is a spoken-word/slam-poetry piece. On success, she performs it with confidence; on failure, she still performs, but rushes the ending and hides behind a joke before the room can fully receive it. The failure state is weaker, not humiliating.
 
 ## AL — arc to build
 

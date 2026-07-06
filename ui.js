@@ -37,7 +37,7 @@ function renderSetup(state, actions) {
   card.appendChild(inner);
 
   inner.appendChild(el("h1", null, "Still Got It"));
-  inner.appendChild(el("p", null, "A friendship life sim about moving into Sunset Pines and discovering that the good bit may not be over."));
+  inner.appendChild(el("p", null, "A friendship life sim about moving into Summer Hills and discovering that the good bit may not be over."));
 
   const form = el("form", "form-grid");
   form.innerHTML = `
@@ -67,7 +67,7 @@ function renderSetup(state, actions) {
 
   inner.appendChild(form);
 
-  const note = el("p", "small muted", "Your first month at Sunset Pines starts on a Monday.");
+  const note = el("p", "small muted", "Your first month at Summer Hills starts on a Monday.");
   inner.appendChild(note);
 
   screen.appendChild(card);
@@ -116,7 +116,7 @@ function renderTopbar(state) {
 
   const brand = el("div", "brand");
   brand.appendChild(el("h1", null, "Still Got It"));
-  brand.appendChild(el("p", null, "Sunset Pines Retirement Village"));
+  brand.appendChild(el("p", null, "Summer Hills Retirement Village"));
   inner.appendChild(brand);
 
   const date = el("div", "date-pill");
@@ -148,7 +148,7 @@ function renderTabs(state, actions) {
 
 function renderArtPanel(state) {
   let kicker = "Artwork space";
-  let title = "Sunset Pines";
+  let title = "Summer Hills";
 
   if (state.view === "scene") {
     const scene = substituteScene(resolveScene(state, state.activeSceneId), state);
@@ -318,7 +318,7 @@ function renderEnding(state, actions) {
 
   const art = el("aside", "art-panel");
   art.appendChild(el("p", "kicker", "One month later"));
-  art.appendChild(el("h2", null, "Sunset Pines"));
+  art.appendChild(el("h2", null, "Summer Hills"));
   screen.appendChild(art);
 
   const card = el("section", "card");

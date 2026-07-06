@@ -1,8 +1,9 @@
-export const SAVE_KEY = "still-got-it-v02-real";
+export const SAVE_VERSION = "0.4.2-catchup";
+export const SAVE_KEY = "still-got-it-v042-summer-hills";
 
 export function createInitialState() {
   return {
-    version: "0.3-flat",
+    version: SAVE_VERSION,
     view: "setup",
     activeTab: "noticeboard",
     player: {
