@@ -282,5 +282,102 @@ export const PABLO_SCENES = {
         ]
       }
     ]
+  },
+  "pablo_feast_consequence": {
+    "title": "Soup for supper",
+    "location": "Village Café",
+    "art": "Village Café",
+    "content": [
+      {
+        "text": "The café is between meals, which means Pablo has made soup."
+      },
+      {
+        "text": "A pot simmers on the stove. The recipe card is tucked in his wallet, visible when he reaches for a cloth."
+      },
+      {
+        "text": "He tops up two bowls before anyone asks."
+      },
+      {
+        "speaker": "PABLO",
+        "text": "People say they are not hungry. This is a temporary condition."
+      },
+      {
+        "text": "He eats a spoonful standing at the pass, then wipes the bench and checks the bread."
+      },
+      {
+        "text": "The card stays where it is."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Carry two bowls.",
+        "outcome": [
+          {
+            "text": "You carry two bowls to the nearest table. Pablo follows with bread, butter, pepper, and opinions about pepper."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Good. Sit before someone gives you a job."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "pablo": 1
+          }
+        }
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "flag": "pablo_cooked_carmens"
+        },
+        "content": [
+          {
+            "text": "At the small table by the window, Pablo has a plate in front of him."
+          },
+          {
+            "text": "Someone else made it. The rice is not his, and the peas have been added with confidence he would not have approved in the kitchen."
+          },
+          {
+            "text": "He is sitting down."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Too much paprika."
+          },
+          {
+            "text": "He takes another forkful."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Also, very good."
+          },
+          {
+            "text": "His wallet is on the table. The recipe card is not out."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Sit with him.",
+            "outcome": [
+              {
+                "text": "You sit. He cuts a piece of omelette with the side of his fork and leaves it on your plate without quite looking."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "You are too thin. Or maybe I am retired badly."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
+
 };

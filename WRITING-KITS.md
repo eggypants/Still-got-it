@@ -11,6 +11,7 @@ remains the source of truth for backstory; kits are the working distillation.
 - Ban secular “spiritually”. Use it only when a scene is actually about spirituality, religion, ghosts, ritual, or faith.
 - Avoid ornamental AI similes that cannot literally happen. If a phrase draws attention to itself before it reveals character, cut it.
 - Noticeboard items must stay neutral. They may hint through objects, mood, and routine, but they must not reveal which resident will appear unless that resident publicly posted the event under their own name.
+- Watch the joke density. The failure mode to guard against is EVERY scene defaulting to everyone being quippy — that flattens six voices into one comedian. This is a default to lean against, not a law: two characters who genuinely spark (Jean and Al are built for it) can be the best scene in the game. Use it as a tie-breaker — if a scene feels flat or samey, try giving the wit to one character and letting the others play it dry — not as a gate every scene must pass. Judgment and exceptions live with the human editor, who has final say over any guardrail here.
 
 ## Shared rules (paste with every kit)
 
@@ -143,3 +144,20 @@ week-4 beat: suggested — Miranda brings HIM something, badly wrapped.
 Jean+Al: 3 beats, weeks 2–4. Rhonda+Bob: 2 beats, weeks 3–4 — she coaches his
 poem reading; he is the only rehearsal note she gives gently.
 Rule: the player witnesses or misses these; they never require the player.
+
+---
+
+## Duet prose lessons learned (added after Jean+Al / Rhonda+Bob / Pablo+Miranda review)
+
+These notes are additive guidance for future duet writing and revisions. They do not replace any character kit above.
+
+- Do not reduce characters to their broad tags. Jean is an activist and can be funny about committees, but she is not a generic activist archetype. Miranda is terse and precise, but not petty or mean. Al is suave and performative, but kind. Rhonda is theatrical in public, but her scenes with Bob should show restraint because he is the one person she does not perform for.
+- Watch for tidy gag structures even when they might be acceptable in context. Patterns such as "That's not X, that's Y," abstract-noun punchlines, overly neat similes, and three-beat repartee can quickly sound artificial. Flag them during review; only keep them when character, scene, and emotional context genuinely justify them.
+- Prefer observed action over narrator wit. Instead of making the narrator deliver a clever summary, show hands, objects, seating, cups, folded paper, list marks, pencil taps, or someone doing the small practical thing.
+- Keep humour grounded in familiarity and behaviour, not punchline rhythm. Older residents can be funny without every exchange becoming setup/comeback/comeback.
+- Let tenderness stay understated. Especially for Bob, grief, and June: use pauses, paper folds, someone waiting, someone making room, or a repeated line read more slowly. Do not explain the tenderness if the action already shows it.
+- When a scene turns on care, make the care specific. A remembered cup, a good cup used at the right moment, saffron for paella, a rose for morale, room left for walkers: concrete choices carry more feeling than declarations.
+- If an object changes in a scene revision, update the noticeboard note too. Notes should be short, plain, and object-based. Avoid coy phrases that sound like marketing copy.
+- Scene order must be physically clear. If a book and a request list both appear, introduce the current action first, then the next object when the scene turns to it.
+- Choice text should name what the player literally does: "Peer over and look at the list," "Carry on with the chairs," "Give them the room." Avoid vague stance labels.
+- Do not announce the arc. Show Al wanting swooning, then accepting a quieter song; show Jean enjoying the rose and still doing the chairs; show Rhonda coaching Bob with patience; show Miranda's warmth through a gift she downplays.

@@ -373,5 +373,99 @@ export const MIRANDA_SCENES = {
         ]
       }
     ]
+  },
+  "miranda_competition_consequence": {
+    "title": "Plant labels",
+    "location": "Gardens",
+    "art": "Gardens",
+    "content": [
+      {
+        "text": "The certificate is propped against a terracotta pot in the garden shed."
+      },
+      {
+        "text": "Miranda's wrist is still strapped. She is writing new labels in a straight line."
+      },
+      {
+        "text": "The winning bed outside is exact enough to make people lower their voices."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "Do not touch the white pen. It clogs if people breathe near it."
+      },
+      {
+        "text": "She writes three more labels, then flexes her fingers once."
+      },
+      {
+        "text": "A resident leaves a bunch of parsley at the door. Miranda glances at it and keeps working."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Put the parsley in water.",
+        "outcome": [
+          {
+            "text": "You find a jar. Miranda says nothing until the parsley is upright."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Acceptable."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 1
+          }
+        }
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "flag": "miranda_delegated"
+        },
+        "content": [
+          {
+            "text": "The garden shed has acquired offerings: twine, clean gloves, a packet of labels, secateurs with a ribbon tied badly around the handle."
+          },
+          {
+            "text": "Miranda has arranged all of them by usefulness."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "The wrapping was incompetent."
+          },
+          {
+            "text": "She picks up the secateurs and tests the spring."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "The tool is sound."
+          },
+          {
+            "text": "Outside, three residents are deadheading under her instructions. Miranda stays seated on an upturned crate with tea beside her."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Label the packet shelf.",
+            "outcome": [
+              {
+                "text": "She watches your handwriting for one line, corrects the spacing, then lets you finish."
+              },
+              {
+                "speaker": "MIRANDA",
+                "text": "Neat enough."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "miranda": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
+
 };

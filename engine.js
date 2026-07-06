@@ -317,6 +317,11 @@ export function getResidentNote(id, state) {
     if (state.memories.includes("jean_festival_days") && score >= 2) return "She has shown you the shoebox of festival photographs. The yellow scarf was brighter than the tent canvas.";
   }
 
+  if (id === "al") {
+    if (state.flags.al_dropped_the_act) return "He still holds court, but he lets other people finish their stories now. Mostly.";
+    if (state.memories.includes("al_designated_driver") && score >= 2) return "He mentioned the band once, without the punchline. He noticed you noticing, and put the punchline back.";
+  }
+
   if (score >= 5) return "You know where to find them, and sometimes they know where to find you.";
   if (score >= 2) return "You’ve shared a few ordinary moments.";
   if (score >= 1) return "They recognise you now.";
@@ -366,9 +371,15 @@ export function buildEnding(state) {
   }
 
   if (state.flags.jean_let_go) {
-    lines.push("Jean watched the concert from the third row, a programme folded in her lap and no clipboard in sight.");
+    lines.push("Jean watched the concert from the third row, Rae beside her with spiky pink hair and the tambourine player’s grin.");
   } else if (state.flags.jean_carried_it_alone) {
     lines.push("Jean ran the raffle with a biscuit tin, a roll of tickets, and a pencil sharpened down to a stub.");
+  }
+
+  if (state.flags.al_dropped_the_act) {
+    lines.push("Al sang one song straight and dedicated it to nobody. People are still deciding what it meant, which is the most attention he has ever earned by trying less.");
+  } else if (state.flags.al_kept_the_act) {
+    lines.push("Al charmed the whole concert and went home alone, the act intact, the way he likes it. Probably.");
   }
 
   if (state.flags.saw_pablo_miranda_corner_table || (state.flags.saw_pablo_miranda_tea && state.flags.saw_pablo_miranda_seedlings)) {

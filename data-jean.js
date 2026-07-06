@@ -107,7 +107,8 @@ export const JEAN_SCENES = {
       },
       {
         "when": {
-          "seenScene": "generic_library_jean"
+          "seenScene": "generic_library_jean",
+          "notFlag": "jean_biographies_seen"
         },
         "content": [
           {
@@ -140,6 +141,26 @@ export const JEAN_SCENES = {
             "effects": {
               "friendship": {
                 "jean": 1
+              },
+              "flags": {
+                "jean_biographies_seen": true
+              }
+            }
+          },
+          {
+            "text": "Say you're busy.",
+            "outcome": [
+              {
+                "speaker": "JEAN",
+                "text": "Of course. People with lives. Very inconvenient."
+              },
+              {
+                "text": "She lifts the first stack, discovers it is heavier than expected, and sets it down again with dignity."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "jean_biographies_seen": true
               }
             }
           }
@@ -392,5 +413,98 @@ export const JEAN_SCENES = {
         ]
       }
     ]
+  },
+  "jean_figtree_consequence": {
+    "title": "The petition folder",
+    "location": "Library",
+    "art": "Library",
+    "content": [
+      {
+        "text": "Jean has the petition folder open at the library desk. New tabs stick out of it in five colours."
+      },
+      {
+        "text": "A novel lies beside her, face down and not getting read."
+      },
+      {
+        "speaker": "JEAN",
+        "text": "Good news. The council has invented another form. Keeps the blood moving."
+      },
+      {
+        "text": "She signs one page, clips another, and puts a note for Rae under the stapler so she will remember to call."
+      },
+      {
+        "text": "The orange tape from the fig tree is wound around a pencil."
+      },
+      {
+        "text": "She tucks the novel into the side pocket of the folder before she leaves."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Stamp the envelopes.",
+        "outcome": [
+          {
+            "text": "You stamp while Jean checks the addresses. She thanks you by giving you the least smudged pen."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Treasure it. Bureaucracy eats stationery."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "jean": 1
+          }
+        }
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "flag": "jean_let_go"
+        },
+        "content": [
+          {
+            "text": "Jean is in the library with a novel open in both hands."
+          },
+          {
+            "text": "There is no petition folder on the desk. No envelopes. No orange tape."
+          },
+          {
+            "text": "A council officer has left a neat update on the noticeboard. Jean has corrected one apostrophe in pencil."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "I'm not made of stone."
+          },
+          {
+            "text": "She reads half a page, then turns it back and reads it again."
+          },
+          {
+            "text": "Her phone buzzes. Rae's name lights up. Jean lets it ring twice before answering with the book still open."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Read nearby.",
+            "outcome": [
+              {
+                "text": "You choose a chair by the shelves. Jean talks to Rae for a minute, mostly listening, then goes back to her page."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "Don't look so shocked. Some of us contain multitudes and a library card."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "jean": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
+
 };

@@ -59,13 +59,25 @@ export const CONCERT_SCENES = {
         "when": {
           "flag": "jean_let_go"
         },
-        "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+        "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. A young woman beside her has spiky pink hair and the tambourine player’s grin. When Al misses a note, they both laugh into their paper cups."
       },
       {
         "when": {
           "flag": "jean_carried_it_alone"
         },
         "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
+      },
+      {
+        "when": {
+          "flag": "al_dropped_the_act"
+        },
+        "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+      },
+      {
+        "when": {
+          "flag": "al_kept_the_act"
+        },
+        "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
       },
       {
         "text": "Then Rhonda steps onto the stage."
@@ -159,13 +171,25 @@ export const CONCERT_SCENES = {
             "when": {
               "flag": "jean_let_go"
             },
-            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. A young woman beside her has spiky pink hair and the tambourine player’s grin. When Al misses a note, they both laugh into their paper cups."
           },
           {
             "when": {
               "flag": "jean_carried_it_alone"
             },
             "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
+          },
+          {
+            "when": {
+              "flag": "al_dropped_the_act"
+            },
+            "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+          },
+          {
+            "when": {
+              "flag": "al_kept_the_act"
+            },
+            "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
           },
           {
             "text": "Then Rhonda steps onto the stage."
@@ -207,7 +231,7 @@ export const CONCERT_SCENES = {
           },
           {
             "speaker": "PABLO",
-            "text": "Next time, dinner and show."
+            "text": "Next time, even bigger show."
           },
           {
             "text": "Rhonda looks at him."
@@ -333,13 +357,25 @@ export const CONCERT_SCENES = {
             "when": {
               "flag": "jean_let_go"
             },
-            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. A young woman beside her has spiky pink hair and the tambourine player’s grin. When Al misses a note, they both laugh into their paper cups."
           },
           {
             "when": {
               "flag": "jean_carried_it_alone"
             },
             "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
+          },
+          {
+            "when": {
+              "flag": "al_dropped_the_act"
+            },
+            "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+          },
+          {
+            "when": {
+              "flag": "al_kept_the_act"
+            },
+            "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
           },
           {
             "text": "But when her turn comes, Jean steps onto the stage instead."

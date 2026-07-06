@@ -373,5 +373,102 @@ export const BOB_SCENES = {
         ]
       }
     ]
+  },
+  "bob_reunion_consequence": {
+    "title": "The good jacket",
+    "location": "Workshop",
+    "art": "Workshop",
+    "content": [
+      {
+        "text": "The workshop smells of oil and cut timber. A paper op-shop bag sits beside Bob's bench."
+      },
+      {
+        "text": "His good jacket is folded on top. One sleeve has slipped over the side."
+      },
+      {
+        "speaker": "BOB",
+        "text": "Still good. Someone’ll use it."
+      },
+      {
+        "text": "He repairs a cupboard hinge with more care than the cupboard deserves."
+      },
+      {
+        "text": "When he takes the rubbish out, the jacket is not in the bag."
+      },
+      {
+        "text": "It is hanging on the back of his chair."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Hand him the screws.",
+        "outcome": [
+          {
+            "text": "You pass the screws one by one. Bob fits the hinge, opens the cupboard, closes it, and nods."
+          },
+          {
+            "speaker": "BOB",
+            "text": "That'll hold."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "bob": 1
+          }
+        }
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "flag": "bob_went_reunion"
+        },
+        "content": [
+          {
+            "text": "Bob is at the workshop bench with a folded sheet of paper and a stubby pencil."
+          },
+          {
+            "text": "The good jacket is on the chair behind him. There is dust on the cuffs from the trip."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Need you to check something."
+          },
+          {
+            "text": "He pushes the paper over with two fingers."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Spelling."
+          },
+          {
+            "text": "The poem is in block letters. June's name is at the top. There are no spelling mistakes you can see."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Hand him the pencil.",
+            "outcome": [
+              {
+                "text": "You mark one comma you are not sure about. Bob studies it as if it matters."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Right. Good."
+              },
+              {
+                "text": "He folds the poem once and puts it in the jacket pocket."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
+
 };

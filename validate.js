@@ -283,7 +283,8 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
     "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings", "rhonda_pushed_too_hard",
     "rhonda_night_before_success", "rhonda_night_before_failed", "rhonda_recruitment_seen",
     "miranda_delegated", "miranda_did_it_alone", "pablo_cooked_carmens", "pablo_substituted",
-    "jean_let_go", "jean_carried_it_alone", "concert_started", "rhonda_rehearsal_seen"
+    "jean_let_go", "jean_carried_it_alone", "al_dropped_the_act", "al_kept_the_act",
+    "concert_started", "rhonda_rehearsal_seen"
   ]) readFlags.add(flag);
 
   for (const flag of readFlags) {
@@ -450,7 +451,30 @@ playRun("jean crossroads", (state, items) => {
 }, (state, ending) => {
   if (!state.memories.includes("jean_festival_days")) throw new Error("festival memory not collected");
   if (!state.flags.jean_let_go) throw new Error("jean_let_go not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("clipboard") && l.includes("programme"))) throw new Error("Jean success ending line absent");
+  if (!ending.lines.some(l => l.includes("Rae") && l.includes("tambourine player"))) throw new Error("Jean success ending line absent");
+});
+
+// Run: Al Crossroads. Cards until the memory appears, dance-night pressure point
+// with the memory choice, concert cold.
+playRun("al crossroads", (state, items) => {
+  const dance = byScene(items, "al_dance");
+  if (dance) return { ...dance, chooseIndex: 0 };
+  const cards = byScene(items, "generic_cards_al");
+  if (cards) {
+    const scene = engine.resolveScene(state, cards.sceneId);
+    if (scene?.choices?.some(choice => choice.effects?.memories?.includes("al_designated_driver"))) {
+      const chooseIndex = scene.choices.findIndex(choice => choice.effects?.memories?.includes("al_designated_driver"));
+      return { ...cards, chooseIndex };
+    }
+    return cards;
+  }
+  const concert = byScene(items, "rhonda_opening_night");
+  if (concert) return concert;
+  return apartment(items);
+}, (state, ending) => {
+  if (!state.memories.includes("al_designated_driver")) throw new Error("driver memory not collected");
+  if (!state.flags.al_dropped_the_act) throw new Error("al_dropped_the_act not set — pressure point or memory gate failed");
+  if (!ending.lines.some(l => l.includes("straight") && l.includes("nobody"))) throw new Error("Al success ending line absent");
 });
 
 // Run D: reunion without closeness — the observer base scene must appear and
