@@ -1,8 +1,32 @@
-import { ACTIVITIES, CHARACTERS, DAYS, MEMORIES, SCENES, TIME_SLOTS } from "./data.js";
+// Engine v0.3. Pure logic, no DOM. Data comes merged from data-index.js.
+//
+// New in 0.3:
+//   - 28-day calendar driven by WEEKLY_TEMPLATE + SPECIALS (see data-core.js)
+//   - Scene variants: a scene may define `variants: [{ when, ...overrides }]`.
+//     The first variant whose `when` matches the state replaces the base
+//     scene's overridden fields (content, choices, title...). This is how
+//     scenes deepen with friendship and how Crossroads gate their private
+//     pressure-point on closeness.
+//   - Conditional content blocks: any content/outcome block may carry
+//     `when: {...}`; non-matching blocks are dropped at resolve time. This is
+//     how the concert converges the results of every arc.
+//   - Gated choices: `requiresMemory`, `requiresFlag`, `requiresNotFlag`,
+//     `requiresFriendship: { id: min }`.
+//
+// `when` conditions (all present conditions must hold):
+//   { flag: "x" }                 – state.flags.x is truthy
+//   { notFlag: "x" }              – state.flags.x is falsy
+//   { anyFlag: ["a","b"] }        – at least one flag truthy
+//   { memory: "id" }              – memory collected
+//   { seenScene: "sceneId" }      – scene already played
+//   { minFriendship: { id: n } }  – every listed friendship >= n
+//   { week: n }                   – current week equals n
+
+import { DAYS, MEMORIES, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, CHARACTERS, SCENES } from "./data-index.js";
 import { getPronouns } from "./state.js";
 
 export function getCurrentDate(state) {
-  const day = DAYS[state.dayIndex];
+  const day = DAYS[Math.min(state.dayIndex, DAYS.length - 1)];
   const slot = TIME_SLOTS[state.slotIndex];
   return { ...day, slot };
 }
@@ -11,190 +35,125 @@ export function getCurrentKey(state) {
   return `${state.dayIndex}-${state.slotIndex}`;
 }
 
+// ---------------------------------------------------------------------------
+// Schedule
+// ---------------------------------------------------------------------------
+
 export function getNoticeboardItems(state) {
-  const scheduled = ACTIVITIES[getCurrentKey(state)] || [];
-  const apartmentAlreadyListed = scheduled.some(item => item.location === "Your Apartment");
-  const apartment = apartmentAlreadyListed
-    ? []
-    : [{
+  const day = DAYS[state.dayIndex];
+  if (!day) return [];
+
+  const slotKey = `${day.weekday}-${state.slotIndex}`;
+  const special = SPECIALS[getCurrentKey(state)];
+
+  let items;
+  if (special && special.exclusive) {
+    items = [...special.items];
+  } else {
+    items = (WEEKLY_TEMPLATE[slotKey] || []).filter(
+      item => !item.weeks || item.weeks.includes(day.week)
+    );
+    if (special) {
+      const replaced = new Set(special.items.map(item => item.replaces).filter(Boolean));
+      items = items.filter(item => !replaced.has(item.id));
+      items = [...special.items, ...items];
+    }
+  }
+
+  const apartmentListed = items.some(item => item.location === "Your Apartment");
+  if (!apartmentListed) {
+    const apartmentScenes = ["apartment_morning", "apartment_afternoon", "apartment_evening"];
+    items = [
+      ...items,
+      {
         id: `apartment-${getCurrentKey(state)}`,
         title: "Stay in your apartment",
         location: "Your Apartment",
         note: "The kettle works. The door can stay closed.",
-        sceneId: ["apartment_morning", "apartment_afternoon", "apartment_evening"][state.slotIndex] || "apartment_evening"
-      }];
-
-  return [...scheduled, ...apartment];
-}
-
-export function getSceneForActivity(state, activityId) {
-  const item = getNoticeboardItems(state).find(activity => activity.id === activityId);
-  if (!item) return null;
-
-  return resolveScene(state, item.sceneId);
-}
-
-export function resolveScene(state, sceneId) {
-  if (sceneId === "rhonda_opening_night") {
-    return buildOpeningNightScene(state);
+        sceneId: apartmentScenes[state.slotIndex] || "apartment_evening"
+      }
+    ];
   }
 
-  const scene = SCENES[sceneId];
-  if (!scene) return null;
+  return items;
+}
 
-  const sceneForVisit = state.seenScenes.includes(sceneId) && scene.repeatContent
-    ? { ...scene, content: scene.repeatContent }
-    : scene;
+// ---------------------------------------------------------------------------
+// Condition matching
+// ---------------------------------------------------------------------------
 
-  return filterSceneChoices(state, sceneForVisit);
+export function matchWhen(state, when) {
+  if (!when) return true;
+  if (when.flag && !state.flags[when.flag]) return false;
+  if (when.notFlag && state.flags[when.notFlag]) return false;
+  if (when.anyFlag && !when.anyFlag.some(flag => state.flags[flag])) return false;
+  if (when.memory && !state.memories.includes(when.memory)) return false;
+  if (when.seenScene && !state.seenScenes.includes(when.seenScene)) return false;
+  if (when.week && DAYS[state.dayIndex] && DAYS[state.dayIndex].week !== when.week) return false;
+  if (when.minFriendship) {
+    for (const [id, min] of Object.entries(when.minFriendship)) {
+      if ((state.friendships[id] || 0) < min) return false;
+    }
+  }
+  return true;
+}
+
+// ---------------------------------------------------------------------------
+// Scene resolution
+// ---------------------------------------------------------------------------
+
+export function resolveScene(state, sceneId) {
+  const base = SCENES[sceneId];
+  if (!base) return null;
+
+  let scene = base;
+
+  if (base.variants) {
+    const variant = base.variants.find(v => matchWhen(state, v.when));
+    if (variant) {
+      const { when, ...overrides } = variant;
+      scene = { ...base, ...overrides };
+    }
+  }
+
+  // Back-compat: simple repeat text for revisited scenes with no matching variant.
+  if (scene === base && base.repeatContent && state.seenScenes.includes(sceneId)) {
+    scene = { ...base, content: base.repeatContent };
+  }
+
+  scene = {
+    ...scene,
+    content: (scene.content || []).filter(block => matchWhen(state, block.when))
+  };
+
+  return filterSceneChoices(state, scene);
 }
 
 function filterSceneChoices(state, scene) {
   const choices = (scene.choices || []).filter(choice => {
-    if (!choice.requiresMemory) return true;
-    return state.memories.includes(choice.requiresMemory);
+    if (choice.requiresMemory && !state.memories.includes(choice.requiresMemory)) return false;
+    if (choice.requiresFlag && !state.flags[choice.requiresFlag]) return false;
+    if (choice.requiresNotFlag && state.flags[choice.requiresNotFlag]) return false;
+    if (choice.requiresFriendship) {
+      for (const [id, min] of Object.entries(choice.requiresFriendship)) {
+        if ((state.friendships[id] || 0) < min) return false;
+      }
+    }
+    return true;
   });
 
   return { ...scene, choices };
 }
 
-function buildOpeningNightScene(state) {
-  if (state.flags.rhonda_night_before_success) {
-    return {
-      title: "Autumn concert",
-      location: "Hall",
-      art: "Hall",
-      content: [
-        p("The hall is full."),
-        p("Full, in this case, means twenty-five people, including three relatives visiting someone in the audience and one cleaner on her break."),
-        p("The show begins."),
-        p("Al sings half a song and flirts with the front row."),
-        p("Pablo serves food at intermission and pretends not to enjoy the praise."),
-        p("Bob reads his poem too quickly, then starts again. Slower this time. People listen."),
-        p("Then Rhonda steps onto the stage."),
-        p("The room waits."),
-        p("For half a second, you think she might retreat."),
-        p("Then someone coughs."),
-        p("Rhonda looks out at the audience."),
-        line("RHONDA", "If that was a review, I’ll ask you to save it for the interval."),
-        p("The room laughs."),
-        p("Not politely. Properly."),
-        p("Rhonda hears it."),
-        p("She performs."),
-        p("She is alive up there."),
-        p("Afterwards, people crowd around her."),
-        line("AL", "You were marvellous."),
-        line("PABLO", "Next time, dinner and show."),
-        p("Rhonda looks at him."),
-        line("RHONDA", "Next time?"),
-        p("She glances at you."),
-        p("Then she grins."),
-        line("RHONDA", "Yes. Next time."),
-        p("Later, when the hall is almost empty, you find her folding programmes."),
-        line("PLAYER", "You were good."),
-        p("Rhonda looks at you for a moment."),
-        p("Then she smiles."),
-        line("RHONDA", "Wasn’t I?")
-      ],
-      choices: [
-        {
-          text: "Stay and help stack chairs.",
-          outcome: [
-            p("You stack chairs until the hall is almost back to normal."),
-            p("Rhonda keeps one programme and folds it carefully into her bag."),
-            line("RHONDA", "For the archive."),
-            p("She smiles."),
-            line("RHONDA", "Or evidence. We’ll decide later.")
-          ],
-          effects: { friendship: { rhonda: 4 }, flags: { rhonda_show_success: true } }
-        }
-      ]
-    };
-  }
-
-  if (state.flags.rhonda_recruitment_seen || state.flags.concert_started || state.flags.rhonda_rehearsal_seen || state.flags.rhonda_night_before_failed) {
-    return {
-      title: "Autumn concert",
-      location: "Hall",
-      art: "Hall",
-      content: [
-        p("The hall is full."),
-        p("The programme says Rhonda will close the first half."),
-        p("But when her turn comes, Jean steps onto the stage instead."),
-        line("JEAN", "Rhonda’s asked me to read something on her behalf."),
-        p("There is a polite shuffle through the room."),
-        p("Jean reads well. Everyone claps."),
-        p("Rhonda does not appear."),
-        p("Later, you find her in the corridor outside the hall, dressed beautifully, holding her script."),
-        line("PLAYER", "Rhonda."),
-        p("She smiles before you can say anything."),
-        line("RHONDA", "Don’t look tragic. That’s my job.")
-      ],
-      choices: [
-        {
-          text: "What happened?",
-          outcome: [
-            line("RHONDA", "Nothing dramatic. Very disappointing of me."),
-            p("She folds the script."),
-            line("RHONDA", "I simply discovered I’m done."),
-            p("The next time you visit her apartment, the feather boa is gone."),
-            p("So are the old programmes.")
-          ],
-          effects: { friendship: { rhonda: -1 }, flags: { rhonda_show_failed: true } }
-        },
-        {
-          text: "There’s still time.",
-          outcome: [
-            p("Rhonda shakes her head."),
-            line("RHONDA", "No, darling."),
-            p("Softly:"),
-            line("RHONDA", "There isn’t."),
-            p("The next time you visit her apartment, the feather boa is gone."),
-            p("So are the old programmes.")
-          ],
-          effects: { friendship: { rhonda: -1 }, flags: { rhonda_show_failed: true } }
-        },
-        {
-          text: "I’m sorry.",
-          outcome: [
-            p("Rhonda looks toward the hall."),
-            p("Someone inside laughs at Al."),
-            line("RHONDA", "Don’t be. They’re having a lovely time."),
-            p("She looks back at you."),
-            line("RHONDA", "That’s something, isn’t it?"),
-            p("The next time you visit her apartment, the feather boa is gone."),
-            p("So are the old programmes.")
-          ],
-          effects: { friendship: { rhonda: 0 }, flags: { rhonda_show_failed: true } }
-        }
-      ]
-    };
-  }
-
-  return {
-    title: "Autumn concert",
-    location: "Hall",
-    art: "Hall",
-    content: [
-      p("You find a seat near the back of the hall."),
-      p("The programme is folded crookedly. Someone has corrected Al’s name in pen."),
-      p("Al sings half a song and accepts applause as if it was overdue."),
-      p("Pablo serves food at intermission and tells three people the napkins are not decorative."),
-      p("Bob reads something short. He survives it."),
-      p("Then Rhonda steps onto the stage."),
-      p("She gets a laugh before the first page is turned."),
-      p("By the end, everyone is clapping."),
-      p("You clap too. It was a good night." )
-    ],
-    choices: [
-      {
-        text: "Clap with everyone else.",
-        outcome: [p("Rhonda bows once, pleased with herself. Around you, people are already talking about next year.")],
-        effects: { friendship: { rhonda: 1 }, flags: { attended_concert_uninvolved: true } }
-      }
-    ]
-  };
+export function getSceneForActivity(state, activityId) {
+  const item = getNoticeboardItems(state).find(activity => activity.id === activityId);
+  if (!item) return null;
+  return resolveScene(state, item.sceneId);
 }
+
+// ---------------------------------------------------------------------------
+// Game flow
+// ---------------------------------------------------------------------------
 
 export function startGame(state, player) {
   state.player.name = player.name?.trim() || "New Resident";
@@ -215,7 +174,6 @@ export function openTab(state, tabName) {
 export function beginActivity(state, activityId) {
   const item = getNoticeboardItems(state).find(activity => activity.id === activityId);
   if (!item) return state;
-
   state.activeSceneId = item.sceneId;
   state.view = "scene";
   state.activeTab = "noticeboard";
@@ -231,11 +189,15 @@ export function chooseSceneOption(state, choiceIndex) {
 
   applyEffects(state, choice.effects || {});
   markSeen(state, state.activeSceneId);
+
+  const outcomeBlocks = (choice.outcome || [{ text: "The time passes." }])
+    .filter(block => matchWhen(state, block.when));
+
   state.pendingOutcome = {
     title: scene.title,
     location: scene.location,
     art: scene.art,
-    content: substituteLines(choice.outcome || [p("The time passes.")], state)
+    content: substituteLines(outcomeBlocks, state)
   };
   state.view = "outcome";
   return state;
@@ -269,13 +231,11 @@ export function applyEffects(state, effects) {
       state.friendships[id] = Math.max(0, (state.friendships[id] || 0) + amount);
     }
   }
-
   if (effects.flags) {
     for (const [key, value] of Object.entries(effects.flags)) {
       state.flags[key] = value;
     }
   }
-
   if (effects.memories) {
     for (const memoryId of effects.memories) {
       if (!state.memories.includes(memoryId)) {
@@ -293,6 +253,10 @@ export function markSeen(state, sceneId) {
 export function getMemoryText(memoryId) {
   return MEMORIES[memoryId] || memoryId;
 }
+
+// ---------------------------------------------------------------------------
+// Relationship presentation (no numbers shown, ever)
+// ---------------------------------------------------------------------------
 
 export function getFriendshipLabel(score, id, state) {
   if (id === "rhonda" && state.flags.rhonda_show_success) return "Dear friend";
@@ -315,12 +279,23 @@ export function getResidentNote(id, state) {
     if (score >= 2) return "She has decided not to take your ignorance to heart.";
   }
 
-  if (id === "pablo" && state.flags.saw_pablo_miranda_corner_table) {
-    return "He keeps finding reasons to make two cups of tea.";
+  if (id === "bob") {
+    if (state.flags.bob_went_reunion) return "He came back from the reunion with sand in his shoes and three phone numbers in his good jacket.";
+    if (state.flags.bob_reunion_missed && score >= 2) return "He fixed four things in the workshop the week after the bus left. None of them were broken.";
+    if (state.memories.includes("bob_june_roses") && score >= 2) return "He has not mentioned the photograph again. He knows you saw it.";
   }
 
-  if (id === "miranda" && state.flags.saw_pablo_miranda_corner_table) {
-    return "She keeps accepting the second cup, under protest.";
+  if (id === "miranda") {
+    if (state.flags.miranda_delegated) return "She has started leaving jobs unfinished on purpose, to see if the world ends. It has not, yet.";
+    if (state.flags.miranda_did_it_alone && score >= 2) return "The competition certificate is in a drawer. Her wrist is still strapped. Neither is discussed.";
+    if (state.memories.includes("miranda_good_tablecloth") && score >= 2) return "The gloves she lent you have not been asked for back.";
+    if (state.flags.saw_pablo_miranda_corner_table) return "She keeps accepting the second cup, under protest.";
+  }
+
+  if (id === "pablo") {
+    if (state.flags.pablo_cooked_carmens) return "He has started letting people bring him things. Small things. It is a start.";
+    if (state.memories.includes("pablo_carmen_rice") && score >= 2) return "He has not mentioned the recipe card again. It is still in his wallet; you have seen him check.";
+    if (state.flags.saw_pablo_miranda_corner_table) return "He keeps finding reasons to make two cups of tea.";
   }
 
   if (score >= 5) return "You know where to find them, and sometimes they know where to find you.";
@@ -328,6 +303,10 @@ export function getResidentNote(id, state) {
   if (score >= 1) return "They recognise you now.";
   return character.defaultNote;
 }
+
+// ---------------------------------------------------------------------------
+// Ending
+// ---------------------------------------------------------------------------
 
 export function buildEnding(state) {
   const entries = Object.entries(state.friendships).sort((a, b) => b[1] - a[1]);
@@ -346,7 +325,25 @@ export function buildEnding(state) {
   } else if (state.flags.missed_concert) {
     lines.push("The Autumn Concert happened down the hall. You heard the applause through the door. People are still telling the stories. You nod along.");
   } else {
-    lines.push("The week ended quietly. The village kept moving, whether or not you moved with it.");
+    lines.push("The month ended quietly. The village kept moving, whether or not you moved with it.");
+  }
+
+  if (state.flags.bob_went_reunion) {
+    lines.push("Bob read a poem at the concert. It was about June. Nobody asked questions afterwards, and he seemed glad of both.");
+  } else if (state.flags.bob_reunion_missed) {
+    lines.push("The veterans' bus left without Bob. He said maybe next year. Nobody argued.");
+  }
+
+  if (state.flags.miranda_delegated) {
+    lines.push("Miranda's garden won the competition. The certificate is in a drawer. The jam people keep leaving at her door is not.");
+  } else if (state.flags.miranda_did_it_alone) {
+    lines.push("Miranda's garden won the competition. She did it the way she does everything: completely, and alone. She was too tired to enjoy the win.");
+  }
+
+  if (state.flags.pablo_cooked_carmens) {
+    lines.push("At the feast, Pablo cooked Carmen's rice and let other people salt it. On Tuesday, someone cooked him breakfast. He sat down for it.");
+  } else if (state.flags.pablo_substituted) {
+    lines.push("The feast was a triumph. The recipe card stayed in Pablo's wallet, behind the photographs. He was not ready, and that is allowed.");
   }
 
   if (state.flags.saw_pablo_miranda_corner_table || (state.flags.saw_pablo_miranda_tea && state.flags.saw_pablo_miranda_seedlings)) {
@@ -358,7 +355,7 @@ export function buildEnding(state) {
   }
 
   if (closest && closest[1] >= 5) {
-    lines.push(`By the end of the week, ${closestName} had started saving you a seat.`);
+    lines.push(`By the end of the month, ${closestName} had started saving you a seat.`);
   } else if (closest && closest[1] >= 2) {
     lines.push(`You were beginning to know ${closestName}. Enough to be missed if you skipped a morning.`);
   } else {
@@ -367,12 +364,12 @@ export function buildEnding(state) {
 
   lines.push("On Monday, there will be new notices on the board.");
 
-  return {
-    closestName,
-    closestLabel,
-    lines
-  };
+  return { closestName, closestLabel, lines };
 }
+
+// ---------------------------------------------------------------------------
+// Text substitution
+// ---------------------------------------------------------------------------
 
 export function substituteLines(lines, state) {
   const playerName = state.player.name || "New Resident";
@@ -402,12 +399,4 @@ function replaceTokens(text, playerName, pronouns) {
     .replaceAll("{themself}", pronouns.reflexive)
     .replaceAll("{are}", pronouns.be)
     .replaceAll("{have}", pronouns.have);
-}
-
-function p(text) {
-  return { text };
-}
-
-function line(speaker, text) {
-  return { speaker, text };
 }

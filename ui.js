@@ -1,4 +1,4 @@
-import { CHARACTERS } from "./data.js";
+import { CHARACTERS } from "./data-index.js";
 import {
   buildEnding,
   getCurrentDate,
@@ -67,7 +67,7 @@ function renderSetup(state, actions) {
 
   inner.appendChild(form);
 
-  const note = el("p", "small muted", "This version covers your first week at Sunset Pines.");
+  const note = el("p", "small muted", "Your first month at Sunset Pines starts on a Monday.");
   inner.appendChild(note);
 
   screen.appendChild(card);
@@ -121,7 +121,7 @@ function renderTopbar(state) {
 
   const date = el("div", "date-pill");
   date.appendChild(el("strong", null, `${current.weekday}`));
-  date.appendChild(el("span", null, `Week ${current.week} · ${current.slot}`));
+  date.appendChild(el("span", null, `Week ${current.week} of 4 · ${current.slot}`));
   inner.appendChild(date);
 
   return top;
@@ -317,14 +317,14 @@ function renderEnding(state, actions) {
   const screen = el("main", "screen");
 
   const art = el("aside", "art-panel");
-  art.appendChild(el("p", "kicker", "One week later"));
-  art.appendChild(el("h2", null, "The door"));
+  art.appendChild(el("p", "kicker", "One month later"));
+  art.appendChild(el("h2", null, "Sunset Pines"));
   screen.appendChild(art);
 
   const card = el("section", "card");
   const inner = el("div", "card-inner");
   card.appendChild(inner);
-  inner.appendChild(el("h2", null, "One week later"));
+  inner.appendChild(el("h2", null, "One month later"));
 
   const list = el("div", "ending-list");
   for (const line of ending.lines) {

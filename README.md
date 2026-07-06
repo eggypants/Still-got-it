@@ -1,43 +1,39 @@
-# Still Got It v0.2 Real Flat Build
+# Still Got It — v0.4
 
-A flat-file GitHub Pages prototype for **Still Got It**, now rebuilt as a friendship life sim rather than a dating sim.
+A friendship life sim set in Sunset Pines Retirement Village. 28 days, four weeks,
+three time slots a day, ending at the Autumn Concert. Flat-file, no build step,
+GitHub Pages friendly.
 
-## What this build does
+## What's new in 0.3
 
-- Runs entirely in the browser.
-- Uses flat files only: no folders needed.
-- Has a 7-day proof route.
-- Uses a real noticeboard/activity loop.
-- Hides friendship numbers from the player.
-- Includes Journal, Residents, Settings tabs.
-- Lets the player stay in their apartment and miss things.
-- Includes Rhonda's concert success/failure arc.
-- Includes small Pablo/Miranda background moments.
+- Full 28-day / 4-week calendar (previously a 7-day proof route)
+- Village schedule split into a recurring WEEKLY_TEMPLATE plus SPECIALS story beats
+- Scene variants: scenes deepen with friendship and repeat visits
+- Conditional content blocks: the concert scene converges the outcomes of every arc
+- Four arcs built and validated: Rhonda (concert route), Bob (reunion), Miranda (garden competition), Pablo (harvest feast)
+- The player's own arc: the apartment scenes change across the four weeks
+- The concert converges all four arcs; endings reflect each
+- Data split into per-character files so arcs can be edited in isolation
+- `validate.js`: run `node validate.js` after any edit; it checks all references
+  and plays the game four ways before you deploy
+- Save version bumped to 0.3-flat — old saves reset on first load
 
-## Uploading to GitHub Pages from mobile
+## Files (all in repo root — no folders)
 
-Upload these files directly into the repository root:
+Engine/UI: `index.html`, `style.css`, `state.js`, `save.js`, `main.js`, `engine.js`, `ui.js`
+Data: `data-index.js` (merge point), `data-core.js` (calendar, characters, memories, schedule),
+`data-generic.js`, `data-rhonda.js`, `data-pablo.js`, `data-miranda.js`, `data-bob.js`,
+`data-jean.js`, `data-al.js`, `data-duets.js`, `data-concert.js`
+Tooling: `validate.js` (not loaded by the game; safe to upload or omit)
 
-- `index.html`
-- `style.css`
-- `main.js`
-- `state.js`
-- `data.js`
-- `engine.js`
-- `ui.js`
-- `save.js`
-- `README.md`
+## Uploading from mobile
 
-Do not upload a containing folder.
+Upload all files directly into the repository root. Do not upload a containing
+folder. Replace files with the same names. GitHub Pages: deploy from branch,
+`main`, `/ root`.
 
-If replacing an older branch, upload these files on that branch and choose to replace files with the same names.
+## For future editors (human or AI)
 
-## GitHub Pages settings
-
-Use:
-
-- Source: Deploy from a branch
-- Branch: main
-- Folder: / root
-
-If you are working through a pull request, upload these files to your `V02` branch, open a PR into `main`, then merge when ready.
+Read `HANDOFF.md` before touching anything. Run `node validate.js` after every
+edit. Exit code 0 means safe to upload. The game also shows a red banner on load
+if any scheduled scene is missing.

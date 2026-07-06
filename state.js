@@ -2,7 +2,7 @@ export const SAVE_KEY = "still-got-it-v02-real";
 
 export function createInitialState() {
   return {
-    version: "0.2-real-flat",
+    version: "0.3-flat",
     view: "setup",
     activeTab: "noticeboard",
     player: {
