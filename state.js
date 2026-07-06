@@ -1,5 +1,5 @@
-export const SAVE_VERSION = "0.4.2-catchup";
-export const SAVE_KEY = "still-got-it-v042-summer-hills";
+export const SAVE_VERSION = "0.4.3-flow";
+export const SAVE_KEY = "still-got-it-v043-summer-hills";
 
 export function createInitialState() {
   return {

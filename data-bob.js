@@ -12,14 +12,49 @@ export const BOB_SCENES = {
     "content": [
       {
         "text": "Bob is fixing a shelf with the focus of someone defusing a bomb. He nods when you come in. After a while, he hands you a screwdriver without asking."
+      },
+      {
+        "speaker": "BOB",
+        "text": "Hold that there, would you?"
       }
     ],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Take the screwdriver.",
         "outcome": [
           {
-            "text": "The time passes more quickly than you expected."
+            "text": "You hold the bracket while Bob tightens the shelf. He does not explain what you are doing. Somehow, you do it correctly."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Good."
+          },
+          {
+            "text": "From Bob, this appears to be a speech."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "bob": 1
+          }
+        }
+      },
+      {
+        "text": "Ask what he’s fixing.",
+        "outcome": [
+          {
+            "speaker": "BOB",
+            "text": "Shelf."
+          },
+          {
+            "text": "He tests it with one hand. It does not move."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Wasn’t broken. Loose is different."
+          },
+          {
+            "text": "He hands you the screwdriver anyway. Apparently you have been recruited."
           }
         ],
         "effects": {
@@ -133,6 +168,25 @@ export const BOB_SCENES = {
           },
           {
             "text": "The two of you work on whatever is broken this week. Not much gets said. Nothing needs to be."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Work beside him.",
+            "outcome": [
+              {
+                "text": "The job is small and fiddly. Bob handles the fiddly part. You handle the small part."
+              },
+              {
+                "speaker": "BOB",
+                "text": "That’ll do."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 1
+              }
+            }
           }
         ]
       }

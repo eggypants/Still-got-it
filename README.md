@@ -1,8 +1,18 @@
-# Still Got It — v0.4.2
+# Still Got It — v0.4.3
 
 A friendship life sim set in Summer Hills Retirement Village. 28 days, four weeks,
 three time slots a day, ending at the Autumn Concert. Flat-file, no build step,
 GitHub Pages friendly.
+
+## What changed in v0.4.3
+
+Flow/routing patch:
+
+- Added chained scene support (`choice.nextSceneId`) so a conversation can continue into a second question instead of ending at a single outcome.
+- Fixed Rhonda's old-box/kids-in-film thread so the player can ask a follow-up before time advances.
+- Made early Bob workshop and Miranda garden visits behave like actual scene beats, not filler if the player arrives on an ordinary recurring day.
+- Lowered Bob/Miranda memory entry thresholds so returning to the same kind of place can surface the next relevant beat without needing the exact “right” day.
+- Added validator support for chained scenes and simulated playthroughs through chained outcomes.
 
 ## What's new in 0.4.2
 
@@ -41,3 +51,5 @@ folder. Replace files with the same names. GitHub Pages: deploy from branch,
 Read `HANDOFF.md` before touching anything. Run `node validate.js` after every
 edit. Exit code 0 means safe to upload. The game also shows a red banner on load
 if any scheduled scene is missing.
+
+

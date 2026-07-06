@@ -227,7 +227,7 @@ function renderOutcome(state, actions) {
   const wrapper = el("div", "scene-card");
   wrapper.appendChild(el("h2", null, state.pendingOutcome.title));
   wrapper.appendChild(renderSceneText(state.pendingOutcome.content));
-  const button = el("button", "primary-button", "Continue");
+  const button = el("button", "primary-button", state.pendingOutcome.nextSceneId ? "Continue" : "Continue");
   button.type = "button";
   button.addEventListener("click", actions.continueAfterOutcome);
   wrapper.appendChild(button);

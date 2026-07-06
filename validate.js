@@ -97,6 +97,7 @@ console.log("3. Scene shape and reference integrity");
           if (!CHARACTERS[id]) err(`${cwhere}: unknown character "${id}"`);
         }
       }
+      if (choice.nextSceneId && !SCENES[choice.nextSceneId]) err(`${cwhere}: nextSceneId references missing scene "${choice.nextSceneId}"`);
       checkBlocks(choice.outcome, cwhere + " outcome");
       const fx = choice.effects || {};
       if (fx.friendship) {
@@ -185,6 +186,13 @@ console.log("5. Reachability: every scene appears on the schedule");
   const scheduled = new Set(["apartment_morning", "apartment_afternoon", "apartment_evening"]);
   for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) scheduled.add(item.sceneId);
   for (const special of Object.values(SPECIALS)) for (const item of special.items) scheduled.add(item.sceneId);
+  const collectNext = choices => {
+    for (const choice of choices || []) if (choice.nextSceneId) scheduled.add(choice.nextSceneId);
+  };
+  for (const scene of Object.values(SCENES)) {
+    collectNext(scene.choices);
+    for (const variant of scene.variants || []) collectNext(variant.choices);
+  }
   for (const id of Object.keys(SCENES)) {
     if (!scheduled.has(id)) warn(`scene "${id}" is never scheduled (unreachable)`);
   }
@@ -275,7 +283,7 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
     "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings", "rhonda_pushed_too_hard",
     "rhonda_night_before_success", "rhonda_night_before_failed", "rhonda_recruitment_seen",
     "miranda_delegated", "miranda_did_it_alone", "pablo_cooked_carmens", "pablo_substituted",
-    "concert_started", "rhonda_rehearsal_seen"
+    "jean_let_go", "jean_carried_it_alone", "concert_started", "rhonda_rehearsal_seen"
   ]) readFlags.add(flag);
 
   for (const flag of readFlags) {
@@ -293,8 +301,26 @@ function playRun(name, pickFn, assertions) {
   const state = createInitialState();
   engine.startGame(state, { name: "Tester", pronouns: "they/them" });
   let guard = 0;
-  while (state.view !== "ending" && guard < 400) {
+  while (state.view !== "ending" && guard < 500) {
     guard += 1;
+
+    if (state.view === "outcome") {
+      if (!state.pendingOutcome || !state.pendingOutcome.content.length) {
+        err(`[${name}] produced an empty outcome`);
+        return;
+      }
+      engine.continueAfterOutcome(state);
+      continue;
+    }
+
+    if (state.view === "scene") {
+      const scene = engine.resolveScene(state, state.activeSceneId);
+      if (!scene) { err(`[${name}] chained scene "${state.activeSceneId}" failed to resolve`); return; }
+      if (!scene.choices.length) { err(`[${name}] chained scene "${state.activeSceneId}" resolved with zero choices — player stuck`); return; }
+      engine.chooseSceneOption(state, 0);
+      continue;
+    }
+
     const items = engine.getNoticeboardItems(state);
     const pick = pickFn(state, items) || items[items.length - 1];
     engine.beginActivity(state, pick.id);
@@ -303,10 +329,6 @@ function playRun(name, pickFn, assertions) {
     if (!scene.choices.length) { err(`[${name}] scene "${state.activeSceneId}" resolved with zero choices — player stuck`); return; }
     const choiceIndex = (pick.chooseIndex !== undefined) ? pick.chooseIndex : 0;
     engine.chooseSceneOption(state, Math.min(choiceIndex, scene.choices.length - 1));
-    if (!state.pendingOutcome || !state.pendingOutcome.content.length) {
-      err(`[${name}] scene "${state.activeSceneId}" produced an empty outcome`);
-    }
-    engine.continueAfterOutcome(state);
   }
   if (state.view !== "ending") { err(`[${name}] never reached the ending (loop guard hit)`); return; }
   const ending = engine.buildEnding(state);
@@ -405,6 +427,30 @@ playRun("pablo crossroads", (state, items) => {
   if (!state.memories.includes("pablo_carmen_rice")) throw new Error("Carmen memory not collected");
   if (!state.flags.pablo_cooked_carmens) throw new Error("pablo_cooked_carmens not set — pressure point or memory gate failed");
   if (!ending.lines.some(l => l.includes("breakfast"))) throw new Error("Pablo success ending line absent");
+});
+
+
+// Run G: Jean Crossroads. Library until the festival photograph appears, take
+// the fig tree pressure point with the memory choice, attend the concert cold.
+playRun("jean crossroads", (state, items) => {
+  const figtree = byScene(items, "jean_figtree");
+  if (figtree) return { ...figtree, chooseIndex: 0 };
+  const library = byScene(items, "generic_library_jean");
+  if (library) {
+    const scene = engine.resolveScene(state, library.sceneId);
+    if (scene?.choices?.some(choice => choice.effects?.memories?.includes("jean_festival_days"))) {
+      const chooseIndex = scene.choices.findIndex(choice => choice.effects?.memories?.includes("jean_festival_days"));
+      return { ...library, chooseIndex };
+    }
+    return library;
+  }
+  const concert = byScene(items, "rhonda_opening_night");
+  if (concert) return concert;
+  return apartment(items);
+}, (state, ending) => {
+  if (!state.memories.includes("jean_festival_days")) throw new Error("festival memory not collected");
+  if (!state.flags.jean_let_go) throw new Error("jean_let_go not set — pressure point or memory gate failed");
+  if (!ending.lines.some(l => l.includes("clipboard") && l.includes("programme"))) throw new Error("Jean success ending line absent");
 });
 
 // Run D: reunion without closeness — the observer base scene must appear and

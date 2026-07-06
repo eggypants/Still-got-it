@@ -9,14 +9,45 @@ export const MIRANDA_SCENES = {
     "content": [
       {
         "text": "The garden is warm and full of small jobs. Miranda gives instructions without raising her voice. People obey anyway."
+      },
+      {
+        "text": "She looks at the beds, then at you, then at a tray of seedlings that clearly has plans for your morning."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "Can you follow instructions?"
       }
     ],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Ask where you’re needed.",
         "outcome": [
           {
-            "text": "The time passes more quickly than you expected."
+            "speaker": "MIRANDA",
+            "text": "Useful answer."
+          },
+          {
+            "text": "She points you toward the seedlings and gives instructions in the order she expects them obeyed. You obey most of them."
+          },
+          {
+            "text": "At the end she inspects the row, moves one plant half an inch, and says nothing else. It feels like passing."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 1
+          }
+        }
+      },
+      {
+        "text": "Say you can learn.",
+        "outcome": [
+          {
+            "speaker": "MIRANDA",
+            "text": "That is not what I asked."
+          },
+          {
+            "text": "But she hands you gloves anyway. You learn quickly, because Miranda’s silence when you get something right is preferable to the alternative."
           }
         ],
         "effects": {
@@ -135,6 +166,25 @@ export const MIRANDA_SCENES = {
           },
           {
             "text": "You work. She corrects your technique once, briefly, and then leaves you to it, which you understand to be a promotion."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Get on with it.",
+            "outcome": [
+              {
+                "text": "You get on with it. Miranda corrects one row after you leave, but only one."
+              },
+              {
+                "speaker": "MIRANDA",
+                "text": "Improving."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "miranda": 1
+              }
+            }
           }
         ]
       }

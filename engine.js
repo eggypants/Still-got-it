@@ -201,14 +201,24 @@ export function chooseSceneOption(state, choiceIndex) {
     title: scene.title,
     location: scene.location,
     art: scene.art,
-    content: substituteLines(outcomeBlocks, state)
+    content: substituteLines(outcomeBlocks, state),
+    nextSceneId: choice.nextSceneId || null
   };
   state.view = "outcome";
   return state;
 }
 
 export function continueAfterOutcome(state) {
+  const nextSceneId = state.pendingOutcome?.nextSceneId || null;
   state.pendingOutcome = null;
+
+  if (nextSceneId) {
+    state.activeSceneId = nextSceneId;
+    state.view = "scene";
+    state.activeTab = "noticeboard";
+    return state;
+  }
+
   state.activeSceneId = null;
   advanceTime(state);
   if (state.dayIndex >= DAYS.length) {
@@ -302,6 +312,11 @@ export function getResidentNote(id, state) {
     if (state.flags.saw_pablo_miranda_corner_table) return "He keeps finding reasons to make two cups of tea.";
   }
 
+  if (id === "jean") {
+    if (state.flags.jean_let_go) return "The petition folder is no longer under her arm. She is carrying a library book instead.";
+    if (state.memories.includes("jean_festival_days") && score >= 2) return "She has shown you the shoebox of festival photographs. The yellow scarf was brighter than the tent canvas.";
+  }
+
   if (score >= 5) return "You know where to find them, and sometimes they know where to find you.";
   if (score >= 2) return "You’ve shared a few ordinary moments.";
   if (score >= 1) return "They recognise you now.";
@@ -348,6 +363,12 @@ export function buildEnding(state) {
     lines.push("At the feast, Pablo cooked Carmen's rice and let other people salt it. On Tuesday, someone cooked him breakfast. He sat down for it.");
   } else if (state.flags.pablo_substituted) {
     lines.push("The feast was a triumph. The recipe card stayed in Pablo's wallet, behind the photographs. He was not ready, and that is allowed.");
+  }
+
+  if (state.flags.jean_let_go) {
+    lines.push("Jean watched the concert from the third row, a programme folded in her lap and no clipboard in sight.");
+  } else if (state.flags.jean_carried_it_alone) {
+    lines.push("Jean ran the raffle with a biscuit tin, a roll of tickets, and a pencil sharpened down to a stub.");
   }
 
   if (state.flags.saw_pablo_miranda_corner_table || (state.flags.saw_pablo_miranda_tea && state.flags.saw_pablo_miranda_seedlings)) {

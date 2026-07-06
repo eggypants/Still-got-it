@@ -120,3 +120,16 @@ for the current critical memories. Remaining:
    a checklist
 8. Art: the art panel is a placeholder gradient; real art slots in via the
    existing `art` field when it exists
+
+
+## v0.4.3 implementation note
+
+This patch adds `choice.nextSceneId` to the engine. When present, the current
+choice outcome is displayed, then Continue opens the next scene in the same time
+slot. `continueAfterOutcome` only advances time when there is no pending next
+scene. The validator now checks that chained scene ids exist and the simulated
+runs can pass through chained scenes.
+
+Use chained scenes sparingly: they are for natural follow-ups that felt cut off,
+such as Rhonda's children-in-film thread. They are not a replacement for concise
+scene writing.

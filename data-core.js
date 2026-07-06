@@ -61,7 +61,8 @@ export const MEMORIES = {
   miranda_accepts_help: "Miranda let Pablo carry a crate of seedlings, then pretended she hadn’t needed help.",
   bob_june_roses: "Bob keeps a photograph in his toolbox: his wife June, standing in front of roses she grew from cuttings.",
   miranda_good_tablecloth: "Miranda kept her family’s one good tablecloth mended for thirty years. You can be poor or you can look poor, she says. Only one of those is compulsory.",
-  pablo_carmen_rice: "Pablo carries Carmen’s rice recipe in his wallet, behind the photographs. Carmen seasoned by taste, frowned at the pot, added a little more, and was always right."
+  pablo_carmen_rice: "Pablo carries Carmen’s rice recipe in his wallet, behind the photographs. Carmen seasoned by taste, frowned at the pot, added a little more, and was always right.",
+  jean_festival_days: "Jean was barefoot in dry grass in 1971, with a yellow scarf around her hair, canvas tents in the heat, and a painted van behind her."
 };
 
 // ---------------------------------------------------------------------------
@@ -219,6 +220,11 @@ export const SPECIALS = {
   "16-0": {
     items: [
       { id: "sp-recruitment", replaces: "tpl-lounge-am", title: "Concert planning", location: "Community Lounge", note: "A clipboard has appeared. This appears to be serious.", sceneId: "rhonda_recruitment" }
+    ]
+  },
+  "17-1": {
+    items: [
+      { id: "sp-figtree", replaces: "tpl-garden-pm", title: "Fig tree campaign meeting", location: "Gardens", note: "A council notice is tied to the old fig tree with orange tape.", sceneId: "jean_figtree" }
     ]
   },
   "17-2": {

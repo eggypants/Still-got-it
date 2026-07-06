@@ -122,7 +122,7 @@ clock in it. Week 3: names drift through the wall and the player knows them now.
 Week 4: the kettle works; the door can still stay closed; it is a choice now,
 not a default. Never stated as growth. The hermit ending stays non-judgmental.
 
-## Systems reference (engine v0.4.2)
+## Systems reference (engine v0.4.3)
 
 - Hidden friendship integer per character, floor 0. Bands: 1 Familiar, 2
   Friendly, 5 Warm, 8 Close. Never shown as numbers.
@@ -151,3 +151,18 @@ not a default. Never stated as growth. The hermit ending stays non-judgmental.
 Every flag must be SET by a choice and READ by a variant, block, gate, resident
 note, or ending line. `node validate.js` errors on read-but-never-set and warns
 on set-but-never-read.
+
+### Conversation chains
+
+Some choices may set `nextSceneId`. The outcome is shown first, then Continue opens
+the follow-up scene without advancing time. Use this when the player has obviously
+been invited to ask the next question. Do not use it to make every exchange long;
+most scenes should still resolve in one choice.
+
+### Ordinary-day story beats
+
+Recurring activities must not feel like dead filler just because the player came
+on the “wrong” day. First and second visits to a resident's home activity should
+progress that resident's pattern through variants/catch-ups. Exact calendar
+specials remain useful for big public moments, but ordinary recurring activities
+must be allowed to carry emotional progress.

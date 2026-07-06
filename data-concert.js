@@ -56,6 +56,18 @@ export const CONCERT_SCENES = {
         "text": "Pablo’s intermission table is generous and faultless. He eats standing up, topping up other people’s plates."
       },
       {
+        "when": {
+          "flag": "jean_let_go"
+        },
+        "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+      },
+      {
+        "when": {
+          "flag": "jean_carried_it_alone"
+        },
+        "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
+      },
+      {
         "text": "Then Rhonda steps onto the stage."
       },
       {
@@ -142,6 +154,18 @@ export const CONCERT_SCENES = {
               "flag": "pablo_substituted"
             },
             "text": "Pablo’s intermission table is generous and faultless. He eats standing up, topping up other people’s plates."
+          },
+          {
+            "when": {
+              "flag": "jean_let_go"
+            },
+            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+          },
+          {
+            "when": {
+              "flag": "jean_carried_it_alone"
+            },
+            "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
           },
           {
             "text": "Then Rhonda steps onto the stage."
@@ -304,6 +328,18 @@ export const CONCERT_SCENES = {
               "flag": "pablo_substituted"
             },
             "text": "Pablo’s intermission table is generous and faultless. He eats standing up, topping up other people’s plates."
+          },
+          {
+            "when": {
+              "flag": "jean_let_go"
+            },
+            "text": "Jean sits three rows from the front with a programme folded in her lap and no clipboard anywhere near her. When Al misses a note, she laughs into her paper cup."
+          },
+          {
+            "when": {
+              "flag": "jean_carried_it_alone"
+            },
+            "text": "Jean runs the raffle from a card table by the door, one hand on the biscuit tin and the other tearing tickets from the roll."
           },
           {
             "text": "But when her turn comes, Jean steps onto the stage instead."

@@ -820,13 +820,11 @@ export const RHONDA_SCENES = {
             "text": "Clever things. Very busy. London, Toronto, Los Angeles. I practically need a production schedule to ring them."
           }
         ],
+        "nextSceneId": "rhonda_children_followup",
         "effects": {
           "friendship": {
             "rhonda": 1
-          },
-          "memories": [
-            "rhonda_children_film"
-          ]
+          }
         }
       },
       {
@@ -943,6 +941,100 @@ export const RHONDA_SCENES = {
           },
           "memories": [
             "rhonda_miss_performing"
+          ]
+        }
+      }
+    ]
+  },
+  "rhonda_children_followup": {
+    "title": "The old box",
+    "location": "Community Lounge",
+    "art": "Community Lounge",
+    "content": [
+      {
+        "text": "Rhonda puts the photograph on top of the programmes instead of back in the box."
+      },
+      {
+        "speaker": "PLAYER",
+        "text": "They all went into film?"
+      },
+      {
+        "speaker": "RHONDA",
+        "text": "All three. One edits, one produces, one writes things with impossible budgets and no weather."
+      },
+      {
+        "text": "She says it fondly. Then she lines up the edge of the photograph with the edge of the programme beneath it."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Ask if that was hard.",
+        "outcome": [
+          {
+            "speaker": "RHONDA",
+            "text": "Yes."
+          },
+          {
+            "text": "She answers quickly, before she can make it charming."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "I was proud. I am proud. But there was a while when every good thing that happened to them felt like proof the door had not been locked, only closed on me."
+          },
+          {
+            "text": "She picks up the photo again, gentler this time."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "rhonda": 2
+          },
+          "memories": [
+            "rhonda_children_film"
+          ]
+        }
+      },
+      {
+        "text": "Say they must have learned from her.",
+        "outcome": [
+          {
+            "speaker": "RHONDA",
+            "text": "They learned plenty from me. Timing. Nerve. Where to stand so the light does the work."
+          },
+          {
+            "text": "She smiles at the photograph, then at the box."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "They also learned to leave when the door opened. I cannot fault them for that."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "rhonda": 1
+          },
+          "memories": [
+            "rhonda_children_film"
+          ]
+        }
+      },
+      {
+        "text": "Let her put the photo away.",
+        "outcome": [
+          {
+            "text": "You do not ask more. Rhonda slips the photograph back into the box and rests one hand on the lid."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "They are clever things. Busy things. That is what one hopes for, apparently."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "rhonda": 1
+          },
+          "memories": [
+            "rhonda_children_film"
           ]
         }
       }
