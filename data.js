@@ -63,7 +63,7 @@ export const ACTIVITIES = {
       id: "mon_morning_lounge",
       title: "Coffee in the lounge",
       location: "Community Lounge",
-      note: "Voices near the window. Someone is telling a story.",
+      note: "Newspapers, coffee, and opinions about both.",
       sceneId: "rhonda_first_meeting"
     },
     {
@@ -86,7 +86,7 @@ export const ACTIVITIES = {
       id: "mon_afternoon_library",
       title: "Library hour",
       location: "Library",
-      note: "Quiet reading, returned books, and Jean arguing with the newspaper.",
+      note: "Quiet reading, returned books, and a newspaper folded with disapproval.",
       sceneId: "generic_library_jean"
     }
   ],
@@ -95,14 +95,14 @@ export const ACTIVITIES = {
       id: "mon_evening_cards",
       title: "Cards in the lounge",
       location: "Community Lounge",
-      note: "Al says the stakes are low. Nobody believes him.",
+      note: "Low stakes, old grudges, and a deck of cards that has seen things.",
       sceneId: "generic_cards_al"
     },
     {
       id: "mon_evening_cafe",
       title: "Tea in the café",
       location: "Village Café",
-      note: "Pablo has opinions about the biscuits.",
+      note: "Tea, biscuits, and a debate nobody requested.",
       sceneId: "generic_cafe_pablo"
     }
   ],
@@ -118,7 +118,7 @@ export const ACTIVITIES = {
       id: "tue_morning_lounge",
       title: "Newspapers in the lounge",
       location: "Community Lounge",
-      note: "Rhonda is reading the entertainment pages with theatrical disgust.",
+      note: "Newspapers, coffee, and opinions about both.",
       sceneId: "rhonda_lounge_short"
     }
   ],
@@ -127,14 +127,14 @@ export const ACTIVITIES = {
       id: "tue_afternoon_pottery",
       title: "Pottery",
       location: "Craft Room",
-      note: "Beginners welcome. Rhonda has decided this is a threat.",
+      note: "Beginners welcome. The clay has no respect for anyone.",
       sceneId: "rhonda_pottery"
     },
     {
       id: "tue_afternoon_workshop",
       title: "Workshop tidy-up",
       location: "Workshop",
-      note: "Bob is fixing a shelf that nobody remembers breaking.",
+      note: "A shelf needs fixing. Nobody remembers it breaking.",
       sceneId: "generic_workshop_bob"
     }
   ],
@@ -143,14 +143,14 @@ export const ACTIVITIES = {
       id: "tue_evening_choir",
       title: "Choir rehearsal",
       location: "Hall",
-      note: "Jean says every movement needs songs. The choir is unconvinced.",
+      note: "Old songs, new arguments, and a piano slightly out of tune.",
       sceneId: "generic_choir_jean"
     },
     {
       id: "tue_evening_lounge",
       title: "Lounge after dinner",
       location: "Community Lounge",
-      note: "Someone has brought a box of old programmes to sort.",
+      note: "Old programmes, old photos, and one box with an ominous label.",
       sceneId: "rhonda_old_box"
     }
   ],
@@ -159,14 +159,14 @@ export const ACTIVITIES = {
       id: "wed_morning_garden",
       title: "Seedlings in the garden",
       location: "Gardens",
-      note: "Miranda is pretending she can move three crates alone.",
+      note: "Three crates need moving. The seedlings are judging everyone.",
       sceneId: "pablo_miranda_seedlings"
     },
     {
       id: "wed_morning_cafe",
       title: "Breakfast in the café",
       location: "Village Café",
-      note: "Pablo is talking to the toaster as if it owes him money.",
+      note: "Breakfast, toast, and machinery with a poor attitude.",
       sceneId: "generic_cafe_pablo"
     }
   ],
@@ -175,7 +175,7 @@ export const ACTIVITIES = {
       id: "wed_afternoon_lounge",
       title: "Lounge gossip",
       location: "Community Lounge",
-      note: "Al has news. Al always has news.",
+      note: "News, rumours, and the thin line between them.",
       sceneId: "generic_lounge_al_news"
     },
     {
@@ -191,14 +191,14 @@ export const ACTIVITIES = {
       id: "wed_evening_movie",
       title: "Movie night",
       location: "Cinema Room",
-      note: "Black-and-white comedy. Rhonda has taken a good seat.",
+      note: "Black-and-white comedy. The good seats go early.",
       sceneId: "rhonda_movie_night"
     },
     {
       id: "wed_evening_cards",
       title: "Cards in the lounge",
       location: "Community Lounge",
-      note: "Al says he is unlucky in cards. This is not true.",
+      note: "Bad shuffling, worse bluffing, and one person who is lying about luck.",
       sceneId: "generic_cards_al"
     }
   ],
@@ -207,14 +207,14 @@ export const ACTIVITIES = {
       id: "thu_morning_lounge",
       title: "Coffee in the lounge",
       location: "Community Lounge",
-      note: "Rhonda is telling a story to anyone who sits still too long.",
+      note: "Newspapers, coffee, and opinions about both.",
       sceneId: "rhonda_lounge_short"
     },
     {
       id: "thu_morning_library",
       title: "Library hour",
       location: "Library",
-      note: "Jean is looking for a book and has found a cause.",
+      note: "Returned books, missing bookmarks, and a notice no one remembers approving.",
       sceneId: "generic_library_jean"
     }
   ],
@@ -223,14 +223,14 @@ export const ACTIVITIES = {
       id: "thu_afternoon_hall",
       title: "Autumn concert notice",
       location: "Noticeboard",
-      note: "A fresh notice has appeared. Rhonda is standing beside it.",
+      note: "A fresh notice has appeared overnight, pinned crookedly over everything else.",
       sceneId: "rhonda_concert_notice"
     },
     {
       id: "thu_afternoon_garden",
       title: "Garden volunteers",
       location: "Gardens",
-      note: "Miranda has a list. The list has sub-lists.",
+      note: "A list has appeared. The list has sub-lists.",
       sceneId: "generic_garden_miranda"
     }
   ],
@@ -239,7 +239,7 @@ export const ACTIVITIES = {
       id: "thu_evening_cafe",
       title: "Tea in the café",
       location: "Village Café",
-      note: "Pablo is saving a corner table. Miranda is not admitting it is for her.",
+      note: "A corner table has two cups of tea and no official explanation.",
       sceneId: "pablo_miranda_corner_table"
     },
     {
@@ -255,14 +255,14 @@ export const ACTIVITIES = {
       id: "fri_morning_recruitment",
       title: "Concert planning",
       location: "Community Lounge",
-      note: "Rhonda has a clipboard. This appears to be serious.",
+      note: "A clipboard has appeared. This appears to be serious.",
       sceneId: "rhonda_recruitment"
     },
     {
       id: "fri_morning_workshop",
       title: "Workshop",
       location: "Workshop",
-      note: "Bob is building something and refusing to say what.",
+      note: "Tools are out. Something is being built with unnecessary secrecy.",
       sceneId: "generic_workshop_bob"
     }
   ],
@@ -278,7 +278,7 @@ export const ACTIVITIES = {
       id: "fri_afternoon_garden",
       title: "Garden volunteers",
       location: "Gardens",
-      note: "Miranda needs stakes for the tomatoes. Pablo has brought string.",
+      note: "Tomato stakes, garden string, and a problem becoming social.",
       sceneId: "pablo_miranda_seedlings"
     }
   ],
@@ -310,7 +310,7 @@ export const ACTIVITIES = {
       id: "sat_morning_lounge",
       title: "Coffee in the lounge",
       location: "Community Lounge",
-      note: "Rhonda is holding court, but keeps glancing toward the hall.",
+      note: "Coffee, chatter, and someone watching the hallway clock.",
       sceneId: "rhonda_lounge_before_show"
     }
   ],
@@ -319,14 +319,14 @@ export const ACTIVITIES = {
       id: "sat_afternoon_rehearsal",
       title: "Final rehearsal",
       location: "Hall",
-      note: "Chairs, cables, Al’s song, and Rhonda trying not to panic.",
+      note: "Chairs, cables, one microphone, and more opinions than required.",
       sceneId: "rhonda_final_rehearsal"
     },
     {
       id: "sat_afternoon_library",
       title: "Library hour",
       location: "Library",
-      note: "Jean has found a book with a very suspicious dedication.",
+      note: "A returned book has a very suspicious dedication.",
       sceneId: "generic_library_jean"
     }
   ],
@@ -335,14 +335,14 @@ export const ACTIVITIES = {
       id: "sat_evening_hall",
       title: "The night before",
       location: "Hall",
-      note: "The hall is empty. Rhonda is on the stage.",
+      note: "The hall is empty. The chairs face the stage.",
       sceneId: "rhonda_night_before"
     },
     {
       id: "sat_evening_cards",
       title: "Cards in the lounge",
       location: "Community Lounge",
-      note: "Al says the show will need glamour. Bob says it will need chairs.",
+      note: "The show will need glamour. It will also need chairs.",
       sceneId: "generic_cards_al"
     }
   ],
@@ -358,7 +358,7 @@ export const ACTIVITIES = {
       id: "sun_morning_garden",
       title: "Morning in the garden",
       location: "Gardens",
-      note: "Quiet soil, magpies, and Miranda inspecting leaves.",
+      note: "Quiet soil, magpies, and leaves under inspection.",
       sceneId: "generic_garden_miranda"
     }
   ],
@@ -374,7 +374,7 @@ export const ACTIVITIES = {
       id: "sun_afternoon_hall",
       title: "Help set up the hall",
       location: "Hall",
-      note: "Pablo is arranging food. Al is arranging himself.",
+      note: "Food tables, folding chairs, and someone rearranging the entrance.",
       sceneId: "generic_hall_setup"
     }
   ],
@@ -441,9 +441,8 @@ export const SCENES = {
       {
         text: "Were you really in a film?",
         outcome: [
-          p("There is a tiny pause."),
+          p("Rhonda looks at you."),
           line("RHONDA", "No."),
-          p("Beat."),
           line("RHONDA", "I was in several."),
           p("She gives you a look and seems to decide not to take your ignorance to heart."),
           line("RHONDA", "Sit down before you say something worse."),
@@ -473,6 +472,13 @@ export const SCENES = {
       line("RHONDA", "I don’t know who half these people are, but I disapprove of their posture."),
       p("She folds the paper and looks at you."),
       line("RHONDA", "Well? What brings you to the kingdom this morning?")
+    ],
+    repeatContent: [
+      p("Rhonda is in the lounge again, reading the entertainment pages with her coffee cooling beside her."),
+      p("She pats the chair next to her without looking up."),
+      line("RHONDA", "There you are. I was beginning to think you’d found more interesting people."),
+      p("She turns the page."),
+      line("RHONDA", "Unlikely, but one must allow for miracles.")
     ],
     choices: [
       {
@@ -558,9 +564,8 @@ export const SCENES = {
         text: "Do you want help?",
         outcome: [
           line("RHONDA", "No."),
-          p("A pause."),
+          p("She looks at the clay."),
           line("RHONDA", "Maybe."),
-          p("Then:"),
           line("RHONDA", "Don’t make a song about it."),
           p("You sit beside her and steady the wheel while she tries again."),
           p("The second attempt is not beautiful, but it stands up."),
@@ -595,47 +600,42 @@ export const SCENES = {
       p("The room erupts."),
       p("Rhonda laughs properly. Sudden and delighted."),
       p("When the laughter settles, she leans toward you."),
-      line("RHONDA", "That fall is perfect.")
+      line("RHONDA", "That fall is perfect."),
+      p("After the film, people shuffle out slowly, still talking about the ending."),
+      p("Rhonda remains seated for a moment."),
+      line("RHONDA", "Comedy is harder than drama. People think it’s lighter because they’re not paying attention."),
+      line("RHONDA", "There was one little part I loved. I played this ridiculous woman. Came on in the second act, insulted a priest, lost her hat, left again."),
+      line("RHONDA", "It wasn’t much. Not really."),
+      line("RHONDA", "But every night, when the hat went, the room lost it."),
+      p("She says it softly."),
+      line("RHONDA", "That was lovely.")
     ],
     choices: [
       {
-        text: "Looked painful.",
+        text: "Poor hat.",
         outcome: [
           line("RHONDA", "That’s why it’s funny."),
           p("She glances at you."),
-          line("RHONDA", "You know. As a bit."),
-          p("After the film, people shuffle out slowly, still talking about the ending.")
+          line("RHONDA", "You know. As a bit.")
         ],
-        effects: { friendship: { rhonda: 1 } }
+        effects: { friendship: { rhonda: 1 }, memories: ["rhonda_hat_laugh"], flags: { rhonda_told_hat_story: true } }
       },
       {
-        text: "She timed it beautifully.",
+        text: "Timing the hat must have been tricky.",
         outcome: [
           p("Rhonda looks pleased."),
           line("RHONDA", "Yes. Exactly. Half a second earlier and it’s nothing. Half a second later and the audience has already guessed."),
-          line("RHONDA", "There. That pause before she turns around? That’s the whole joke."),
-          p("After the film, people shuffle out slowly, still talking about the ending."),
-          p("Rhonda remains seated for a moment."),
-          line("PLAYER", "You liked that one."),
-          line("RHONDA", "I did."),
-          p("She folds her hands in her lap."),
-          line("RHONDA", "Comedy is harder than drama. People think it’s lighter because they’re not paying attention.")
+          line("RHONDA", "There. That pause before she turns around? That’s the whole joke.")
         ],
-        effects: { friendship: { rhonda: 2 } }
+        effects: { friendship: { rhonda: 2 }, memories: ["rhonda_hat_laugh"], flags: { rhonda_told_hat_story: true } }
       },
       {
-        text: "Did you do much comedy?",
+        text: "You still remember the laugh.",
         outcome: [
-          p("Rhonda smiles."),
-          line("RHONDA", "A little. Comedy clubs, tiny theatres, improv places. Rooms where half the audience is usually performing later the same night."),
-          p("She looks at the blank screen."),
-          line("RHONDA", "There was one little part I loved. I played this ridiculous woman. Came on in the second act, insulted a priest, lost her hat, left again."),
-          line("PLAYER", "Sounds memorable."),
-          line("RHONDA", "It wasn’t. Not really."),
-          p("Beat."),
-          line("RHONDA", "But every night, when the hat went, the room lost it."),
-          p("She says it softly."),
-          line("RHONDA", "That was lovely.")
+          p("Rhonda looks at the blank screen."),
+          line("RHONDA", "Of course I do."),
+          p("She folds her hands in her lap."),
+          line("RHONDA", "Applause is nice. A laugh like that stays in the bones.")
         ],
         effects: { friendship: { rhonda: 2 }, memories: ["rhonda_hat_laugh"], flags: { rhonda_told_hat_story: true } }
       },
@@ -643,9 +643,9 @@ export const SCENES = {
         text: "I didn’t think you’d like slapstick.",
         outcome: [
           line("RHONDA", "Darling, I have been married twice. I understand slapstick."),
-          p("She turns back to the screen, still smiling.")
+          p("She turns back to the blank screen, still smiling.")
         ],
-        effects: { friendship: { rhonda: 1 } }
+        effects: { friendship: { rhonda: 1 }, memories: ["rhonda_hat_laugh"], flags: { rhonda_told_hat_story: true } }
       }
     ]
   },
@@ -710,7 +710,7 @@ export const SCENES = {
           line("RHONDA", "This one. Awful play. Terrible reviews. We performed for twenty-seven people and a damp patch on the ceiling."),
           p("She smiles despite herself."),
           line("RHONDA", "Best laugh I ever got."),
-          p("A long pause."),
+          p("She looks at the programme."),
           line("RHONDA", "Isn’t that annoying?")
         ],
         effects: { friendship: { rhonda: 2 }, memories: ["rhonda_miss_performing"] }
@@ -781,7 +781,7 @@ export const SCENES = {
       line("RHONDA", "You’re reading."),
       line("BOB", "Reading what?"),
       line("RHONDA", "Don’t worry. It will be short."),
-      p("A pause."),
+      p("Bob relaxes half an inch."),
       line("RHONDA", "But moving."),
       p("Bob turns red."),
       p("Pablo arrives carrying a tray of biscuits."),
@@ -855,7 +855,7 @@ export const SCENES = {
           p("Later, when people drift out, Rhonda remains in the hall, rearranging chairs that do not need rearranging."),
           line("PLAYER", "You all right?"),
           line("RHONDA", "Never ask an actress that. We’re trained to lie."),
-          p("Beat."),
+          p("She looks at the little stage."),
           line("RHONDA", "No."),
           p("She looks at the little stage."),
           line("RHONDA", "It’s smaller than I remembered."),
@@ -953,7 +953,7 @@ export const SCENES = {
         text: "Wish Rhonda luck.",
         outcome: [
           line("RHONDA", "Luck is for amateurs."),
-          p("A beat."),
+          p("She looks down at her hands."),
           line("RHONDA", "Thank you." )
         ],
         effects: { friendship: { rhonda: 1 } }
@@ -1006,6 +1006,21 @@ export const SCENES = {
           line("RHONDA", "The hat."),
           p("She presses the script to her chest."),
           line("RHONDA", "They roared about that hat.")
+        ],
+        effects: { friendship: { rhonda: 3 }, flags: { rhonda_night_before_success: true } }
+      },
+      {
+        text: "You said you didn’t miss performing the way people think.",
+        requiresMemory: "rhonda_miss_performing",
+        outcome: [
+          p("Rhonda looks down at the script."),
+          line("PLAYER", "You said the best laugh you ever got was in a tiny theatre."),
+          line("PLAYER", "Maybe you don’t miss the spotlight."),
+          line("PLAYER", "Maybe you miss the room laughing with you."),
+          p("Rhonda presses the script against her chest."),
+          line("RHONDA", "I said that, did I?"),
+          p("She looks out over the empty chairs."),
+          line("RHONDA", "How inconvenient of you to listen.")
         ],
         effects: { friendship: { rhonda: 3 }, flags: { rhonda_night_before_success: true } }
       }

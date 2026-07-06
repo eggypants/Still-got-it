@@ -10,7 +10,6 @@ A flat-file GitHub Pages prototype for **Still Got It**, now rebuilt as a friend
 - Uses a real noticeboard/activity loop.
 - Hides friendship numbers from the player.
 - Includes Journal, Residents, Settings tabs.
-
 - Lets the player stay in their apartment and miss things.
 - Includes Rhonda's concert success/failure arc.
 - Includes small Pablo/Miranda background moments.

@@ -42,7 +42,11 @@ export function resolveScene(state, sceneId) {
   const scene = SCENES[sceneId];
   if (!scene) return null;
 
-  return filterSceneChoices(state, scene);
+  const sceneForVisit = state.seenScenes.includes(sceneId) && scene.repeatContent
+    ? { ...scene, content: scene.repeatContent }
+    : scene;
+
+  return filterSceneChoices(state, sceneForVisit);
 }
 
 function filterSceneChoices(state, scene) {
@@ -68,7 +72,7 @@ function buildOpeningNightScene(state) {
         p("Pablo serves food at intermission and pretends not to enjoy the praise."),
         p("Bob reads his poem too quickly, then starts again. Slower this time. People listen."),
         p("Then Rhonda steps onto the stage."),
-        p("There is a pause."),
+        p("The room waits."),
         p("For half a second, you think she might retreat."),
         p("Then someone coughs."),
         p("Rhonda looks out at the audience."),
@@ -76,9 +80,8 @@ function buildOpeningNightScene(state) {
         p("The room laughs."),
         p("Not politely. Properly."),
         p("Rhonda hears it."),
-        p("Something in her settles."),
         p("She performs."),
-        p("Not perfectly. Better than that."),
+        p("She is alive up there."),
         p("Afterwards, people crowd around her."),
         line("AL", "You were marvellous."),
         line("PABLO", "Next time, dinner and show."),
@@ -157,7 +160,7 @@ function buildOpeningNightScene(state) {
             p("Rhonda looks toward the hall."),
             p("Someone inside laughs at Al."),
             line("RHONDA", "Don’t be. They’re having a lovely time."),
-            p("A beat."),
+            p("She looks back at you."),
             line("RHONDA", "That’s something, isn’t it?"),
             p("The next time you visit her apartment, the feather boa is gone."),
             p("So are the old programmes.")
@@ -307,6 +310,7 @@ export function getResidentNote(id, state) {
   if (id === "rhonda") {
     if (state.flags.rhonda_show_success) return "She has started saying ‘next time’ as if next time is already real.";
     if (state.flags.rhonda_show_failed) return "She still makes people laugh, but the old programmes have disappeared.";
+    if (state.flags.rhonda_pushed_too_hard && score >= 2) return "She has not forgotten what you said at rehearsal. She has decided it was possibly, irritatingly, fair.";
     if (score >= 5) return "She saves you a seat and pretends it is an accident.";
     if (score >= 2) return "She has decided not to take your ignorance to heart.";
   }
@@ -334,34 +338,34 @@ export function buildEnding(state) {
   const lines = [];
 
   if (state.flags.rhonda_show_success) {
-    lines.push("Rhonda performed at the Autumn Concert. Afterwards she started talking about next time with a grin that made people nervous in the best way.");
+    lines.push("Rhonda performed at the Autumn Concert. She has already said 'next time' twice, to people who didn't ask.");
   } else if (state.flags.rhonda_show_failed) {
-    lines.push("The concert went ahead, but Rhonda did not perform. People still laughed. The feather boa vanished from her room afterwards.");
+    lines.push("The concert went ahead without Rhonda. People still laughed. The feather boa has not been seen since.");
   } else if (state.flags.attended_concert_uninvolved) {
-    lines.push("You watched the Autumn Concert from the audience like everyone else. Rhonda was good. People said so all week.");
+    lines.push("You watched the Autumn Concert from the third row, between people who all seemed to know each other.");
   } else if (state.flags.missed_concert) {
-    lines.push("The Autumn Concert happened down the hall. You heard applause through the door, and later people told stories you had not seen for yourself.");
+    lines.push("The Autumn Concert happened down the hall. You heard the applause through the door. People are still telling the stories. You nod along.");
   } else {
     lines.push("The week ended quietly. The village kept moving, whether or not you moved with it.");
   }
 
   if (state.flags.saw_pablo_miranda_corner_table || (state.flags.saw_pablo_miranda_tea && state.flags.saw_pablo_miranda_seedlings)) {
-    lines.push("Pablo and Miranda kept finding themselves at the same tables, in the same gardens, with the same excuses. Nobody called it anything. Yet.");
+    lines.push("Pablo and Miranda keep ending up at the same tables with the same excuses. Nobody has said anything. Everybody has noticed.");
   } else if (state.flags.saw_pablo_miranda_tea || state.flags.saw_pablo_miranda_seedlings) {
-    lines.push("You noticed Pablo and Miranda orbiting each other once or twice. Maybe something was there. Maybe you missed the rest.");
+    lines.push("You caught Pablo and Miranda orbiting each other once or twice. Whatever it was, it carried on without you.");
   } else {
-    lines.push("Other stories happened in corners you did not visit. That is how places work.");
+    lines.push("Other things happened in corners you did not visit.");
   }
 
   if (closest && closest[1] >= 5) {
-    lines.push(`By the end of the week, ${closestName} had become your closest friend here. Not officially. There are no forms for that. But you knew.`);
+    lines.push(`By the end of the week, ${closestName} had started saving you a seat.`);
   } else if (closest && closest[1] >= 2) {
-    lines.push(`You were beginning to know ${closestName}. Not deeply yet, but enough to feel the shape of a friendship starting.`);
+    lines.push(`You were beginning to know ${closestName}. Enough to be missed if you skipped a morning.`);
   } else {
     lines.push("You kept mostly to yourself. Nothing terrible happened. The kettle worked. The days passed.");
   }
 
-  lines.push("Sunset Pines was not a place where life stopped. It was a place where life kept offering invitations. The only question was whether you opened the door.");
+  lines.push("On Monday, there will be new notices on the board.");
 
   return {
     closestName,

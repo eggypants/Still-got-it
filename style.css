@@ -148,8 +148,16 @@ button:active {
 
 .stage {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
   gap: 16px;
+}
+
+.stage > .art-panel {
+  grid-column: 1;
+}
+
+.stage > .panel {
+  grid-column: 2;
 }
 
 .art-panel {
@@ -295,6 +303,16 @@ button:active {
   margin: 0;
 }
 
+.scene-text .line-action {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 0.97em;
+}
+
+.scene-text .line-dialogue {
+  color: var(--ink);
+}
+
 .speaker {
   font-weight: 900;
   letter-spacing: 0.035em;
@@ -388,8 +406,18 @@ button:active {
     grid-template-columns: 1fr;
   }
 
+  .stage > .panel {
+    grid-column: auto;
+    order: 1;
+  }
+
+  .stage > .art-panel {
+    grid-column: auto;
+    order: 2;
+  }
+
   .art-panel {
-    min-height: 225px;
+    min-height: 120px;
   }
 
   .tabs {

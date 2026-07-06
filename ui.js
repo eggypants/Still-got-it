@@ -15,15 +15,18 @@ export function render(app, state, actions) {
 
   if (state.view === "setup") {
     app.appendChild(renderSetup(state, actions));
+    focusMainHeading(app);
     return;
   }
 
   if (state.view === "ending") {
     app.appendChild(renderEnding(state, actions));
+    focusMainHeading(app);
     return;
   }
 
   app.appendChild(renderGameShell(state, actions));
+  focusMainHeading(app);
 }
 
 function renderSetup(state, actions) {
@@ -64,7 +67,7 @@ function renderSetup(state, actions) {
 
   inner.appendChild(form);
 
-  const note = el("p", "small muted", "Tip: this version is a one-week proof route. It is deliberately small so the life-sim loop can be tested before the writing beast gets fed.");
+  const note = el("p", "small muted", "This version covers your first week at Sunset Pines.");
   inner.appendChild(note);
 
   screen.appendChild(card);
@@ -149,11 +152,13 @@ function renderArtPanel(state) {
 
   if (state.view === "scene") {
     const scene = substituteScene(resolveScene(state, state.activeSceneId), state);
-    kicker = scene.location || "Scene";
-    title = scene.art || scene.title;
+    const current = getCurrentDate(state);
+    kicker = `${current.weekday} ${current.slot}`;
+    title = scene.location || "Scene";
   } else if (state.view === "outcome" && state.pendingOutcome) {
-    kicker = state.pendingOutcome.location || "Scene";
-    title = state.pendingOutcome.art || state.pendingOutcome.title;
+    const current = getCurrentDate(state);
+    kicker = `${current.weekday} ${current.slot}`;
+    title = state.pendingOutcome.location || "Scene";
   } else if (state.activeTab === "journal") {
     kicker = "Journal";
     title = "Things you noticed";
@@ -233,6 +238,7 @@ function renderSceneText(content) {
   const box = el("div", "scene-text");
   for (const block of content || []) {
     const p = document.createElement("p");
+    p.className = block.speaker ? "line-dialogue" : "line-action";
     if (block.speaker) {
       const speaker = el("span", "speaker", block.speaker);
       p.appendChild(speaker);
@@ -337,6 +343,13 @@ function renderEnding(state, actions) {
 
   screen.appendChild(card);
   return screen;
+}
+
+function focusMainHeading(app) {
+  const heading = app.querySelector(".scene-card h2, .noticeboard h2, .panel h2, .setup h1, section.card h2, main h1, main h2");
+  if (!heading) return;
+  heading.setAttribute("tabindex", "-1");
+  heading.focus({ preventScroll: true });
 }
 
 function el(tag, className, text) {

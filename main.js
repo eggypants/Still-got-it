@@ -32,12 +32,14 @@ const actions = {
   beginActivity(activityId) {
     beginActivity(state, activityId);
     update();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   chooseSceneOption(index) {
     chooseSceneOption(state, index);
     persistGame(state);
     update();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   continueAfterOutcome() {
