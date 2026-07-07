@@ -1,5 +1,7 @@
 // Village-wide recurring scenes and apartment scenes. No character arcs live here.
 // The apartment week-variants ARE the player arc. Keep them plain. Never narrate growth.
+// generic_walking floats by friendship: whoever you are closest to (Bob, Miranda,
+// or Jean) walks with you. It is a soft, recurring relationship check-in, not an arc beat.
 export const GENERIC_SCENES = {
   "generic_walking": {
     "title": "Walking group",
@@ -7,18 +9,215 @@ export const GENERIC_SCENES = {
     "art": "Reception",
     "content": [
       {
-        "text": "You join the walking group for a slow loop around the block. Someone points out a jacaranda. Someone else says the council should fix the footpath. By the time you return, you know three new names and one strong opinion about bins."
+        "text": "The walking group gathers by reception in hats chosen for several conflicting forecasts."
+      },
+      {
+        "text": "Somebody with a clipboard proposes the short loop. Somebody else asks whether the shady side counts. Nobody rules on it."
+      },
+      {
+        "text": "The group sets off at a pace that leaves room for two walking frames, one stick, and a full account of last night’s rain."
+      },
+      {
+        "text": "It is pleasant enough. You walk near the back and let the conversation happen without you."
       }
     ],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Enjoy the walk.",
         "outcome": [
           {
-            "text": "The time passes more quickly than you expected."
+            "text": "You do a slow lap of the block. By the end, three people know your name and one has forgotten it again."
+          },
+          {
+            "text": "The jacarandas are, as promised, worth it."
           }
         ],
         "effects": {}
+      }
+    ],
+    "variants": [
+      {
+        "when": {
+          "minFriendship": {
+            "bob": 3
+          }
+        },
+        "content": [
+          {
+            "text": "The group is assembling by reception. Bob is already there, doing a slow circuit of the flat ground while he waits, the way a man does when sitting still is the harder option."
+          },
+          {
+            "text": "He falls into step with you without discussion. He sets a steady pace and holds it."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Did this route every morning for forty years. Different block. Same idea."
+          },
+          {
+            "text": "At the corner, he nods at a front garden gone to seed."
+          },
+          {
+            "speaker": "BOB",
+            "text": "June would’ve had that fixed by Tuesday. Not a criticism. Just true."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Keep pace with him.",
+            "outcome": [
+              {
+                "text": "You walk the loop at Bob’s pace, which is unhurried and exact. He does not fill the quiet, and neither do you."
+              },
+              {
+                "text": "When you get back he says the walk was good company. From Bob, that is a paragraph."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 1
+              }
+            }
+          },
+          {
+            "text": "“Forty years is a lot of mornings.”",
+            "outcome": [
+              {
+                "speaker": "BOB",
+                "text": "You do a thing because it holds the day together. Then one day the day holds itself, and you keep doing it anyway."
+              },
+              {
+                "text": "He walks a few steps."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Habit’s not the worst company a man’s had."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "when": {
+          "minFriendship": {
+            "miranda": 3
+          }
+        },
+        "content": [
+          {
+            "text": "Miranda is at the front of the group, having somehow become responsible for the route without volunteering."
+          },
+          {
+            "text": "She walks briskly and expects the pavement to keep up. You match her stride."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "The clipboard person means well. But if you let a committee choose a route you end up walking to a vote, not a destination."
+          },
+          {
+            "text": "She steers the group around a puddle nobody else had noticed yet."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Let her set the pace.",
+            "outcome": [
+              {
+                "text": "Miranda sets a good pace and a better line, and the whole group is quietly grateful without quite knowing why."
+              },
+              {
+                "speaker": "MIRANDA",
+                "text": "You keep up. That is not nothing. Most people dawdle and call it enjoying themselves."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "miranda": 1
+              }
+            }
+          },
+          {
+            "text": "“You could just let someone else lead.”",
+            "outcome": [
+              {
+                "text": "Miranda considers this as though you have suggested she stop breathing to save air."
+              },
+              {
+                "speaker": "MIRANDA",
+                "text": "I could."
+              },
+              {
+                "text": "She does not. But at the next corner she asks the group which way, and looks faintly surprised when the answer is reasonable."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "miranda": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "when": {
+          "minFriendship": {
+            "jean": 3
+          }
+        },
+        "content": [
+          {
+            "text": "Jean is holding court at the back of the group, which means the back of the group is now the front of the conversation."
+          },
+          {
+            "text": "She waves you over and picks up a thread as though you had always been in it."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "— so I told the council, if you’re going to widen the road you can explain to the possums. Anyway. Walk with me, I’m being outvoted on the route."
+          },
+          {
+            "text": "The group takes the long way. Jean considers this a victory."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Take the long way with her.",
+            "outcome": [
+              {
+                "text": "The long way passes the fig tree, the community garden, and three houses Jean has opinions about."
+              },
+              {
+                "text": "It takes twice as long and you arrive back in a better mood than the short loop would have allowed."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "jean": 1
+              }
+            }
+          },
+          {
+            "text": "Ask what she’s campaigning about this week.",
+            "outcome": [
+              {
+                "speaker": "JEAN",
+                "text": "This week? Nothing. Which is suspicious. When I’ve nothing to fight I start reorganising the library by mood, and nobody wants that."
+              },
+              {
+                "text": "She laughs, then goes quiet for half a block, as though the joke had a true thing in it she hadn’t meant to say."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "jean": 1
+              }
+            }
+          }
+        ]
       }
     ]
   },
@@ -72,7 +271,10 @@ export const GENERIC_SCENES = {
     "variants": [
       {
         "when": {
-          "weeks": [2, 3],
+          "weeks": [
+            2,
+            3
+          ],
           "minFriendship": {
             "pablo": 2
           },
@@ -481,7 +683,10 @@ export const GENERIC_SCENES = {
     "variants": [
       {
         "when": {
-          "weeks": [3, 4],
+          "weeks": [
+            3,
+            4
+          ],
           "minFriendship": {
             "rhonda": 2
           },
@@ -579,7 +784,11 @@ export const GENERIC_SCENES = {
     "variants": [
       {
         "when": {
-          "weeks": [2, 3, 4],
+          "weeks": [
+            2,
+            3,
+            4
+          ],
           "minFriendship": {
             "rhonda": 3
           },

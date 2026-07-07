@@ -1,5 +1,5 @@
 // Jean — arc owner file. Belief: 'The next cause matters more than my own happiness.'
-// Crossroads: save the fig tree (week 3). TODO: concert consequence — see WRITING-KITS.md
+// Crossroads: save the fig tree (week 3).
 export const JEAN_SCENES = {
   "generic_library_jean": {
     "title": "Library hour",
@@ -26,6 +26,89 @@ export const JEAN_SCENES = {
       }
     ],
     "variants": [
+      {
+        "when": {
+          "flag": "jean_deflected_festival",
+          "notFlag": "jean_festival_seen",
+          "minFriendship": {
+            "jean": 2
+          }
+        },
+        "content": [
+          {
+            "text": "Jean is at the desk with the shoebox at her elbow, lid on this time. She gives you a nod that is polite and not much more."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Back again. There is a returns trolley if you are at a loose end."
+          },
+          {
+            "text": "The photograph with the yellow scarf is just visible under the lid, where it did not quite close."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Ask about the tambourine player.",
+            "outcome": [
+              {
+                "text": "Jean looks up properly for the first time."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "Oh. I thought that was all hippie nonsense to you."
+              },
+              {
+                "text": "She holds the look a moment. Then something in it gives, and she laughs and reaches for the lid."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "Come on, then."
+              },
+              {
+                "text": "She lifts out the photograph and holds it by the corners: herself, young, barefoot in dry grass, a dove painted on the van behind her."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "Three hot days in 1971. He had lovely hair and no rhythm, and I have never been happier before or since. Make of that what you will."
+              },
+              {
+                "text": "She slides out a second photo without being asked: herself, pregnant, laughing at a long-haired man who is laughing back."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "Rae still tells me off for not keeping the outfits."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "jean": 2
+              },
+              "memories": [
+                "jean_festival_days"
+              ],
+              "flags": {
+                "jean_festival_seen": true
+              }
+            }
+          },
+          {
+            "text": "Offer to help with the returns.",
+            "outcome": [
+              {
+                "text": "You wheel the trolley along the aisles while Jean reads out titles."
+              },
+              {
+                "text": "It is companionable enough. The shoebox stays shut, and you get the sense that is your doing, not hers."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "jean": 1
+              }
+            }
+          }
+        ]
+      },
       {
         "when": {
           "minFriendship": {
@@ -67,7 +150,11 @@ export const JEAN_SCENES = {
                 "text": "She sets the photograph back in the box, but she doesn't put the lid on."
               }
             ],
-            "effects": {}
+            "effects": {
+              "flags": {
+                "jean_deflected_festival": true
+              }
+            }
           },
           {
             "text": "Ask about the tambourine player.",
@@ -506,5 +593,4 @@ export const JEAN_SCENES = {
       }
     ]
   }
-
 };

@@ -9,7 +9,7 @@ export const TIME_SLOTS = ["Morning", "Afternoon", "Evening"];
 
 const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-export const DAYS = Array.from({ length: 28 }, (_, i) => ({
+export const DAYS = Array.from({ length: 21 }, (_, i) => ({
   week: Math.floor(i / 7) + 1,
   weekday: WEEKDAYS[i % 7]
 }));
@@ -173,49 +173,24 @@ export const WEEKLY_TEMPLATE = {
 // ---------------------------------------------------------------------------
 
 export const SPECIALS = {
-  // ---- Week 1: arrival ----
-  "0-0": {
-    items: [
-      { id: "sp-first-meeting", replaces: "tpl-lounge-am", title: "Coffee in the lounge", location: "Community Lounge", note: "Voices near the window. Laughter, on and off.", sceneId: "rhonda_first_meeting" }
-    ]
-  },
-  "1-0": {
-    items: [
-      { id: "sp-pm-tea", replaces: "tpl-cafe-am", title: "Morning tea", location: "Village Café", note: "Fresh scones. At least three people have opinions.", sceneId: "pablo_miranda_tea" }
-    ]
-  },
-  "1-1": {
-    items: [
-      { id: "sp-rhonda-pottery", replaces: "tpl-pottery", title: "Pottery", location: "Craft Room", note: "Beginners welcome. The clay has no respect for anyone.", sceneId: "rhonda_pottery" }
-    ]
-  },
-  "1-2": {
-    items: [
-      { id: "sp-old-box", replaces: "tpl-lounge-pm", title: "Lounge after dinner", location: "Community Lounge", note: "Old programmes, old photos, and one box with an ominous label.", sceneId: "rhonda_old_box" }
-    ]
-  },
-
-  // ---- Week 2: deepening ----
   "8-2": {
     items: [
       { id: "sp-jean-al-1", replaces: "tpl-writing", title: "Writing circle", location: "Library", note: "Notebooks, pens, and biscuits.", sceneId: "jean_al_heckle_1" }
     ]
   },
-  "9-0": {
+  "11-2": {
     items: [
-      { id: "sp-seedlings", replaces: "tpl-garden-am", title: "Seedlings in the garden", location: "Gardens", note: "Three crates need moving. The seedlings are judging everyone.", sceneId: "pablo_miranda_seedlings" }
+      { id: "sp-jean-al-2", replaces: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "A request list sits on the low table.", sceneId: "jean_al_heckle_2" }
     ]
   },
-  "9-2": {
+  "13-2": {
     items: [
-      { id: "sp-movie-hat", replaces: "tpl-movie", title: "Movie night", location: "Cinema Room", note: "Black-and-white comedy. The good seats go early.", sceneId: "rhonda_movie_night" }
+      { id: "sp-jean-al-3", replaces: "tpl-gossip", title: "Folded chairs", location: "Hall", note: "Folding chairs, loose cables, and a water jug.", sceneId: "jean_al_heckle_3" }
     ]
   },
-
-  // ---- Week 3: crossroads ----
   "14-1": {
     items: [
-      { id: "sp-concert-notice", title: "Autumn concert notice", location: "Noticeboard", note: "A fresh notice has appeared overnight, pinned crookedly over everything else.", sceneId: "rhonda_concert_notice" }
+      { id: "sp-reunion", title: "Veterans’ reunion", location: "Reception", note: "A bus leaves at two. Pressed shirts optional but likely.", sceneId: "bob_reunion" }
     ]
   },
   "15-1": {
@@ -223,128 +198,64 @@ export const SPECIALS = {
       { id: "sp-garden-comp", replaces: "tpl-garden-pm", title: "Garden competition — judging day", location: "Gardens", note: "Regional judges arrive at two. The paths have never been this swept.", sceneId: "miranda_competition" }
     ]
   },
-  "16-0": {
-    items: [
-      { id: "sp-recruitment", replaces: "tpl-lounge-am", title: "Concert planning", location: "Community Lounge", note: "A clipboard has appeared. This appears to be serious.", sceneId: "rhonda_recruitment" }
-    ]
-  },
-  "16-2": {
-    items: [
-      { id: "sp-jean-al-2", replaces: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "A request list sits on the low table.", sceneId: "jean_al_heckle_2" }
-    ]
-  },
-  "17-1": {
-    items: [
-      { id: "sp-figtree", replaces: "tpl-garden-pm", title: "Fig tree campaign meeting", location: "Gardens", note: "A council notice is tied to the old fig tree with orange tape.", sceneId: "jean_figtree" }
-    ]
-  },
-  "17-2": {
-    items: [
-      { id: "sp-corner-table", replaces: "tpl-supper", title: "Café supper", location: "Village Café", note: "A corner table has two cups of tea and no official explanation.", sceneId: "pablo_miranda_corner_table" }
-    ]
-  },
-  "18-1": {
-    items: [
-      { id: "sp-rehearsal", replaces: "tpl-pottery", title: "First rehearsal", location: "Hall", note: "The hall is busy. Not organised. Busy.", sceneId: "rhonda_rehearsal" }
-    ]
-  },
-  "18-2": {
-    items: [
-      { id: "sp-rhonda-bob-1", title: "Reading practice", location: "Hall", note: "A lectern sits in a quiet corner.", sceneId: "rhonda_bob_coaching_1" }
-    ]
-  },
-  "20-1": {
-    items: [
-      { id: "sp-reunion", title: "Veterans’ reunion", location: "Reception", note: "A bus leaves at two. Pressed shirts optional but likely.", sceneId: "bob_reunion" }
-    ]
-  },
-
-  "19-2": {
-    items: [
-      { id: "sp-dance-night", replaces: "tpl-cards", title: "Dance night", location: "Hall", note: "The good speakers are out. Someone has taped a request list to the wall.", sceneId: "al_dance" }
-    ]
-  },
-  "20-2": {
+  "15-2": {
     items: [
       { id: "sp-harvest-feast", replaces: "tpl-supper", title: "Harvest feast", location: "Village Café", note: "The tables are pushed together. Whatever is in those ovens, there is a lot of it.", sceneId: "pablo_feast" }
     ]
   },
-
-  // ---- Week 4: consequences and the concert ----
-  "21-1": {
+  "16-0": {
     items: [
-      { id: "sp-jean-al-3", replaces: "tpl-gossip", title: "Folded chairs", location: "Hall", note: "Folding chairs, loose cables, and a water jug.", sceneId: "jean_al_heckle_3" }
+      { id: "sp-rhonda-bob-1", title: "Reading practice", location: "Hall", note: "A lectern sits in a quiet corner.", sceneId: "rhonda_bob_coaching_1" }
     ]
   },
-  "22-0": {
+  "16-1": {
+    items: [
+      { id: "sp-figtree", replaces: "tpl-garden-pm", title: "Fig tree campaign meeting", location: "Gardens", note: "A council notice is tied to the old fig tree with orange tape.", sceneId: "jean_figtree" }
+    ]
+  },
+  "16-2": {
     items: [
       { id: "sp-pablo-miranda-gift", replaces: "tpl-cafe-am", title: "Morning tea", location: "Village Café", note: "A small parcel waits by the counter.", sceneId: "pablo_miranda_gift" }
     ]
   },
-  "22-1": {
+  "17-1": {
+    items: [
+      { id: "sp-rehearsal", replaces: "tpl-pottery", title: "First rehearsal", location: "Hall", note: "The hall is busy. Not organised. Busy.", sceneId: "rhonda_rehearsal" }
+    ]
+  },
+  "17-2": {
+    items: [
+      { id: "sp-dance-night", replaces: "tpl-cards", title: "Dance night", location: "Hall", note: "The good speakers are out. Someone has taped a request list to the wall.", sceneId: "al_dance" }
+    ]
+  },
+  "18-1": {
     items: [
       { id: "sp-rhonda-bob-2", replaces: "tpl-pottery", title: "Quiet rehearsal", location: "Hall", note: "A lectern faces the back wall.", sceneId: "rhonda_bob_coaching_2" }
     ]
   },
-
-  "21-2": {
-    items: [
-      { id: "sp-al-dance-consequence", replaces: "tpl-cards", title: "The song list", location: "Hall", note: "A song list sits beside the score pad.", sceneId: "al_dance_consequence" }
-    ]
-  },
-  "22-2": {
-    items: [
-      { id: "sp-jean-figtree-consequence", replaces: "tpl-writing", title: "Library reading", location: "Library", note: "A returned novel, blank envelopes, and a sharpened pencil.", sceneId: "jean_figtree_consequence" }
-    ]
-  },
-  "23-0": {
-    items: [
-      { id: "sp-miranda-competition-consequence", replaces: "tpl-garden-am", title: "Garden volunteers", location: "Gardens", note: "Plant labels, spare gloves, and a swept path.", sceneId: "miranda_competition_consequence" }
-    ]
-  },
-  "23-1": {
-    items: [
-      { id: "sp-bob-reunion-consequence", replaces: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "A coat hanger, a paper bag, and one repaired hinge.", sceneId: "bob_reunion_consequence" }
-    ]
-  },
-  "24-2": {
-    items: [
-      { id: "sp-pablo-feast-consequence", replaces: "tpl-supper", title: "Café supper", location: "Village Café", note: "Soup, plates, and a chair pulled out from the table.", sceneId: "pablo_feast_consequence" }
-    ]
-  },
-  "25-1": {
-    items: [
-      { id: "sp-second-rehearsal", replaces: "tpl-pottery", title: "Rehearsal", location: "Hall", note: "Chairs, cables, one microphone, and more opinions than required.", sceneId: "rhonda_final_rehearsal" }
-    ]
-  },
-  "26-0": {
-    items: [
-      { id: "sp-before-show-lounge", title: "Coffee in the lounge", location: "Community Lounge", note: "Coffee, chatter, and someone watching the hallway clock.", sceneId: "rhonda_lounge_before_show" }
-    ]
-  },
-  "26-1": {
+  "19-1": {
     items: [
       { id: "sp-final-rehearsal", replaces: "tpl-library", title: "Final rehearsal", location: "Hall", note: "Chairs, cables, one microphone, and more opinions than required.", sceneId: "rhonda_final_rehearsal" }
     ]
   },
-  "26-2": {
+  "19-2": {
     items: [
       { id: "sp-night-before", replaces: "tpl-lounge-pm", title: "The night before", location: "Hall", note: "The hall is empty. The chairs face the stage.", sceneId: "rhonda_night_before" }
     ]
   },
-  "27-0": {
+  "20-0": {
     items: [
       { id: "sp-pre-show-breakfast", replaces: "tpl-cafe-am", title: "Breakfast", location: "Village Café", note: "The concert is tonight. Everyone has an opinion.", sceneId: "generic_pre_show_breakfast" }
     ]
   },
-  "27-1": {
+  "20-1": {
     exclusive: true,
     items: [
       { id: "sp-hall-setup", title: "Help set up the hall", location: "Hall", note: "Food tables, folding chairs, and a stage waiting for the evening.", sceneId: "generic_hall_setup" },
       { id: "sp-pre-show-rest", title: "Rest before the concert", location: "Your Apartment", note: "A quiet afternoon. You can hear chairs being moved in the hall.", sceneId: "apartment_pre_show" }
     ]
   },
-  "27-2": {
+  "20-2": {
     exclusive: true,
     items: [
       { id: "sp-concert", title: "Autumn concert", location: "Hall", note: "The chairs are out. The lights are on. People are arriving.", sceneId: "rhonda_opening_night" },

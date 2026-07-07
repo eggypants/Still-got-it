@@ -283,7 +283,7 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
     "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings", "rhonda_pushed_too_hard",
     "rhonda_night_before_success", "rhonda_night_before_failed", "rhonda_recruitment_seen",
     "miranda_delegated", "miranda_did_it_alone", "pablo_cooked_carmens", "pablo_substituted",
-    "jean_let_go", "jean_carried_it_alone", "al_dropped_the_act", "al_kept_the_act",
+    "jean_let_go", "jean_carried_it_alone", "jean_deflected_festival", "al_dropped_the_act", "al_kept_the_act",
     "concert_started", "rhonda_rehearsal_seen"
   ]) readFlags.add(flag);
 
@@ -343,6 +343,34 @@ function playRun(name, pickFn, assertions) {
 
 const byScene = (items, sceneId) => items.find(item => item.sceneId === sceneId);
 const apartment = items => items.find(item => item.location === "Your Apartment");
+const byLoc = (items, location) => items.find(item => item.location === location);
+
+// Floating-scene aware crossroads navigator. Under the story-queue system the
+// memory scene surfaces by LOCATION, not by a fixed sceneId, so tests must
+// visit the place and take whatever scene is served — picking the memory
+// choice when it appears. Params: the character's location, their crossroads
+// sceneId, the memory id, and the friendship floor the crossroads variant needs.
+function crossroadsNav(location, crossroadsSceneId, memoryId, minFr) {
+  return (state, items) => {
+    const cross = byScene(items, crossroadsSceneId);
+    const haveMem = state.memories.includes(memoryId);
+    // Once the crossroads is on the board and we have the memory + closeness, take it.
+    if (cross && haveMem) return { ...cross, chooseIndex: 0 };
+    // Otherwise keep visiting the character's location to build friendship and
+    // collect the memory when the reveal beat surfaces.
+    const here = byLoc(items, location);
+    if (here) {
+      const scene = engine.resolveScene(state, here.sceneId);
+      const idx = scene?.choices?.findIndex(c => c.effects?.memories?.includes(memoryId));
+      if (idx !== undefined && idx >= 0) return { ...here, chooseIndex: idx };
+      return here;
+    }
+    if (cross) return { ...cross, chooseIndex: 0 };
+    const concert = byScene(items, "rhonda_opening_night");
+    if (concert) return concert;
+    return apartment(items);
+  };
+}
 
 // Run A: hermit. Stay home for 28 days.
 playRun("hermit run", (state, items) => apartment(items), (state, ending) => {
@@ -398,83 +426,35 @@ playRun("bob crossroads", (state, items) => {
 
 // Run E: Miranda Crossroads. Garden until the tablecloth appears, take the
 // pressure point with the memory choice, attend the concert cold.
-playRun("miranda crossroads", (state, items) => {
-  const comp = byScene(items, "miranda_competition");
-  if (comp) return { ...comp, chooseIndex: 0 };
-  const garden = byScene(items, "generic_garden_miranda");
-  if (garden) return garden;
-  const concert = byScene(items, "rhonda_opening_night");
-  if (concert) return concert;
-  return apartment(items);
-}, (state, ending) => {
-  if (!state.memories.includes("miranda_good_tablecloth")) throw new Error("tablecloth memory not collected");
+playRun("miranda crossroads", crossroadsNav("Gardens", "miranda_competition", "miranda_good_tablecloth", 5), (state, ending) => {
+  if (!state.memories.includes("miranda_good_tablecloth")) throw new Error("miranda_good_tablecloth not collected");
   if (!state.flags.miranda_delegated) throw new Error("miranda_delegated not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("jam"))) throw new Error("Miranda success ending line absent");
+  if (!ending.lines.some(l => l.includes("jam"))) throw new Error("miranda crossroads success ending line absent");
 });
 
 // Run F: Pablo Crossroads. Cafe until the recipe card appears, take the feast
 // pressure point with the memory choice, attend the concert cold.
-playRun("pablo crossroads", (state, items) => {
-  const feast = byScene(items, "pablo_feast");
-  if (feast) return { ...feast, chooseIndex: 0 };
-  const cafe = byScene(items, "generic_cafe_pablo");
-  if (cafe) return cafe;
-  const supper = byScene(items, "generic_cafe_supper");
-  if (supper) return supper;
-  const concert = byScene(items, "rhonda_opening_night");
-  if (concert) return concert;
-  return apartment(items);
-}, (state, ending) => {
-  if (!state.memories.includes("pablo_carmen_rice")) throw new Error("Carmen memory not collected");
+playRun("pablo crossroads", crossroadsNav("Village Café", "pablo_feast", "pablo_carmen_rice", 5), (state, ending) => {
+  if (!state.memories.includes("pablo_carmen_rice")) throw new Error("pablo_carmen_rice not collected");
   if (!state.flags.pablo_cooked_carmens) throw new Error("pablo_cooked_carmens not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("breakfast"))) throw new Error("Pablo success ending line absent");
+  if (!ending.lines.some(l => l.includes("breakfast"))) throw new Error("pablo crossroads success ending line absent");
 });
 
 
 // Run G: Jean Crossroads. Library until the festival photograph appears, take
 // the fig tree pressure point with the memory choice, attend the concert cold.
-playRun("jean crossroads", (state, items) => {
-  const figtree = byScene(items, "jean_figtree");
-  if (figtree) return { ...figtree, chooseIndex: 0 };
-  const library = byScene(items, "generic_library_jean");
-  if (library) {
-    const scene = engine.resolveScene(state, library.sceneId);
-    if (scene?.choices?.some(choice => choice.effects?.memories?.includes("jean_festival_days"))) {
-      const chooseIndex = scene.choices.findIndex(choice => choice.effects?.memories?.includes("jean_festival_days"));
-      return { ...library, chooseIndex };
-    }
-    return library;
-  }
-  const concert = byScene(items, "rhonda_opening_night");
-  if (concert) return concert;
-  return apartment(items);
-}, (state, ending) => {
-  if (!state.memories.includes("jean_festival_days")) throw new Error("festival memory not collected");
+playRun("jean crossroads", crossroadsNav("Library", "jean_figtree", "jean_festival_days", 5), (state, ending) => {
+  if (!state.memories.includes("jean_festival_days")) throw new Error("jean_festival_days not collected");
   if (!state.flags.jean_let_go) throw new Error("jean_let_go not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("Rae") && l.includes("tambourine player"))) throw new Error("Jean success ending line absent");
+  if (!ending.lines.some(l => l.includes("Rae") && l.includes("tambourine player"))) throw new Error("jean crossroads success ending line absent");
 });
 
 // Run: Al Crossroads. Cards until the memory appears, dance-night pressure point
 // with the memory choice, concert cold.
-playRun("al crossroads", (state, items) => {
-  const dance = byScene(items, "al_dance");
-  if (dance) return { ...dance, chooseIndex: 0 };
-  const cards = byScene(items, "generic_cards_al");
-  if (cards) {
-    const scene = engine.resolveScene(state, cards.sceneId);
-    if (scene?.choices?.some(choice => choice.effects?.memories?.includes("al_designated_driver"))) {
-      const chooseIndex = scene.choices.findIndex(choice => choice.effects?.memories?.includes("al_designated_driver"));
-      return { ...cards, chooseIndex };
-    }
-    return cards;
-  }
-  const concert = byScene(items, "rhonda_opening_night");
-  if (concert) return concert;
-  return apartment(items);
-}, (state, ending) => {
-  if (!state.memories.includes("al_designated_driver")) throw new Error("driver memory not collected");
+playRun("al crossroads", crossroadsNav("Community Lounge", "al_dance", "al_designated_driver", 5), (state, ending) => {
+  if (!state.memories.includes("al_designated_driver")) throw new Error("al_designated_driver not collected");
   if (!state.flags.al_dropped_the_act) throw new Error("al_dropped_the_act not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("straight") && l.includes("nobody"))) throw new Error("Al success ending line absent");
+  if (!ending.lines.some(l => l.includes("straight") && l.includes("nobody"))) throw new Error("al crossroads success ending line absent");
 });
 
 // Run D: reunion without closeness — the observer base scene must appear and

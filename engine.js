@@ -24,7 +24,7 @@
 //   { week: n }                   – current week equals n
 //   { weeks: [n, m] }              – current week is in the list
 
-import { DAYS, MEMORIES, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, CHARACTERS, SCENES } from "./data-index.js";
+import { DAYS, MEMORIES, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, CHARACTERS, SCENES, STORY_QUEUES } from "./data-index.js";
 import { getPronouns } from "./state.js";
 
 export function getCurrentDate(state) {
@@ -40,6 +40,24 @@ export function getCurrentKey(state) {
 // ---------------------------------------------------------------------------
 // Schedule
 // ---------------------------------------------------------------------------
+
+// The next unseen, eligible story beat for a location, or null. This is the
+// floating-scene system: story advances when the player visits the place, not
+// on an exact calendar day. See data-stories.js.
+export function getNextStoryBeat(state, location) {
+  const queue = STORY_QUEUES[location];
+  if (!queue) return null;
+  // Priority list, not a gate chain: return the first beat that is unseen AND
+  // currently eligible. An ineligible beat (too early, or unmet condition) is
+  // SKIPPED so it can't wall off later beats or the recurring reveal scene.
+  for (const beat of queue) {
+    if (state.seenScenes.includes(beat.sceneId)) continue;
+    if (beat.minDay !== undefined && state.dayIndex < beat.minDay) continue;
+    if (!matchWhen(state, beat.when)) continue;
+    return beat;
+  }
+  return null;
+}
 
 export function getNoticeboardItems(state) {
   const day = DAYS[state.dayIndex];
@@ -60,6 +78,34 @@ export function getNoticeboardItems(state) {
       items = items.filter(item => !replaced.has(item.id));
       items = [...special.items, ...items];
     }
+
+    // Mark which items are specials so the floating layer leaves them alone.
+    const specialIds = new Set((special ? special.items : []).map(item => item.id));
+
+    // Floating story beats: if a listed activity's location has a story beat
+    // ready, swap that activity's scene for the story scene. The activity's
+    // title/note stay (the player still just sees "Coffee in the lounge"); the
+    // scene behind it is the next chapter of that place's story.
+    // SPECIALS are deliberate calendar events (crossroads, the concert, the
+    // reunion bus) and must NEVER be overridden by a floating beat.
+    items = items.map(item => {
+      if (specialIds.has(item.id)) return item;
+      const beat = getNextStoryBeat(state, item.location);
+      if (beat) {
+        return { ...item, sceneId: beat.sceneId, _story: true };
+      }
+      return item;
+    });
+    // De-dupe: if two activities in the same slot share a location, only the
+    // first should carry the story beat (otherwise the same scene appears twice).
+    const usedStory = new Set();
+    items = items.filter(item => {
+      if (item._story) {
+        if (usedStory.has(item.sceneId)) return false;
+        usedStory.add(item.sceneId);
+      }
+      return true;
+    });
   }
 
   const apartmentListed = items.some(item => item.location === "Your Apartment");

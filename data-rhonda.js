@@ -689,8 +689,11 @@ export const RHONDA_SCENES = {
             "text": "Yes. Exactly. Half a second earlier and it’s nothing. Half a second later and the audience has already guessed."
           },
           {
+            "text": "She mimes it: the slow turn, a hand rising to a hat that is no longer there."
+          },
+          {
             "speaker": "RHONDA",
-            "text": "There. That pause before she turns around? That’s the whole joke."
+            "text": "That beat before she realises — that’s the whole joke. You could hear four hundred people lean in."
           }
         ],
         "effects": {

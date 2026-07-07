@@ -103,17 +103,17 @@ export const MIRANDA_SCENES = {
               },
               {
                 "speaker": "MIRANDA",
-                "text": "It does not need mending now. I have time to do things properly."
+                "text": "Nobody. It sits in a drawer. I have a dozen good ones now, and I use the same one I always did."
               },
               {
-                "text": "She looks at the garden for a moment longer than the garden requires."
+                "text": "She checks a stake, finds it already straight, checks it anyway."
               },
               {
                 "speaker": "MIRANDA",
-                "text": "That was not the prize I expected it to be."
+                "text": "You spend the first half of your life wanting enough, and the second half not knowing what to do with the quiet when it comes."
               },
               {
-                "text": "She hands you the watering can. The subject is closed."
+                "text": "She hands you the watering can, which is her way of ending a sentence she has said too much of."
               }
             ],
             "effects": {

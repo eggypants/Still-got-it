@@ -109,7 +109,7 @@ export const AL_SCENES = {
               },
               {
                 "speaker": "AL",
-                "text": "Deal. Before I become tasteful."
+                "text": "Deal. Before I start singing."
               }
             ],
             "effects": {

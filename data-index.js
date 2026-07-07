@@ -4,6 +4,7 @@
 // Scene id collisions are a bug — the validator checks for them.
 
 export { TIME_SLOTS, DAYS, CHARACTERS, MEMORIES, WEEKLY_TEMPLATE, SPECIALS } from "./data-core.js";
+export { STORY_QUEUES } from "./data-stories.js";
 
 import { GENERIC_SCENES } from "./data-generic.js";
 import { RHONDA_SCENES } from "./data-rhonda.js";

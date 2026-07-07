@@ -1,4 +1,4 @@
-import { CHARACTERS } from "./data-index.js";
+import { CHARACTERS, DAYS } from "./data-index.js";
 import {
   buildEnding,
   getCurrentDate,
@@ -11,6 +11,7 @@ import {
 } from "./engine.js";
 
 export function render(app, state, actions) {
+  applySlotClass(app, state);
   app.innerHTML = "";
 
   if (state.view === "setup") {
@@ -110,6 +111,10 @@ function renderGameShell(state, actions) {
 
 function renderTopbar(state) {
   const current = getCurrentDate(state);
+  const totalSlots = DAYS.length * 3;
+  const elapsedSlots = state.dayIndex * 3 + state.slotIndex;
+  const progress = totalSlots > 0 ? Math.max(0, Math.min(1, elapsedSlots / totalSlots)) : 0;
+
   const top = el("section", "card");
   const inner = el("div", "card-inner topbar");
   top.appendChild(inner);
@@ -120,8 +125,13 @@ function renderTopbar(state) {
   inner.appendChild(brand);
 
   const date = el("div", "date-pill");
-  date.appendChild(el("strong", null, `${current.weekday}`));
-  date.appendChild(el("span", null, `Week ${current.week} of 4 · ${current.slot}`));
+  const progressTrack = el("div", "time-progress");
+  progressTrack.setAttribute("aria-label", "Progress toward the concert");
+  const progressFill = el("div", "time-progress-fill");
+  progressFill.style.width = `${progress * 100}%`;
+  progressTrack.appendChild(progressFill);
+  date.appendChild(progressTrack);
+  date.appendChild(el("span", "date-label", `${current.weekday} · ${current.slot}`));
   inner.appendChild(date);
 
   return top;
@@ -213,7 +223,7 @@ function renderScene(state, actions) {
 
   const choices = el("div", "choice-list");
   for (const [index, choice] of scene.choices.entries()) {
-    const button = el("button", "choice-button", choice.text);
+    const button = el("button", "choice-button", getChoiceButtonText(scene, choice));
     button.type = "button";
     button.addEventListener("click", () => actions.chooseSceneOption(index));
     choices.appendChild(button);
@@ -232,6 +242,13 @@ function renderOutcome(state, actions) {
   button.addEventListener("click", actions.continueAfterOutcome);
   wrapper.appendChild(button);
   return wrapper;
+}
+
+function getChoiceButtonText(scene, choice) {
+  if (scene.choices.length === 1 && !choice.nextSceneId && !/^continue[.!?]?$/i.test(choice.text.trim())) {
+    return "Continue";
+  }
+  return choice.text;
 }
 
 function renderSceneText(content) {
@@ -343,6 +360,18 @@ function renderEnding(state, actions) {
 
   screen.appendChild(card);
   return screen;
+}
+
+function applySlotClass(app, state) {
+  const slotClasses = ["slot-morning", "slot-afternoon", "slot-evening"];
+  const current = getCurrentDate(state);
+  const slotClass = `slot-${String(current.slot || "").toLowerCase()}`;
+  app.classList.remove(...slotClasses);
+  document.body.classList.remove(...slotClasses);
+  if (slotClasses.includes(slotClass)) {
+    app.classList.add(slotClass);
+    document.body.classList.add(slotClass);
+  }
 }
 
 function focusMainHeading(app) {

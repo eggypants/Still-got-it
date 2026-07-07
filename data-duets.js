@@ -103,7 +103,7 @@ export const DUET_SCENES = {
       },
       {
         "speaker": "PABLO",
-        "text": "No. That is why I brought the trolley, not a marching band."
+        "text": "No? But I brought the trolley all this way!"
       },
       {
         "text": "She looks at the crates. Then at the trolley."

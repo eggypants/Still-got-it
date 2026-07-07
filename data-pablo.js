@@ -43,7 +43,14 @@ export const PABLO_SCENES = {
           },
           {
             "speaker": "PABLO",
-            "text": "Carmen’s rice."
+            "text": "My wife's. Carmen. Twenty-nine years in the kitchen beside me, and she never once wrote a recipe down until I made her."
+          },
+          {
+            "text": "He smooths the old card flat with two fingers."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Carmen's rice."
           },
           {
             "text": "He does not look up."
