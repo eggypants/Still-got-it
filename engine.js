@@ -1,7 +1,7 @@
 // Engine v0.4.2. Pure logic, no DOM. Data comes merged from data-index.js.
 //
 // New in 0.3:
-//   - 28-day calendar driven by WEEKLY_TEMPLATE + SPECIALS (see data-core.js)
+//   - 21-day calendar driven by WEEKLY_TEMPLATE + SPECIALS (see data-core.js)
 //   - Scene variants: a scene may define `variants: [{ when, ...overrides }]`.
 //     The first variant whose `when` matches the state replaces the base
 //     scene's overridden fields (content, choices, title...). This is how
@@ -54,6 +54,7 @@ export function getNextStoryBeat(state, location) {
     if (state.seenScenes.includes(beat.sceneId)) continue;
     if (beat.minDay !== undefined && state.dayIndex < beat.minDay) continue;
     if (!matchWhen(state, beat.when)) continue;
+    if (!isSceneAvailable(state, beat.sceneId)) continue;
     return beat;
   }
   return null;
@@ -108,6 +109,11 @@ export function getNoticeboardItems(state) {
     });
   }
 
+  // One-shot activities disappear when every currently eligible variation has
+  // already been played. Availability is recalculated each time the board is
+  // opened, so a location can return when a later variation becomes eligible.
+  items = items.filter(item => isSceneAvailable(state, item.sceneId));
+
   const apartmentListed = items.some(item => item.location === "Your Apartment");
   if (!apartmentListed) {
     const apartmentScenes = ["apartment_morning", "apartment_afternoon", "apartment_evening"];
@@ -138,6 +144,9 @@ export function matchWhen(state, when) {
   if (when.memory && !state.memories.includes(when.memory)) return false;
   if (when.notMemory && state.memories.includes(when.notMemory)) return false;
   if (when.seenScene && !state.seenScenes.includes(when.seenScene)) return false;
+  if (when.seenVariant && !(state.seenVariants || []).includes(when.seenVariant)) return false;
+  if (when.notSeenVariant && (state.seenVariants || []).includes(when.notSeenVariant)) return false;
+  if (when.anySeenVariant && !when.anySeenVariant.some(id => (state.seenVariants || []).includes(id))) return false;
   if (when.week && DAYS[state.dayIndex] && DAYS[state.dayIndex].week !== when.week) return false;
   if (when.weeks && DAYS[state.dayIndex] && !when.weeks.includes(DAYS[state.dayIndex].week)) return false;
   if (when.minFriendship) {
@@ -152,23 +161,45 @@ export function matchWhen(state, when) {
 // Scene resolution
 // ---------------------------------------------------------------------------
 
+function hasSeenVariant(state, variantId) {
+  return Boolean(variantId) && (state.seenVariants || []).includes(variantId);
+}
+
+function variationIsAvailable(state, variation) {
+  return !variation.oneShot || !hasSeenVariant(state, variation.variantId);
+}
+
 export function resolveScene(state, sceneId) {
   const base = SCENES[sceneId];
   if (!base) return null;
 
-  let scene = base;
+  let scene = null;
 
   if (base.variants) {
-    const variant = base.variants.find(v => matchWhen(state, v.when));
-    if (variant) {
-      const { when, ...overrides } = variant;
-      scene = { ...base, ...overrides };
+    for (const variant of base.variants) {
+      if (!matchWhen(state, variant.when)) continue;
+      const variantId = variant.id || null;
+      const candidate = { ...base, ...variant, variantId, oneShot: variant.oneShot === true };
+      if (!variationIsAvailable(state, candidate)) continue;
+      const { when, id, ...resolved } = candidate;
+      scene = resolved;
+      break;
     }
   }
 
+  if (!scene) {
+    const baseCandidate = {
+      ...base,
+      variantId: base.variantId || null
+    };
+    if (!matchWhen(state, base.when)) return null;
+    if (!variationIsAvailable(state, baseCandidate)) return null;
+    scene = baseCandidate;
+  }
+
   // Back-compat: simple repeat text for revisited scenes with no matching variant.
-  if (scene === base && base.repeatContent && state.seenScenes.includes(sceneId)) {
-    scene = { ...base, content: base.repeatContent };
+  if (scene.variantId === (base.variantId || null) && base.repeatContent && state.seenScenes.includes(sceneId)) {
+    scene = { ...scene, content: base.repeatContent };
   }
 
   scene = {
@@ -177,6 +208,10 @@ export function resolveScene(state, sceneId) {
   };
 
   return filterSceneChoices(state, scene);
+}
+
+export function isSceneAvailable(state, sceneId) {
+  return Boolean(resolveScene(state, sceneId));
 }
 
 function filterSceneChoices(state, scene) {
@@ -210,14 +245,27 @@ export function startGame(state, player) {
   state.player.pronouns = player.pronouns || "they/them";
   state.view = "noticeboard";
   state.activeTab = "noticeboard";
+  state.overlayTab = null;
   return state;
 }
 
 export function openTab(state, tabName) {
+  const overlayTabs = new Set(["journal", "residents", "settings"]);
+  if (state.view === "scene" || state.view === "outcome") {
+    state.overlayTab = overlayTabs.has(tabName) ? tabName : null;
+    return state;
+  }
+
   state.activeTab = tabName;
   state.view = "noticeboard";
   state.activeSceneId = null;
   state.pendingOutcome = null;
+  state.overlayTab = null;
+  return state;
+}
+
+export function closeOverlay(state) {
+  state.overlayTab = null;
   return state;
 }
 
@@ -227,6 +275,7 @@ export function beginActivity(state, activityId) {
   state.activeSceneId = item.sceneId;
   state.view = "scene";
   state.activeTab = "noticeboard";
+  state.overlayTab = null;
   return state;
 }
 
@@ -239,6 +288,7 @@ export function chooseSceneOption(state, choiceIndex) {
 
   applyEffects(state, choice.effects || {});
   markSeen(state, state.activeSceneId);
+  markVariantSeen(state, scene.variantId, scene.oneShot);
 
   const outcomeBlocks = (choice.outcome || [{ text: "The time passes." }])
     .filter(block => matchWhen(state, block.when));
@@ -251,6 +301,7 @@ export function chooseSceneOption(state, choiceIndex) {
     nextSceneId: choice.nextSceneId || null
   };
   state.view = "outcome";
+  state.overlayTab = null;
   return state;
 }
 
@@ -262,10 +313,12 @@ export function continueAfterOutcome(state) {
     state.activeSceneId = nextSceneId;
     state.view = "scene";
     state.activeTab = "noticeboard";
+    state.overlayTab = null;
     return state;
   }
 
   state.activeSceneId = null;
+  state.overlayTab = null;
   advanceTime(state);
   if (state.dayIndex >= DAYS.length) {
     state.view = "ending";
@@ -275,6 +328,57 @@ export function continueAfterOutcome(state) {
     state.activeTab = "noticeboard";
   }
   return state;
+}
+
+export function recoverLoadedState(state, options = {}) {
+  const maxDay = DAYS.length - 1;
+  const maxSlot = TIME_SLOTS.length - 1;
+
+  if (!Number.isInteger(state.dayIndex) || state.dayIndex < 0) state.dayIndex = 0;
+  if (!Number.isInteger(state.slotIndex) || state.slotIndex < 0) state.slotIndex = 0;
+  if (state.slotIndex > maxSlot) state.slotIndex = maxSlot;
+
+  const views = new Set(["setup", "noticeboard", "scene", "outcome", "ending"]);
+  if (!views.has(state.view)) state.view = "noticeboard";
+
+  if (state.dayIndex > maxDay && state.view !== "ending") state.dayIndex = maxDay;
+  if (state.dayIndex > DAYS.length) state.dayIndex = maxDay;
+
+  const tabs = new Set(["noticeboard", "journal", "residents", "settings"]);
+  if (!tabs.has(state.activeTab)) state.activeTab = "noticeboard";
+
+  const overlayTabs = new Set(["journal", "residents", "settings"]);
+  if (!overlayTabs.has(state.overlayTab)) state.overlayTab = null;
+
+  if (options.forceNoticeboard) return recoverToNoticeboard(state);
+
+  if (state.view === "scene" && !resolveScene(state, state.activeSceneId)) {
+    return recoverToNoticeboard(state);
+  }
+
+  if (state.view === "outcome" && !isValidPendingOutcome(state.pendingOutcome)) {
+    return recoverToNoticeboard(state);
+  }
+
+  return state;
+}
+
+function recoverToNoticeboard(state) {
+  if (state.dayIndex >= DAYS.length) state.dayIndex = DAYS.length - 1;
+  state.view = "noticeboard";
+  state.activeTab = "noticeboard";
+  state.overlayTab = null;
+  state.activeSceneId = null;
+  state.pendingOutcome = null;
+  return state;
+}
+
+function isValidPendingOutcome(pendingOutcome) {
+  if (!pendingOutcome || typeof pendingOutcome !== "object") return false;
+  if (!Array.isArray(pendingOutcome.content)) return false;
+  if (!pendingOutcome.content.every(block => block && typeof block === "object" && "text" in block)) return false;
+  if (pendingOutcome.nextSceneId && !SCENES[pendingOutcome.nextSceneId]) return false;
+  return true;
 }
 
 export function advanceTime(state) {
@@ -308,6 +412,12 @@ export function applyEffects(state, effects) {
 export function markSeen(state, sceneId) {
   if (!sceneId) return;
   if (!state.seenScenes.includes(sceneId)) state.seenScenes.push(sceneId);
+}
+
+export function markVariantSeen(state, variantId, oneShot = false) {
+  if (!oneShot || !variantId) return;
+  if (!Array.isArray(state.seenVariants)) state.seenVariants = [];
+  if (!state.seenVariants.includes(variantId)) state.seenVariants.push(variantId);
 }
 
 export function getMemoryText(memoryId) {
@@ -364,8 +474,8 @@ export function getResidentNote(id, state) {
   }
 
   if (id === "al") {
-    if (state.flags.al_dropped_the_act) return "He still holds court, but he lets other people finish their stories now. Mostly.";
-    if (state.memories.includes("al_designated_driver") && score >= 2) return "He mentioned the band once, without the punchline. He noticed you noticing, and put the punchline back.";
+    if (state.flags.al_love) return "He still performs, but you have heard what is underneath it.";
+    if (state.memories.includes("al_band_days") && score >= 2) return "He showed you the band photographs and named every man in them.";
   }
 
   if (score >= 5) return "You know where to find them, and sometimes they know where to find you.";
@@ -395,7 +505,7 @@ export function buildEnding(state) {
   } else if (state.flags.missed_concert) {
     lines.push("The Autumn Concert happened down the hall. You heard the applause through the door. People are still telling the stories. You nod along.");
   } else {
-    lines.push("The month ended quietly. The village kept moving, whether or not you moved with it.");
+    lines.push("The three weeks ended quietly. The village kept moving, whether or not you moved with it.");
   }
 
   if (state.flags.bob_went_reunion) {
@@ -422,10 +532,10 @@ export function buildEnding(state) {
     lines.push("Jean ran the raffle with a biscuit tin, a roll of tickets, and a pencil sharpened down to a stub.");
   }
 
-  if (state.flags.al_dropped_the_act) {
-    lines.push("Al sang one song straight and dedicated it to nobody. People are still deciding what it meant, which is the most attention he has ever earned by trying less.");
-  } else if (state.flags.al_kept_the_act) {
-    lines.push("Al charmed the whole concert and went home alone, the act intact, the way he likes it. Probably.");
+  if (state.flags.al_love) {
+    lines.push("Al sang the slow love song straight to Jean. He dedicated it to nobody, but nobody mistook who it was for.");
+  } else {
+    lines.push("Al gave the room a peppy song and got nearly everyone clapping by the chorus.");
   }
 
   if (state.flags.saw_pablo_miranda_corner_table || (state.flags.saw_pablo_miranda_tea && state.flags.saw_pablo_miranda_seedlings)) {
@@ -437,7 +547,7 @@ export function buildEnding(state) {
   }
 
   if (closest && closest[1] >= 5) {
-    lines.push(`By the end of the month, ${closestName} had started saving you a seat.`);
+    lines.push(`By the end of three weeks, ${closestName} had started saving you a seat.`);
   } else if (closest && closest[1] >= 2) {
     lines.push(`You were beginning to know ${closestName}. Enough to be missed if you skipped a morning.`);
   } else {

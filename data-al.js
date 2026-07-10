@@ -1,499 +1,470 @@
-// Al — arc owner file. Belief: 'If I stop being charming, nobody will choose to spend time with me.'
-// Crossroads: dance night (week 3). The act never fully drops.
-
-
+// Generated from the approved Still Got It script for Chunk 2.
 export const AL_SCENES = {
   "generic_cards_al": {
     "title": "Cards",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "generic_cards_al.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "Al deals cards with the confidence of a man who has been forgiven for worse things than bad shuffling. He loses one hand, wins two, and claims the scorekeeper is holding a grudge."
+        "text": "Al deals the cards with confidence. Bob sits across from him. Al sees you enter."
       },
       {
         "speaker": "AL",
-        "text": "I am being persecuted by arithmetic. Very ugly to see."
+        "text": "Deal you in?"
       }
     ],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Play a hand or two.",
         "outcome": [
           {
-            "text": "You stay for three hands. Al wins one of them by luck and takes credit for courage."
+            "text": "You sit and Al deals you a hand. You play a round. Al wins."
           },
           {
             "speaker": "AL",
-            "text": "Write that down. History likes a handsome winner."
+            "text": "History likes a handsome winner."
+          },
+          {
+            "text": "You play again. This time, you win."
+          },
+          {
+            "speaker": "AL",
+            "text": "Oh. Shouldn’t have been so cocky."
+          },
+          {
+            "text": "He deals again and asks about you. You give him the brief version, ending with your move into Summer Hills."
+          },
+          {
+            "speaker": "AL",
+            "text": "Well, a group of oldies sitting around playing cards isn’t helping the optics."
+          },
+          {
+            "text": "Bob wins the round."
+          },
+          {
+            "speaker": "BOB",
+            "text": "You’re out, Al."
+          },
+          {
+            "text": "Al grasps his chest as though mortally wounded."
+          },
+          {
+            "speaker": "AL",
+            "text": "No! Not again."
           }
         ],
         "effects": {
           "friendship": {
-            "al": 1
+            "al": 2,
+            "bob": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true
           }
         }
       },
       {
-        "text": "Ask if he always talks this much.",
+        "text": "Say you’d rather watch.",
         "outcome": [
           {
             "speaker": "AL",
-            "text": "No. Sometimes I sing."
+            "text": "Suit yourself! Sit over there, though."
           },
           {
-            "text": "He deals you in before you can decide whether that is a warning."
+            "text": "He motions towards Bob."
+          },
+          {
+            "speaker": "AL",
+            "text": "Then you can peek at Bob’s cards and wink at me if they’re any good."
+          },
+          {
+            "text": "Bob grunts. You sit where you cannot see either man’s cards and watch them play."
           }
         ],
         "effects": {
           "friendship": {
-            "al": 1
+            "al": 1,
+            "bob": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "generic_cards_al.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "al": 2
           },
-          "notFlag": "al_driver_seen"
+          "seenVariant": "generic_cards_al.v1"
         },
         "content": [
           {
-            "text": "Cards are late starting. Al has an old photograph on the table, keeping the score sheet flat."
-          },
-          {
-            "text": "In the photo he is young, shirt open at the throat, one hand on the roof of a station wagon. A keyboard case is strapped across the back seat with a fraying belt."
-          },
-          {
-            "text": "A man sleeps in the passenger seat with a drumstick still in his hand. Al is holding the car keys and grinning at whoever took the picture."
+            "text": "Al walks in late, singing a song."
           },
           {
             "speaker": "AL",
-            "text": "The band. After the Heidelberg RSL, unless I am lying for colour."
-          },
-          {
-            "text": "He taps the sleeping man in the photograph."
-          },
-          {
-            "speaker": "AL",
-            "text": "Denny. Could play a six-minute solo and then forget his own address."
-          },
-          {
-            "text": "He turns the photo square with the edge of the table."
-          },
-          {
-            "speaker": "AL",
-            "text": "I drove them home. Sober as a nun. Adored at ten, needed at three. Three was better."
-          },
-          {
-            "text": "He picks up the deck and the grin comes back on."
-          },
-          {
-            "speaker": "AL",
-            "text": "Right. Who is ready to lose money in a social and legally meaningless way?"
+            "text": "Sorry I’m late — distracted. Who’s playing?"
           }
         ],
         "choices": [
           {
-            "text": "“Three in the morning suits you.”",
+            "text": "I’ll bite. What was distracting you?",
             "outcome": [
               {
-                "speaker": "AL",
-                "text": "Dangerous thing to say to a former musician."
-              },
-              {
-                "text": "He slips the photograph into his shirt pocket instead of putting it away."
+                "text": "Al sings the answer."
               },
               {
                 "speaker": "AL",
-                "text": "Deal. Before I start singing."
+                "text": "Just a guitar-playing man…"
+              },
+              {
+                "text": "Jean looks up from the couch."
+              },
+              {
+                "speaker": "JEAN",
+                "text": "What did I say about singing in the lounge?"
+              },
+              {
+                "speaker": "AL",
+                "text": "Only if it’s a good song. Yes, ma’am."
+              },
+              {
+                "text": "He shuffles the cards and says he found old band photographs."
               }
             ],
             "effects": {
-              "friendship": {
-                "al": 2
-              },
-              "memories": [
-                "al_designated_driver"
-              ],
               "flags": {
-                "al_driver_seen": true
+                "met_al": true,
+                "met_jean": true,
+                "met_bob": true
               }
-            }
+            },
+            "nextSceneId": "generic_cards_al_band_choice"
           },
           {
-            "text": "Look at the photo and say nothing.",
+            "text": "Sit down and play.",
             "outcome": [
               {
-                "text": "You let the photograph sit between you. Al shuffles the deck with neat, quick hands."
-              },
-              {
-                "speaker": "AL",
-                "text": "Excellent. A respectful silence. I have heard of those."
-              },
-              {
-                "text": "He deals you in. The photo stays on the table until the first hand is over."
+                "text": "You play some cards. You win some. Al wins more. He sings the whole time, which eventually drives Jean away. Bob wins the most."
               }
             ],
             "effects": {
               "friendship": {
-                "al": 1
+                "al": 1,
+                "bob": 1
               },
-              "memories": [
-                "al_designated_driver"
-              ],
               "flags": {
-                "al_driver_seen": true
+                "met_al": true,
+                "met_bob": true,
+                "met_jean": true
               }
             }
           }
         ]
       },
       {
+        "id": "generic_cards_al.v3",
+        "oneShot": true,
         "when": {
-          "seenScene": "generic_cards_al"
+          "seenScene": "generic_cards_al",
+          "seenVariant": "generic_cards_al.v2"
         },
         "content": [
           {
-            "text": "Al has already dealt you in. Your cards are face down beside a cup of tea he insists belongs to you."
-          },
-          {
-            "speaker": "AL",
-            "text": "Late again. I covered beautifully. Nobody suspected a thing except everyone."
+            "text": "Al is sitting on the arm of a couch with an acoustic guitar, staring into the middle distance. Bob reads the newspaper at the other end."
           }
         ],
         "choices": [
           {
-            "text": "Play a hand.",
+            "text": "Are you going to play us a tune, Al?",
             "outcome": [
               {
-                "text": "You play one hand. Al praises your nerve, questions your judgement, and loses by two points."
+                "text": "Your voice snaps him back. The distant expression vanishes behind his cheeky grin."
               },
               {
                 "speaker": "AL",
-                "text": "Robbery with witnesses. My favourite kind."
+                "text": "I’m not much on the guitar. But I make up for it with my devilish handsomeness."
+              },
+              {
+                "text": "He strums a familiar old song. Bob’s ears begin to turn red."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "met_al": true,
+                "met_bob": true
+              }
+            },
+            "nextSceneId": "generic_cards_al_song_choice"
+          },
+          {
+            "text": "Say nothing and hope he doesn’t start singing.",
+            "outcome": [
+              {
+                "text": "Your hopes are quickly dashed. Al begins serenading the bookshelf like an old crooner. Bob silently meets your eyes."
+              },
+              {
+                "text": "Later, Bob passes you in the hall."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Just you wait till I find out who got him that guitar."
               }
             ],
             "effects": {
               "friendship": {
-                "al": 1
+                "bob": 1
+              },
+              "flags": {
+                "met_al": true,
+                "met_bob": true
               }
             }
           }
         ]
-      }
-    ]
-  },
-  "generic_lounge_al_news": {
-    "title": "Lounge gossip",
-    "location": "Community Lounge",
-    "art": "Community Lounge",
-    "content": [
-      {
-        "text": "Al has news about the concert, the café, and someone’s grandson. It is difficult to tell which parts are verified. It is also difficult not to listen."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected. Al gives three versions of the same story and makes each one sound legally distinct."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "al": 1
-          }
-        }
-      }
-    ]
-  },
-  "al_dance": {
-    "title": "Dance night",
-    "location": "Hall",
-    "art": "Hall",
-    "content": [
-      {
-        "text": "The hall has been cleared for dance night. Someone has found coloured lights, and someone else has decided not to ask where they came from."
       },
       {
-        "text": "Al is in a blue shirt with a collar wide enough to have its own postcode. He works the room before the first song has properly started."
-      },
-      {
-        "speaker": "AL",
-        "text": "Ladies, gentlemen, undecided voters. Try to remain calm."
-      },
-      {
-        "text": "He dances with Jean, then Rhonda, then a woman from the next village who appears to have brought her own shoes for exactly this purpose."
-      },
-      {
-        "text": "He bows after every song. People laugh because he gives them permission to."
-      },
-      {
-        "text": "When the last record ends, he helps coil the extension cord and tells three people he could have gone professional if not for his tragic commitment to humility."
-      },
-      {
-        "text": "He leaves alone, whistling the chorus on the way out."
-      }
-    ],
-    "choices": [
-      {
-        "text": "“You had the room.”",
-        "outcome": [
-          {
-            "speaker": "AL",
-            "text": "Had it? I owned it briefly and returned it in excellent condition."
-          },
-          {
-            "text": "He flicks the collar of his shirt and heads for the door, still whistling."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "al": 1
-          },
-          "flags": {
-            "al_kept_the_act": true
-          }
-        }
-      },
-      {
-        "text": "Help stack the last chairs.",
-        "outcome": [
-          {
-            "text": "You stack chairs while Al provides commentary from a safe distance."
-          },
-          {
-            "speaker": "AL",
-            "text": "I supervise because my back is a protected historical site."
-          },
-          {
-            "text": "He carries two chairs anyway, then complains about heroism."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "al": 1
-          },
-          "flags": {
-            "al_kept_the_act": true
-          }
-        }
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "minFriendship": {
-            "al": 5
-          }
-        },
+        "id": "generic_cards_al.v4",
+        "oneShot": true,
         "content": [
           {
-            "text": "Dance night is running hot. The hall windows are open, the coloured lights are misbehaving, and Jean has already heckled the playlist twice."
-          },
-          {
-            "text": "Al has the blue shirt on again. He is charming the room in small circuits: compliment, spin, bow, joke, repeat."
-          },
-          {
-            "text": "Halfway through a fast song, his step catches. He covers it with a flourish so large it almost becomes furniture."
+            "text": "Al, Bob and Jean are playing cards in the lounge. Jean looks up at you with mock pleading."
           },
           {
             "speaker": "JEAN",
-            "text": "Careful, Valentino. Some of us need these floors tomorrow."
+            "text": "I stole your spot. Forgive me!"
           },
           {
             "speaker": "AL",
-            "text": "Jealousy is unbecoming, Jean, but on you it has possibilities."
+            "text": "There’s room for everyone. More the merrier!"
           },
           {
-            "text": "The song ends. People clap. Al bows, one hand on the back of a chair."
-          },
-          {
-            "text": "The next song starts too fast. He looks at the floor, then at the room."
+            "text": "You sit and join the game. Jean wins."
           },
           {
             "speaker": "AL",
-            "text": "The room gets quiet when I stop moving, which is rude after all these years of public service."
+            "text": "Beginner’s luck!"
           }
         ],
         "choices": [
           {
-            "text": "“At three in the morning, you were the one who stayed useful. Sit one out.”",
-            "requiresMemory": "al_designated_driver",
+            "text": "Stay for the game.",
             "outcome": [
               {
-                "text": "Al looks at you, then at the dancers."
-              },
-              {
-                "speaker": "AL",
-                "text": "Using my own mythology against me. Very poor manners."
-              },
-              {
-                "text": "He sits. Not heavily. Not dramatically. Just in the chair beside the speakers, one foot still marking the beat."
-              },
-              {
-                "speaker": "AL",
-                "text": "Fine. I shall be decorative from a seated position. History will cope."
-              },
-              {
-                "text": "Jean dances past and salutes him with two fingers. He salutes back, smaller than usual."
-              },
-              {
-                "text": "By the end of the song, three people have pulled chairs into a row beside him. Al tells them they have excellent taste in furniture."
+                "text": "You play until the next hand becomes the last one, twice."
               }
             ],
             "effects": {
               "friendship": {
-                "al": 3
+                "al": 1,
+                "bob": 1,
+                "jean": 1
               },
               "flags": {
-                "al_dropped_the_act": true
-              }
-            }
-          },
-          {
-            "text": "“They love you. Give them one more.”",
-            "outcome": [
-              {
-                "speaker": "AL",
-                "text": "Cruel, but accurate."
-              },
-              {
-                "text": "He steps back onto the floor. The flourish covers the stiffness if you are not looking for it."
-              },
-              {
-                "text": "The room cheers. Al bows too low and has to straighten carefully."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "al": 1
-              },
-              "flags": {
-                "al_kept_the_act": true
-              }
-            }
-          },
-          {
-            "text": "“Want me to get you some water?”",
-            "outcome": [
-              {
-                "speaker": "AL",
-                "text": "Water? In front of witnesses? I have a reputation to protect."
-              },
-              {
-                "text": "You bring it anyway. He drinks half, calls it medicinal, and returns to the edge of the dance floor when the next song begins."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "al": 1
-              },
-              "flags": {
-                "al_kept_the_act": true
+                "met_al": true,
+                "met_bob": true,
+                "met_jean": true
               }
             }
           }
-        ]
+        ],
+        "when": {
+          "seenVariant": "generic_cards_al.v3"
+        }
       }
     ]
   },
-  "al_dance_consequence": {
-    "title": "The song list",
-    "location": "Hall",
-    "art": "Hall",
-    "content": [
-      {
-        "text": "Al is in the hall with the concert song list and a pencil behind his ear."
-      },
-      {
-        "text": "Beside the title of his song, he has written three possible jokes and crossed out none of them."
-      },
-      {
-        "text": "He sings the first line, stops, and adds a fourth note in the margin."
-      },
-      {
-        "speaker": "AL",
-        "text": "You cannot leave a room defenceless. It needs easing in."
-      },
-      {
-        "text": "He tests a bow toward the empty chairs."
-      },
-      {
-        "text": "The empty chairs survive."
-      }
-    ],
+  "generic_cards_al_band_choice": {
+    "title": "Cards",
+    "location": "Community Lounge",
+    "art": "Community Lounge",
+    "hidden": true,
+    "content": [],
     "choices": [
       {
-        "text": "Hold the list still.",
+        "text": "Sounds like a plan.",
         "outcome": [
           {
-            "text": "You hold the page while he writes one more line in the margin."
+            "text": "You play a few rounds. When Bob leaves, Al returns with an old photo album."
+          },
+          {
+            "text": "The first photograph is unmistakably Al: young, a seventies haircut, an enormous collar, leaning on a brown station wagon."
+          },
+          {
+            "text": "On the next page four men play on a pub stage, sweaty, dirty and happy."
           },
           {
             "speaker": "AL",
-            "text": "There. Tasteful excess."
+            "text": "Don’t remember which pub that was. We played anywhere they’d let us."
+          },
+          {
+            "text": "He points out Darren, Mike and Kev, his best mate. In another photograph Kev has an arm around a blonde woman while he and Al pull faces at the camera."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2
+          },
+          "memories": [
+            "al_band_days"
+          ],
+          "flags": {
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      },
+      {
+        "text": "I don’t give a shit about your band, old man.",
+        "outcome": [
+          {
+            "text": "The room goes silent until you smile. Al bursts out laughing."
+          },
+          {
+            "speaker": "AL",
+            "text": "Sounds about right, but I’m going to show you anyway."
+          },
+          {
+            "text": "After the game he brings out the album: four young men on pub stages, sweaty, untidy and happy. He names Darren, Mike and Kev, his best mate."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 3
+          },
+          "memories": [
+            "al_band_days"
+          ],
+          "flags": {
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      }
+    ]
+  },
+  "generic_cards_al_song_choice": {
+    "title": "Cards",
+    "location": "Community Lounge",
+    "art": "Community Lounge",
+    "hidden": true,
+    "content": [],
+    "choices": [
+      {
+        "text": "Interrupt Al and ask what he was thinking about.",
+        "outcome": [
+          {
+            "text": "The strings twang as Al stops. Bob looks at you with silent thanks."
+          },
+          {
+            "speaker": "AL",
+            "text": "Now that’s a personal question. What business do you have in my musings?"
+          },
+          {
+            "text": "The confidence does not quite reach his face. After a silence, he smiles."
+          },
+          {
+            "speaker": "AL",
+            "text": "I was just thinking about love songs."
+          }
+        ],
+        "effects": {
+          "flags": {
+            "met_al": true,
+            "met_bob": true
+          }
+        },
+        "nextSceneId": "generic_cards_al_love_question"
+      },
+      {
+        "text": "Join in singing with Al.",
+        "outcome": [
+          {
+            "text": "You know the song and sing along. Al smiles and harmonises on the chorus."
+          },
+          {
+            "text": "Bob folds his newspaper and marches away. At the bridge, Al sings the emotional lines softly with his eyes closed."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2
+          },
+          "flags": {
+            "al_love": true,
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      }
+    ]
+  },
+  "generic_cards_al_love_question": {
+    "title": "Cards",
+    "location": "Community Lounge",
+    "art": "Community Lounge",
+    "hidden": true,
+    "content": [],
+    "choices": [
+      {
+        "text": "Have you ever been in love?",
+        "outcome": [
+          {
+            "text": "Al looks caught. As you hold his gaze, he deflates a little."
+          },
+          {
+            "speaker": "AL",
+            "text": "A few times. Not many."
+          },
+          {
+            "text": "He says he never married. He chose money to travel on, and travelled through India, China, Hong Kong and Japan."
+          },
+          {
+            "speaker": "AL",
+            "text": "That and music were my loves."
+          },
+          {
+            "text": "He strikes a cheerful chord and starts an upbeat song in French. You tap along."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 1
+          },
+          "flags": {
+            "al_love": true,
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      },
+      {
+        "text": "Tell Al your favourite love song.",
+        "outcome": [
+          {
+            "text": "Al’s face lights up. He finds the chords and you sing it together. Bob’s ears become very red before he marches away with his newspaper."
           }
         ],
         "effects": {
           "friendship": {
             "al": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true
           }
         }
       }
-    ],
-    "variants": [
-      {
-        "when": {
-          "flag": "al_dropped_the_act"
-        },
-        "content": [
-          {
-            "text": "Al is alone in the hall with the song list flat on the piano."
-          },
-          {
-            "text": "A pencil line runs through the jokes in the margin."
-          },
-          {
-            "text": "He sings the first line, stops, and starts again without the wink."
-          },
-          {
-            "text": "It sounds less polished. It lands better."
-          },
-          {
-            "speaker": "AL",
-            "text": "Don't spread that around. I have a brand to damage slowly."
-          },
-          {
-            "text": "He writes nothing beside the title."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Keep time with one finger.",
-            "outcome": [
-              {
-                "text": "You tap the piano edge. Al follows it for one verse, then nods at the empty chairs."
-              },
-              {
-                "speaker": "AL",
-                "text": "Good. No dedication. Let them panic."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "al": 1
-              }
-            }
-          }
-        ]
-      }
     ]
   }
-
 };

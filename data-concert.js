@@ -1,6 +1,4 @@
-// The Autumn Concert — the convergence scene. Owned by the GAME, not by any
-// character. Every arc adds its conditional blocks here (success/failure pair)
-// after the previous arc's pair, in ALL branches: base + both variants.
+// Generated from the approved Still Got It script for Chunk 2.
 export const CONCERT_SCENES = {
   "rhonda_opening_night": {
     "title": "Autumn concert",
@@ -69,15 +67,15 @@ export const CONCERT_SCENES = {
       },
       {
         "when": {
-          "flag": "al_dropped_the_act"
+          "flag": "al_love"
         },
-        "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+        "text": "Al sits with the guitar and sings the slow love song. He does not announce a dedication. He looks at Jean for the last verse, and Jean looks back without making a joke."
       },
       {
         "when": {
-          "flag": "al_kept_the_act"
+          "notFlag": "al_love"
         },
-        "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
+        "text": "Al plays a peppy song for the room. By the chorus, people are clapping along and he is grinning at the front row."
       },
       {
         "text": "Then Rhonda steps onto the stage."
@@ -181,15 +179,15 @@ export const CONCERT_SCENES = {
           },
           {
             "when": {
-              "flag": "al_dropped_the_act"
+              "flag": "al_love"
             },
-            "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+            "text": "Al sits with the guitar and sings the slow love song. He does not announce a dedication. He looks at Jean for the last verse, and Jean looks back without making a joke."
           },
           {
             "when": {
-              "flag": "al_kept_the_act"
+              "notFlag": "al_love"
             },
-            "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
+            "text": "Al plays a peppy song for the room. By the chorus, people are clapping along and he is grinning at the front row."
           },
           {
             "text": "Then Rhonda steps onto the stage."
@@ -367,15 +365,15 @@ export const CONCERT_SCENES = {
           },
           {
             "when": {
-              "flag": "al_dropped_the_act"
+              "flag": "al_love"
             },
-            "text": "Al sings his song, and for once he sings it straight — no mugging, no working the room. He dedicates it to nobody in particular, which everybody notices."
+            "text": "Al sits with the guitar and sings the slow love song. He does not announce a dedication. He looks at Jean for the last verse, and Jean looks back without making a joke."
           },
           {
             "when": {
-              "flag": "al_kept_the_act"
+              "notFlag": "al_love"
             },
-            "text": "Al sings his song and works every row for it, winking, milking the applause. It goes over well. It always does."
+            "text": "Al plays a peppy song for the room. By the chorus, people are clapping along and he is grinning at the front row."
           },
           {
             "text": "But when her turn comes, Jean steps onto the stage instead."

@@ -1,11 +1,11 @@
-// Rhonda — arc owner file. Belief: 'If I am admired, I will be loved.'
-// Crossroads: the Autumn Concert (empty-hall thread, weeks 3–4).
-// The concert scene itself lives in data-concert.js — it belongs to the game.
+// Generated from the approved Still Got It script for Chunk 2.
 export const RHONDA_SCENES = {
   "rhonda_first_meeting": {
     "title": "First meeting",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "rhonda_first_meeting.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "The lounge smells faintly of instant coffee, furniture polish, and perfume."
@@ -15,11 +15,11 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "And then the director said, ‘Rhonda, darling, could you try looking at him as though you’re in love?’"
+        "text": "And then the director said, ‘Rhonda, darling, could you try looking at him as though you’re in love? You look positively contemptuous.’"
       },
       {
         "speaker": "RHONDA",
-        "text": "I said, ‘I am looking at him as though I’m in love. Specifically, I’m looking at him as though I’ve been married to him for seven years and he’s just bought a boat.’"
+        "text": "I said, ‘Mark, darling, at this point in the film I’ve been married to him for eight years. I’m looking at him exactly as I ought.”"
       },
       {
         "text": "A few residents laugh."
@@ -29,7 +29,7 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "Oh, hello. New face."
+        "text": "Oh, hello, new face."
       },
       {
         "speaker": "RHONDA",
@@ -42,7 +42,7 @@ export const RHONDA_SCENES = {
         "outcome": [
           {
             "speaker": "RHONDA",
-            "text": "Interrupt? Please. Interruption is the only thing keeping this place alive."
+            "text": "Interrupt? Please. A touch of novelty is never unwanted here."
           },
           {
             "text": "She pats the chair beside her."
@@ -55,7 +55,7 @@ export const RHONDA_SCENES = {
             "text": "You sit. Al looks over from the armchair beside her."
           },
           {
-            "speaker": "AL",
+            "speaker": "JEAN",
             "text": "Did you work with anyone famous?"
           },
           {
@@ -71,7 +71,10 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "AL",
-            "text": "Still am, depending on who you ask."
+            "text": "Still am, depending on who you ask. Although some might feel “infamous” a better fit."
+          },
+          {
+            "text": "Rhonda grins."
           },
           {
             "speaker": "RHONDA",
@@ -79,11 +82,11 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "AL",
-            "text": "Mostly women with poor judgment."
+            "text": "Mostly women with questionable judgment."
           },
           {
             "speaker": "RHONDA",
-            "text": "The best audience."
+            "text": "Of course. The best audience."
           }
         ],
         "effects": {
@@ -92,7 +95,9 @@ export const RHONDA_SCENES = {
             "al": 1
           },
           "flags": {
-            "met_rhonda": true
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true
           }
         }
       },
@@ -115,10 +120,10 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Sit down before you say something worse."
+            "text": "Although theatre was my true love. Now, come and sit down before you say something worse."
           },
           {
-            "text": "You sit."
+            "text": "She smiles. You sit."
           }
         ],
         "effects": {
@@ -126,7 +131,9 @@ export const RHONDA_SCENES = {
             "rhonda": 1
           },
           "flags": {
-            "met_rhonda": true
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true
           }
         }
       },
@@ -142,7 +149,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Now, where was I? Ah yes. The boat."
+            "text": "Now, where was I? Ah yes. The authentic portrayal of marriage."
           },
           {
             "text": "You leave. As you walk down the hall, you hear them laughing again."
@@ -150,7 +157,10 @@ export const RHONDA_SCENES = {
         ],
         "effects": {
           "flags": {
-            "avoided_rhonda_first": true
+            "avoided_rhonda_first": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true
           }
         }
       }
@@ -160,6 +170,8 @@ export const RHONDA_SCENES = {
     "title": "Coffee in the lounge",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "rhonda_lounge_short.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Rhonda is reading the entertainment pages with a cup of coffee balanced on one knee."
@@ -194,6 +206,10 @@ export const RHONDA_SCENES = {
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true,
+            "met_bob": true
           }
         }
       },
@@ -215,6 +231,10 @@ export const RHONDA_SCENES = {
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true,
+            "met_bob": true
           }
         }
       },
@@ -239,17 +259,24 @@ export const RHONDA_SCENES = {
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true,
+            "met_bob": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "rhonda_lounge_short.v2",
+        "oneShot": true,
         "when": {
           "seenScene": "rhonda_lounge_short",
           "minFriendship": {
             "rhonda": 5
-          }
+          },
+          "seenVariant": "rhonda_lounge_short.v1"
         },
         "content": [
           {
@@ -284,11 +311,14 @@ export const RHONDA_SCENES = {
             "effects": {
               "friendship": {
                 "rhonda": 1
+              },
+              "flags": {
+                "met_rhonda": true
               }
             }
           },
           {
-            "text": "“You could star in the remake.”",
+            "text": "You could star in the remake.",
             "outcome": [
               {
                 "speaker": "RHONDA",
@@ -305,14 +335,20 @@ export const RHONDA_SCENES = {
             "effects": {
               "friendship": {
                 "rhonda": 1
+              },
+              "flags": {
+                "met_rhonda": true
               }
             }
           }
         ]
       },
       {
+        "id": "rhonda_lounge_short.v3",
+        "oneShot": true,
         "when": {
-          "seenScene": "rhonda_lounge_short"
+          "seenScene": "rhonda_lounge_short",
+          "seenVariant": "rhonda_lounge_short.v2"
         },
         "content": [
           {
@@ -323,14 +359,14 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "There you are. I was beginning to think you’d found more interesting people."
+            "text": "There you are. I was beginning to think you’d found more interesting people to talk to."
           },
           {
             "text": "She turns the page."
           },
           {
             "speaker": "RHONDA",
-            "text": "Unlikely, but one must allow for miracles."
+            "text": "Of course, I knew it was unlikely, but one must allow for miracles."
           }
         ],
         "choices": [
@@ -342,12 +378,15 @@ export const RHONDA_SCENES = {
               },
               {
                 "speaker": "RHONDA",
-                "text": "Page three. Tell me whether I am being unfair. I dislike being unfair by myself."
+                "text": "Page three - outrageous outfit. Have a look and tell me whether I am being unfair. Or better, be unfair with me."
               }
             ],
             "effects": {
               "friendship": {
                 "rhonda": 1
+              },
+              "flags": {
+                "met_rhonda": true
               }
             }
           },
@@ -356,15 +395,18 @@ export const RHONDA_SCENES = {
             "outcome": [
               {
                 "speaker": "RHONDA",
-                "text": "Proof that nobody with cheekbones should be trusted before lunch."
+                "text": "Proof that nobody with a jawline like that should be trusted. Look!"
               },
               {
-                "text": "She shows you the article anyway. Her coffee goes cold while she explains the entire thing."
+                "text": "She shows you an article about a handsome film star caught cheating on his wife. Her coffee goes cold while she explains the whole saga."
               }
             ],
             "effects": {
               "friendship": {
                 "rhonda": 1
+              },
+              "flags": {
+                "met_rhonda": true
               }
             }
           },
@@ -376,12 +418,22 @@ export const RHONDA_SCENES = {
               },
               {
                 "speaker": "RHONDA",
-                "text": "You are learning. Slowly, but it counts."
+                "text": "I don't know why I read this filth. Nasty people with beautiful outfits doing selfish things."
+              },
+              {
+                "text": "She looks at you, a glimmer in her eye."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "Now before you say it, I fully reject any suggestion of hypocrisy. For one, I'm only nasty when I need to be."
               }
             ],
             "effects": {
               "friendship": {
                 "rhonda": 1
+              },
+              "flags": {
+                "met_rhonda": true
               }
             }
           }
@@ -393,25 +445,24 @@ export const RHONDA_SCENES = {
     "title": "Pottery",
     "location": "Craft Room",
     "art": "Craft Room",
+    "variantId": "rhonda_pottery.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The noticeboard said Pottery: Beginners Welcome."
-      },
-      {
-        "text": "The craft room is calm. People are chatting, laughing, making uneven bowls and pretending they meant to."
+        "text": "The craft room is calm. People are chatting, laughing, and making uneven bowls and plenty of mess."
       },
       {
         "text": "Rhonda is the only person who looks tense."
       },
       {
-        "text": "She sits at the nearest wheel in a silk scarf, back straight, chin lifted. Her clay has collapsed."
+        "text": "She sits at the nearest wheel in an outfit that’s far too nice for the occasion. Her clay has collapsed."
       },
       {
-        "text": "She looks at it with an expression of betrayal."
+        "text": "She looks at it with an expression of disgust."
       },
       {
         "speaker": "RHONDA",
-        "text": "Don’t look at it."
+        "text": "Ugh, it’s a disaster. Don’t look at it."
       }
     ],
     "choices": [
@@ -427,19 +478,22 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "It knows what it’s done."
+            "text": "I don’t blame you. It’s like a train wreck."
           },
           {
             "text": "The clay slumps further."
           },
           {
             "speaker": "RHONDA",
-            "text": "Oh, be like that then."
+            "text": "Oh, be like that then, foul lump."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true
           }
         }
       },
@@ -451,19 +505,22 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "So did my second husband. That wasn’t enough either."
+            "text": "So did my second husband. But that didn't save our marriage."
           },
           {
             "text": "She tries to lift the clay. It slumps."
           },
           {
             "speaker": "RHONDA",
-            "text": "Oh, forget you."
+            "text": "Character, indeed."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true
           }
         }
       },
@@ -478,14 +535,14 @@ export const RHONDA_SCENES = {
             "text": "A vase."
           },
           {
-            "text": "Rhonda lets that sit for a moment."
+            "text": "You suppress a chuckle. Rhonda notices."
           },
           {
             "speaker": "RHONDA",
-            "text": "For cacti. Or rocks."
+            "text": "Oh, stop it. It could well be a vase! For particularly wide and flat cacti. Or rocks."
           },
           {
-            "text": "The pottery teacher passes behind her and says something encouraging. Rhonda smiles too brightly until she’s gone."
+            "text": "The pottery teacher passes behind her and says something encouraging. Rhonda smiles too brightly until she’s gone. She turns to you, rolling her eyes."
           },
           {
             "speaker": "RHONDA",
@@ -497,12 +554,18 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Because some of us spent a great deal of effort becoming charmingly competent."
+            "text": "Because some of us have spent a great deal of effort becoming charmingly competent, and don't wish to revert."
+          },
+          {
+            "text": "You both laugh."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true
           }
         }
       },
@@ -522,7 +585,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Don’t make a song about it."
+            "text": "Alright. Hold that silly thing so it doesn't wobble on me."
           },
           {
             "text": "You sit beside her and steady the wheel while she tries again."
@@ -532,22 +595,14 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Well."
-          },
-          {
-            "speaker": "PLAYER",
-            "text": "Better?"
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Let’s not become emotional. But yes."
+            "text": "Well. That's something."
           },
           {
             "text": "She wipes clay from her wrist."
           },
           {
             "speaker": "RHONDA",
-            "text": "I once wore a sequinned gown under studio lights for fourteen hours, and I was more comfortable than I am in this room."
+            "text": "I once had to wear a sequinned gown and full makeup under studio lights for fourteen hours, and I was more comfortable in those conditions  than I am in this room."
           },
           {
             "speaker": "PLAYER",
@@ -555,7 +610,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Television. Very glamorous. Very stupid. I had two lines and a migraine."
+            "text": "Television. The Good Friday Appeal. Bert Newton did the talking. I did the smiling and the gesturing at things. I had a sickening migraine by the end of it."
           },
           {
             "text": "She smiles."
@@ -563,13 +618,6 @@ export const RHONDA_SCENES = {
           {
             "speaker": "RHONDA",
             "text": "Still. The camera loved me."
-          },
-          {
-            "text": "Then, quieter:"
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "For about twelve seconds."
           }
         ],
         "effects": {
@@ -577,7 +625,8 @@ export const RHONDA_SCENES = {
             "rhonda": 2
           },
           "flags": {
-            "helped_rhonda_pottery": true
+            "helped_rhonda_pottery": true,
+            "met_rhonda": true
           }
         }
       }
@@ -587,6 +636,8 @@ export const RHONDA_SCENES = {
     "title": "Movie night",
     "location": "Cinema Room",
     "art": "Cinema Room",
+    "variantId": "rhonda_movie_night.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Movie night is showing an old black-and-white comedy."
@@ -598,7 +649,7 @@ export const RHONDA_SCENES = {
         "text": "Rhonda sits two rows from the back."
       },
       {
-        "text": "She sees you and lifts a finger to her lips."
+        "text": "She sees you and lifts her hand to wave you over."
       },
       {
         "speaker": "RHONDA",
@@ -619,63 +670,113 @@ export const RHONDA_SCENES = {
       {
         "speaker": "RHONDA",
         "text": "That fall is perfect."
-      },
-      {
-        "text": "After the film, people shuffle out slowly, still talking about the ending."
-      },
-      {
-        "text": "Rhonda remains seated for a moment."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Comedy is harder than drama. People think it’s lighter because they’re not paying attention."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "There was one little part I loved. I played this ridiculous woman. Came on in the second act, insulted a priest, lost her hat, left again."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "It wasn’t much. Not really."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "But every night, when the hat went, the room lost it."
-      },
-      {
-        "text": "She says it softly."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "That was lovely."
       }
     ],
     "choices": [
       {
-        "text": "Poor hat.",
+        "text": "It looked painful.",
         "outcome": [
           {
             "speaker": "RHONDA",
-            "text": "That’s why it’s funny."
+            "text": "That’s why it’s funny!"
           },
+          {
+            "text": "You look at her, mildly concerned."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "You know …As a bit."
+          },
+          {
+            "text": "After the film, people shuffle out slowly, still talking about the ending."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "You know, I played a bit part in a terrible play once. ‘Bishops and Bombshells’, it was called. Awful writing. I came on in the second act, insulted a priest, lost my hat, left again."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "It wasn’t much. But every night, when the hat went, the room lost it. Once, we had to get the cleaner in because an audience member wet her pants, she was laughing so hard! At least, I hope that's why."
+          },
+          {
+            "text": "She laughs, and then says softly:"
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "That was the best role I ever had."
+          }
+        ],
+        "effects": {
+          "flags": {
+            "met_rhonda": true,
+            "rhonda_told_hat_story": true
+          },
+          "memories": [
+            "rhonda_hat_laugh"
+          ]
+        }
+      },
+      {
+        "text": "She timed it perfectly.",
+        "outcome": [
+          {
+            "speaker": "RHONDA",
+            "text": "Yes! A moment earlier or later and it wouldn't land. Comedy is harder than drama. People think it’s easier, but that’s because they’re not paying attention. The timing is everything."
+          },
+          {
+            "text": "After the film, people shuffle out slowly, still talking about the ending."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "You know, I played a bit part in a terrible play once. ‘Bishops and Bombshells’, it was called. Awful writing. I came on in the second act, insulted a priest, lost my hat, left again."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "It wasn’t much. But every night, when the hat went, the room lost it. Once, we had to get the cleaner in because an audience member wet her pants, she was laughing so hard! At least, I hope that's why."
+          },
+          {
+            "text": "She laughs, and then says softly:"
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "That was the best role I ever had."
+          }
+        ],
+        "effects": {
+          "flags": {
+            "met_rhonda": true,
+            "rhonda_told_hat_story": true
+          },
+          "memories": [
+            "rhonda_hat_laugh"
+          ]
+        }
+      },
+      {
+        "text": "Poor woman, she must have been embarrassed.",
+        "outcome": [
           {
             "text": "She glances at you."
           },
           {
             "speaker": "RHONDA",
-            "text": "You know. As a bit."
+            "text": "Yes, well. I've had three children. One becomes desensitised to such things."
+          },
+          {
+            "text": "You both laugh."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 1
           },
+          "flags": {
+            "rhonda_told_hat_story": true,
+            "met_rhonda": true
+          },
           "memories": [
             "rhonda_hat_laugh"
-          ],
-          "flags": {
-            "rhonda_told_hat_story": true
-          }
+          ]
         }
       },
       {
@@ -686,26 +787,27 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Yes. Exactly. Half a second earlier and it’s nothing. Half a second later and the audience has already guessed."
+            "text": "Yes. Exactly. It had to be just right to undercut the character's rage."
           },
           {
             "text": "She mimes it: the slow turn, a hand rising to a hat that is no longer there."
           },
           {
             "speaker": "RHONDA",
-            "text": "That beat before she realises — that’s the whole joke. You could hear four hundred people lean in."
+            "text": "That moment of righteous satisfaction before she realises — that’s the whole joke."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 2
           },
+          "flags": {
+            "rhonda_told_hat_story": true,
+            "met_rhonda": true
+          },
           "memories": [
             "rhonda_hat_laugh"
-          ],
-          "flags": {
-            "rhonda_told_hat_story": true
-          }
+          ]
         }
       },
       {
@@ -716,26 +818,27 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Of course I do."
+            "text": "I do."
           },
           {
             "text": "She folds her hands in her lap."
           },
           {
             "speaker": "RHONDA",
-            "text": "Applause is nice. A laugh like that stays in the bones."
+            "text": "Applause is nice. But a raucous laugh? That goes to the soul."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 2
           },
+          "flags": {
+            "rhonda_told_hat_story": true,
+            "met_rhonda": true
+          },
           "memories": [
             "rhonda_hat_laugh"
-          ],
-          "flags": {
-            "rhonda_told_hat_story": true
-          }
+          ]
         }
       },
       {
@@ -743,7 +846,7 @@ export const RHONDA_SCENES = {
         "outcome": [
           {
             "speaker": "RHONDA",
-            "text": "Darling, I have been married twice. I understand slapstick."
+            "text": "Darling, I have had two husbands and three children. I've lived slapstick."
           },
           {
             "text": "She turns back to the blank screen, still smiling."
@@ -753,33 +856,43 @@ export const RHONDA_SCENES = {
           "friendship": {
             "rhonda": 1
           },
+          "flags": {
+            "rhonda_told_hat_story": true,
+            "met_rhonda": true
+          },
           "memories": [
             "rhonda_hat_laugh"
-          ],
-          "flags": {
-            "rhonda_told_hat_story": true
-          }
+          ]
         }
       }
     ]
   },
-  "rhonda_old_box": {
+  "rhonda_memories": {
     "title": "The old box",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "rhonda_memories.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Someone has left three cardboard boxes beside the piano."
       },
       {
-        "text": "The labels read: TAX 2002. CHRISTMAS THINGS. DO NOT OPEN UNLESS DEAD."
+        "text": "The labels read: MISCELLANEOUS MEMORIES. DO NOT OPEN UNLESS DEAD."
       },
       {
         "text": "Rhonda is holding a feather boa."
       },
       {
         "speaker": "RHONDA",
-        "text": "I appear to have been robbed by my younger self."
+        "text": "Hello."
+      },
+      {
+        "text": "She gestures at the boxes."
+      },
+      {
+        "speaker": "RHONDA",
+        "text": "Deliveries from the storage unit."
       }
     ],
     "choices": [
@@ -823,60 +936,12 @@ export const RHONDA_SCENES = {
             "text": "Clever things. Very busy. London, Toronto, Los Angeles. I practically need a production schedule to ring them."
           }
         ],
-        "nextSceneId": "rhonda_children_followup",
         "effects": {
-          "friendship": {
-            "rhonda": 1
+          "flags": {
+            "met_rhonda": true
           }
-        }
-      },
-      {
-        "text": "Should I ask about the box?",
-        "outcome": [
-          {
-            "text": "Rhonda looks at the label."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Absolutely not."
-          },
-          {
-            "text": "She lasts about two seconds."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Alright, I’ll tell you."
-          },
-          {
-            "text": "She sits on the edge of a box."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "I had children, and the work slowed."
-          },
-          {
-            "text": "She picks up a programme."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Then the roles got smaller. Somehow I became too old for ingénues, too young for grandmothers, and I’m too glamorous for mothers, which sounds flattering until you realise it means unemployed."
-          },
-          {
-            "text": "She laughs once."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "So when the children showed interest, I thought, good. There it is. The door is still open, just not for me."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "rhonda": 2
-          },
-          "memories": [
-            "rhonda_children_film"
-          ]
-        }
+        },
+        "nextSceneId": "rhonda_children_questions"
       },
       {
         "text": "That boa suits you.",
@@ -907,28 +972,28 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Yes."
+            "text": "Well, yes."
           },
           {
             "text": "Then:"
           },
           {
             "speaker": "RHONDA",
-            "text": "Not in the way people think."
+            "text": "But not in the way people think."
           },
           {
             "text": "She picks up a tiny theatre programme."
           },
           {
             "speaker": "RHONDA",
-            "text": "This one. Awful play. Terrible reviews. We performed for twenty-seven people and a damp patch on the ceiling."
+            "text": "See? Look at this one. Awful play. Terrible reviews. We performed for twenty-seven people and half of them were friends we dragged in to watch us."
           },
           {
             "text": "The memory gets the better of her for a second."
           },
           {
             "speaker": "RHONDA",
-            "text": "Best laugh I ever got."
+            "text": "I played a rich lady with a poodle, and my friend Steve played the poodle. There was one scene where I tripped over him. Best laugh I ever got."
           },
           {
             "text": "She looks at the programme."
@@ -944,48 +1009,88 @@ export const RHONDA_SCENES = {
           },
           "memories": [
             "rhonda_miss_performing"
-          ]
+          ],
+          "flags": {
+            "met_rhonda": true
+          }
+        }
+      },
+      {
+        "text": "Good luck with that.",
+        "outcome": [
+          {
+            "text": "Rhonda blinks."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "I don’t need luck, my dear."
+          },
+          {
+            "text": "You leave her to sort through the boxes."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "rhonda": -1
+          },
+          "flags": {
+            "met_rhonda": true
+          }
         }
       }
     ]
   },
-  "rhonda_children_followup": {
+  "rhonda_children_questions": {
     "title": "The old box",
     "location": "Community Lounge",
     "art": "Community Lounge",
-    "content": [
-      {
-        "text": "Rhonda puts the photograph on top of the programmes instead of back in the box."
-      },
-      {
-        "speaker": "PLAYER",
-        "text": "They all went into film?"
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "All three. One edits, one produces, one writes things with impossible budgets and no weather."
-      },
-      {
-        "text": "She says it fondly. Then she lines up the edge of the photograph with the edge of the programme beneath it."
-      }
-    ],
+    "hidden": true,
+    "content": [],
     "choices": [
       {
-        "text": "Ask if that was hard.",
+        "text": "Is that what they wanted?",
         "outcome": [
           {
-            "speaker": "RHONDA",
-            "text": "Yes."
-          },
-          {
-            "text": "She answers quickly, before she can make it charming."
+            "text": "She narrows her eyes at you."
           },
           {
             "speaker": "RHONDA",
-            "text": "I was proud. I am proud. But there was a while when every good thing that happened to them felt like proof the door had not been locked, only closed on me."
+            "text": "Careful."
           },
           {
-            "text": "She picks up the photo again, gentler this time."
+            "text": "She sighs."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "Not always. But they’re happy now, I think."
+          },
+          {
+            "text": "She sits on the arm of a couch."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "When I had children, the work slowed."
+          },
+          {
+            "text": "She picks up a programme."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "The roles got smaller. I became too old for ingénues, too young for old matrons, and I was still too glamorous for mothers, which sounds good until you realise it means I was unemployed."
+          },
+          {
+            "text": "She laughs once."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "So when the children showed interest, I thought, good. There it is. The door is still open, just not for me."
+          },
+          {
+            "text": "She pauses."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "They’ve done very well. I’m proud of them."
           }
         ],
         "effects": {
@@ -994,51 +1099,43 @@ export const RHONDA_SCENES = {
           },
           "memories": [
             "rhonda_children_film"
-          ]
+          ],
+          "flags": {
+            "met_rhonda": true
+          }
         }
       },
       {
-        "text": "Say they must have learned from her.",
+        "text": "You must be very proud.",
         "outcome": [
           {
-            "speaker": "RHONDA",
-            "text": "They learned plenty from me. Timing. Nerve. Where to stand so the light does the work."
-          },
-          {
-            "text": "She smiles at the photograph, then at the box."
+            "text": "She smiles at you."
           },
           {
             "speaker": "RHONDA",
-            "text": "They also learned to leave when the door opened. I cannot fault them for that."
+            "text": "I am."
+          },
+          {
+            "text": "She considers the programme."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "They’ve done well. Successful careers, happy marriages — they’ve done what I couldn’t."
+          },
+          {
+            "text": "She smiles, but her eyes don’t."
           }
         ],
         "effects": {
           "friendship": {
-            "rhonda": 1
+            "rhonda": 2
           },
           "memories": [
             "rhonda_children_film"
-          ]
-        }
-      },
-      {
-        "text": "Let her put the photo away.",
-        "outcome": [
-          {
-            "text": "You do not ask more. Rhonda slips the photograph back into the box and rests one hand on the lid."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "They are clever things. Busy things. That is what one hopes for, apparently."
+          ],
+          "flags": {
+            "met_rhonda": true
           }
-        ],
-        "effects": {
-          "friendship": {
-            "rhonda": 1
-          },
-          "memories": [
-            "rhonda_children_film"
-          ]
         }
       }
     ]
@@ -1047,15 +1144,14 @@ export const RHONDA_SCENES = {
     "title": "The notice",
     "location": "Noticeboard",
     "art": "Noticeboard",
+    "variantId": "rhonda_concert_notice.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Pinned crookedly over the usual notices is a fresh sheet of paper."
       },
       {
-        "text": "SUMMER HILLS AUTUMN CONCERT. Performers wanted. Singers, readers, musicians, dancers, comedians, magicians, poets, and persons with unclear but enthusiastic talents. See Rhonda. Do not see Al. He has already suggested a costume change."
-      },
-      {
-        "text": "Below it, in different handwriting: I STAND BY THE COSTUME CHANGE. — Al"
+        "text": "SUMMER HILLS AUTUMN CONCERT. Performers wanted. Singers, readers, musicians, dancers, comedians, magicians, poets, and all manner of persons with talents."
       },
       {
         "text": "Rhonda is standing nearby with a pen, looking pleased with herself."
@@ -1082,14 +1178,18 @@ export const RHONDA_SCENES = {
             "text": "Naturally."
           },
           {
-            "text": "She taps the notice with the pen."
+            "text": "She grins."
           },
           {
             "speaker": "RHONDA",
-            "text": "This place needs a little noise."
+            "text": "This place needs a little excitement."
           },
           {
             "text": "Behind her, Al reads the note again and nods to himself."
+          },
+          {
+            "speaker": "AL",
+            "text": "Exactly. About time my talent found an outlet here."
           }
         ],
         "effects": {
@@ -1098,7 +1198,9 @@ export const RHONDA_SCENES = {
             "al": 1
           },
           "flags": {
-            "concert_started": true
+            "concert_started": true,
+            "met_rhonda": true,
+            "met_al": true
           }
         }
       },
@@ -1106,7 +1208,7 @@ export const RHONDA_SCENES = {
         "text": "Are you performing?",
         "outcome": [
           {
-            "text": "Rhonda’s smile holds."
+            "text": "Rhonda’s smile thins a little."
           },
           {
             "speaker": "RHONDA",
@@ -1125,31 +1227,28 @@ export const RHONDA_SCENES = {
             "rhonda": 1
           },
           "flags": {
-            "concert_started": true
+            "concert_started": true,
+            "met_rhonda": true,
+            "met_al": true
           }
         }
       },
       {
-        "text": "Good luck with that.",
+        "text": "I'm not interested in shows.",
         "outcome": [
           {
             "speaker": "RHONDA",
-            "text": "Luck is what people call preparation when they arrive late."
-          },
-          {
-            "text": "She looks pointedly at the sign-up sheet."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Don’t arrive late."
+            "text": "Nor are shows in you, I would think."
           }
         ],
         "effects": {
           "friendship": {
-            "rhonda": 0
+            "rhonda": -1
           },
           "flags": {
-            "concert_started": true
+            "concert_started": true,
+            "met_rhonda": true,
+            "met_al": true
           }
         }
       }
@@ -1159,10 +1258,9 @@ export const RHONDA_SCENES = {
     "title": "Recruitment",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "rhonda_recruitment.v1",
+    "oneShot": true,
     "content": [
-      {
-        "text": "Rhonda sits upright at a table in the lounge, looking right at home with a clipboard, coloured pens, and a list of names."
-      },
       {
         "text": "You spot your own name among them."
       },
@@ -1176,7 +1274,7 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "Structure first. Talent second. Enthusiasm third."
+        "text": "Structure first. Talent second."
       },
       {
         "text": "Bob stands near the back, arms folded."
@@ -1203,17 +1301,17 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "Don’t worry. It will be short."
+        "text": "A poem! Don’t worry. It can be short."
       },
       {
-        "text": "Bob relaxes half an inch."
+        "text": "Bob frowns."
       },
       {
         "speaker": "RHONDA",
         "text": "But moving."
       },
       {
-        "text": "Bob turns red."
+        "text": "He turns red."
       },
       {
         "text": "Pablo arrives carrying a tray of biscuits."
@@ -1234,7 +1332,10 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "PABLO",
-        "text": "Ah. That’s how they get you."
+        "text": "Ah. That's how they get you!"
+      },
+      {
+        "text": "He shakes his head, but his face betrays that he's pleased."
       }
     ],
     "choices": [
@@ -1254,6 +1355,13 @@ export const RHONDA_SCENES = {
           {
             "speaker": "RHONDA",
             "text": "Look at them. Half of them came to complain and now they’re helping."
+          },
+          {
+            "text": "She leans in and lowers her voice"
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "They may complain about helping, but they'll be helping."
           }
         ],
         "effects": {
@@ -1261,7 +1369,12 @@ export const RHONDA_SCENES = {
             "rhonda": 2
           },
           "flags": {
-            "rhonda_recruitment_seen": true
+            "rhonda_recruitment_seen": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_bob": true,
+            "met_pablo": true,
+            "rhonda_pushed_too_hard": true
           }
         }
       },
@@ -1281,11 +1394,15 @@ export const RHONDA_SCENES = {
         ],
         "effects": {
           "friendship": {
-            "rhonda": 0,
+            "rhonda": -1,
             "bob": 1
           },
           "flags": {
-            "rhonda_recruitment_seen": true
+            "rhonda_recruitment_seen": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       },
@@ -1314,7 +1431,11 @@ export const RHONDA_SCENES = {
           },
           "flags": {
             "rhonda_recruitment_seen": true,
-            "player_helped_recruit": true
+            "player_helped_recruit": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       }
@@ -1324,12 +1445,14 @@ export const RHONDA_SCENES = {
     "title": "First rehearsal",
     "location": "Hall",
     "art": "Hall",
+    "variantId": "rhonda_rehearsal.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "The hall is busy."
       },
       {
-        "text": "Jean wants to include a protest song. Al wants to open with something from 1967 and won’t say what. Bob is standing beside the stage holding a poem. Pablo is measuring the trestle tables because, if he is feeding people, he intends to do it properly."
+        "text": "Jean wants to include a protest song. Al wants to open with a Johnny O'Keefe number. Bob is standing beside the stage holding a poem, looking as though he'd quite like to throw it in the bin. Pablo is eyeing the trestle tables."
       },
       {
         "text": "Rhonda claps twice."
@@ -1340,7 +1463,7 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "AL",
-        "text": "Whose top?"
+        "text": "What was that? Take off my top?"
       },
       {
         "text": "Rhonda looks at him."
@@ -1352,7 +1475,7 @@ export const RHONDA_SCENES = {
         "text": "The rehearsal begins."
       },
       {
-        "text": "It immediately stops."
+        "text": "It soon stops."
       },
       {
         "speaker": "RHONDA",
@@ -1366,32 +1489,29 @@ export const RHONDA_SCENES = {
         "text": "I told you I shouldn’t do it."
       },
       {
-        "text": "Rhonda’s face flickers."
+        "text": "Rhonda’s face flickers, and her tone softens considerably."
+      },
+      {
+        "speaker": "RHONDA",
+        "text": "Of course you should. You'll be great. Again, come on."
       }
     ],
     "choices": [
       {
-        "text": "Give him a minute.",
+        "text": "Give him a minute. We could all use a break.",
         "outcome": [
           {
             "text": "Rhonda exhales."
           },
           {
             "speaker": "RHONDA",
-            "text": "Fine."
-          },
-          {
-            "text": "Then, softer:"
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "A minute."
+            "text": "Yes. Take a break. Come back in ten, all."
           },
           {
             "text": "Bob nods at you once."
           },
           {
-            "text": "Later, when people drift out, Rhonda remains in the hall, rearranging chairs that do not need rearranging."
+            "text": "As people drift out, Rhonda remains in place."
           },
           {
             "speaker": "PLAYER",
@@ -1406,13 +1526,6 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "No."
-          },
-          {
-            "text": "She looks at the little stage."
-          },
-          {
-            "speaker": "RHONDA",
             "text": "It’s smaller than I remembered."
           },
           {
@@ -1421,7 +1534,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "Everything."
+            "text": "I don't know. The stage. Me. Everything."
           }
         ],
         "effects": {
@@ -1430,7 +1543,12 @@ export const RHONDA_SCENES = {
             "bob": 1
           },
           "flags": {
-            "rhonda_rehearsal_seen": true
+            "rhonda_rehearsal_seen": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       },
@@ -1439,17 +1557,20 @@ export const RHONDA_SCENES = {
         "outcome": [
           {
             "speaker": "AL",
-            "text": "Impossible."
+            "text": "Impossible!"
+          },
+          {
+            "text": "Al feigns moral outrage while Rhonda laughs."
           },
           {
             "speaker": "RHONDA",
-            "text": "Sadly, no."
+            "text": "He is. You are, Bob."
           },
           {
-            "text": "Bob looks down at his clipboard."
+            "text": "Bob smiles at his feet."
           },
           {
-            "text": "Rehearsal resumes. It is not good, but it is louder than it was."
+            "text": "Rehearsal resumes, a little louder this time."
           }
         ],
         "effects": {
@@ -1459,7 +1580,12 @@ export const RHONDA_SCENES = {
             "al": 1
           },
           "flags": {
-            "rhonda_rehearsal_seen": true
+            "rhonda_rehearsal_seen": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       },
@@ -1471,27 +1597,35 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "I beg your pardon?"
+            "text": "Pressure makes diamonds. Ease makes failures."
           },
           {
-            "text": "The room goes quiet."
+            "text": "She looks around and realises nobody else feels the same way."
           },
           {
             "speaker": "RHONDA",
-            "text": "This is not a bus tour. I am not here for the scenery."
+            "text": "No, sorry, you're right."
           },
           {
-            "text": "Later, you see Bob leave early. Rhonda watches him go and says nothing."
+            "text": "She turns to Bob."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "Take your time, dear."
           }
         ],
         "effects": {
           "friendship": {
-            "rhonda": -1,
+            "rhonda": 0,
             "bob": 1
           },
           "flags": {
             "rhonda_rehearsal_seen": true,
-            "rhonda_pushed_too_hard": true
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       }
@@ -1501,22 +1635,17 @@ export const RHONDA_SCENES = {
     "title": "Final rehearsal",
     "location": "Hall",
     "art": "Hall",
+    "variantId": "rhonda_final_rehearsal.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "Final rehearsal is less organised than Rhonda wants and more organised than anyone else expected."
-      },
-      {
-        "text": "Al sings half a song and flirts with the front row, which is currently three empty chairs and Bob."
+        "text": "Final rehearsal. Al sings half of his song and flirts with the front row, which is currently three empty chairs and Bob."
       },
       {
         "text": "Pablo checks the trestle tables again."
       },
       {
-        "text": "Rhonda keeps her script folded in one hand."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Again. From the beginning. And if anyone says ‘whose beginning,’ I shall retire immediately."
+        "text": "Rhonda keeps her runsheet folded in one hand."
       }
     ],
     "choices": [
@@ -1535,7 +1664,12 @@ export const RHONDA_SCENES = {
             "rhonda": 1
           },
           "flags": {
-            "helped_final_rehearsal": true
+            "helped_final_rehearsal": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       },
@@ -1544,7 +1678,7 @@ export const RHONDA_SCENES = {
         "outcome": [
           {
             "speaker": "RHONDA",
-            "text": "A younger spine, a better curtain, and Al to discover shame."
+            "text": "A younger spine, a cigarette and a shot of vodka."
           },
           {
             "text": "She looks at the stage."
@@ -1552,6 +1686,13 @@ export const RHONDA_SCENES = {
           {
             "speaker": "RHONDA",
             "text": "Failing that, stay where I can see you."
+          },
+          {
+            "text": "She leans in a little."
+          },
+          {
+            "speaker": "RHONDA",
+            "text": "And please come and see me the night before. I always get the willies on Opening Night Eve."
           }
         ],
         "effects": {
@@ -1559,7 +1700,12 @@ export const RHONDA_SCENES = {
             "rhonda": 2
           },
           "flags": {
-            "helped_final_rehearsal": true
+            "helped_final_rehearsal": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       },
@@ -1575,26 +1721,33 @@ export const RHONDA_SCENES = {
         ],
         "effects": {
           "flags": {
-            "skipped_final_rehearsal": true
+            "skipped_final_rehearsal": true,
+            "met_rhonda": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_bob": true,
+            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "rhonda_final_rehearsal.v2",
+        "oneShot": true,
         "when": {
           "seenScene": "rhonda_final_rehearsal"
         },
         "content": [
           {
-            "text": "The hall has reached the stage of rehearsal where everyone knows what they are meant to do and several people are doing something else."
+            "text": "The hall has reached the stage of rehearsal where everyone knows what they are meant to do."
           },
           {
-            "text": "Rhonda stands near the front row with her script folded in one hand and a pencil behind one ear."
+            "text": "Rhonda stands near the front row with her runsheet folded in one hand and a pencil behind one ear."
           },
           {
             "speaker": "RHONDA",
-            "text": "Good. You’re here. I need either assistance or a witness. Possibly both."
+            "text": "Good. You’re here. I need both material and moral support. Possibly more."
           }
         ],
         "choices": [
@@ -1613,7 +1766,10 @@ export const RHONDA_SCENES = {
                 "rhonda": 1
               },
               "flags": {
-                "helped_final_rehearsal": true
+                "helped_final_rehearsal": true,
+                "met_rhonda": true,
+                "met_al": true,
+                "met_bob": true
               }
             }
           },
@@ -1622,10 +1778,14 @@ export const RHONDA_SCENES = {
             "outcome": [
               {
                 "speaker": "RHONDA",
-                "text": "Everything, briefly. Then nothing, abruptly. That is theatre."
+                "text": "Everything, please."
               },
               {
-                "text": "She gives you a list anyway. Most of it is chairs. Some of it is diplomacy."
+                "text": "She gives you a list anyway, then leans in."
+              },
+              {
+                "speaker": "RHONDA",
+                "text": "Please come and see me the night before. I always get the willies on Opening Night Eve."
               }
             ],
             "effects": {
@@ -1633,7 +1793,10 @@ export const RHONDA_SCENES = {
                 "rhonda": 2
               },
               "flags": {
-                "helped_final_rehearsal": true
+                "helped_final_rehearsal": true,
+                "met_rhonda": true,
+                "met_al": true,
+                "met_bob": true
               }
             }
           },
@@ -1641,7 +1804,7 @@ export const RHONDA_SCENES = {
             "text": "Leave before you are given a clipboard.",
             "outcome": [
               {
-                "text": "You retreat before Rhonda can assign you responsibility for curtains, morale, or Al."
+                "text": "You retreat before Rhonda can assign you responsibility for anything."
               },
               {
                 "text": "Behind you, she calls for quiet and nearly gets it."
@@ -1649,7 +1812,10 @@ export const RHONDA_SCENES = {
             ],
             "effects": {
               "flags": {
-                "skipped_final_rehearsal": true
+                "skipped_final_rehearsal": true,
+                "met_rhonda": true,
+                "met_al": true,
+                "met_bob": true
               }
             }
           }
@@ -1661,13 +1827,15 @@ export const RHONDA_SCENES = {
     "title": "Before the show",
     "location": "Community Lounge",
     "art": "Community Lounge",
+    "variantId": "rhonda_lounge_before_show.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Rhonda is holding court in the lounge, but she keeps glancing toward the hall."
       },
       {
         "speaker": "AL",
-        "text": "Nervous?"
+        "text": "Nervous."
       },
       {
         "speaker": "RHONDA",
@@ -1679,10 +1847,10 @@ export const RHONDA_SCENES = {
       },
       {
         "speaker": "RHONDA",
-        "text": "Then yes, but only because you keep threatening leather trousers."
+        "text": "Oh. Well, perhaps you should break out the leather slacks."
       },
       {
-        "text": "Al looks delighted."
+        "text": "Al looks delighted. You're not sure whether you've just heard an in-joke, or if Al really owns leather slacks. You're afraid to ask."
       }
     ],
     "choices": [
@@ -1690,16 +1858,17 @@ export const RHONDA_SCENES = {
         "text": "Sit with them for a while.",
         "outcome": [
           {
-            "text": "You sit. Rhonda does most of the talking. Al does most of the interrupting."
-          },
-          {
-            "text": "It helps, though neither of them would admit it."
+            "text": "You sit. Rhonda does most of the talking. Al nods along and occasionally punctuates her words with a few phrases of song."
           }
         ],
         "effects": {
           "friendship": {
             "rhonda": 1,
             "al": 1
+          },
+          "flags": {
+            "met_rhonda": true,
+            "met_al": true
           }
         }
       },
@@ -1711,7 +1880,7 @@ export const RHONDA_SCENES = {
             "text": "Luck is for amateurs."
           },
           {
-            "text": "She looks down at her hands."
+            "text": "She looks down at her hands, then whispers:"
           },
           {
             "speaker": "RHONDA",
@@ -1721,6 +1890,10 @@ export const RHONDA_SCENES = {
         "effects": {
           "friendship": {
             "rhonda": 1
+          },
+          "flags": {
+            "met_rhonda": true,
+            "met_al": true
           }
         }
       }
@@ -1730,6 +1903,8 @@ export const RHONDA_SCENES = {
     "title": "The night before",
     "location": "Hall",
     "art": "Hall",
+    "variantId": "rhonda_night_before.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "The hall is empty except for Rhonda."
@@ -1753,7 +1928,7 @@ export const RHONDA_SCENES = {
     ],
     "choices": [
       {
-        "text": "You’ll be great. Everyone will love you.",
+        "text": "It's just a retirement village talent show.",
         "outcome": [
           {
             "text": "Rhonda smiles, but it doesn’t reach her eyes."
@@ -1763,11 +1938,11 @@ export const RHONDA_SCENES = {
             "text": "Yes. Well."
           },
           {
-            "text": "She looks down at the script."
+            "text": "She looks down at her hands."
           },
           {
             "speaker": "RHONDA",
-            "text": "That was always the plan, wasn’t it?"
+            "text": "I suppose it's not important, then."
           }
         ],
         "effects": {
@@ -1775,7 +1950,8 @@ export const RHONDA_SCENES = {
             "rhonda": 0
           },
           "flags": {
-            "rhonda_night_before_failed": true
+            "rhonda_night_before_failed": true,
+            "met_rhonda": true
           }
         }
       },
@@ -1787,7 +1963,7 @@ export const RHONDA_SCENES = {
           },
           {
             "speaker": "RHONDA",
-            "text": "That is the kindest and most dangerous thing anyone has said to me all week."
+            "text": "That is the kindest and the cruellest thing anyone has said to me all week."
           }
         ],
         "effects": {
@@ -1795,13 +1971,13 @@ export const RHONDA_SCENES = {
             "rhonda": 0
           },
           "flags": {
-            "rhonda_night_before_failed": true
+            "rhonda_night_before_failed": true,
+            "met_rhonda": true
           }
         }
       },
       {
         "text": "Remember the comedy you told me about? The hat?",
-        "requiresMemory": "rhonda_hat_laugh",
         "outcome": [
           {
             "text": "Rhonda looks up."
@@ -1832,7 +2008,7 @@ export const RHONDA_SCENES = {
             "text": "The hat."
           },
           {
-            "text": "She presses the script to her chest."
+            "text": "She presses the run sheet to her chest."
           },
           {
             "speaker": "RHONDA",
@@ -1844,13 +2020,14 @@ export const RHONDA_SCENES = {
             "rhonda": 3
           },
           "flags": {
-            "rhonda_night_before_success": true
+            "rhonda_night_before_success": true,
+            "met_rhonda": true
           }
-        }
+        },
+        "requiresMemory": "rhonda_hat_laugh"
       },
       {
         "text": "You said you didn’t miss performing the way people think.",
-        "requiresMemory": "rhonda_miss_performing",
         "outcome": [
           {
             "text": "Rhonda looks down at the script."
@@ -1887,9 +2064,11 @@ export const RHONDA_SCENES = {
             "rhonda": 3
           },
           "flags": {
-            "rhonda_night_before_success": true
+            "rhonda_night_before_success": true,
+            "met_rhonda": true
           }
-        }
+        },
+        "requiresMemory": "rhonda_miss_performing"
       }
     ]
   }

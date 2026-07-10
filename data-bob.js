@@ -1,14 +1,11 @@
-// Bob — arc owner file. Belief: 'Strength means carrying everything yourself.'
-// Crossroads: the veterans’ reunion (week 3, Sunday afternoon).
-// He can talk about Vietnam. He cannot talk about June.
-// This file is the EXEMPLAR arc pattern: recurring scene → banded variant →
-// memory → Crossroads with observer base + gated pressure point → convergence
-// lines in the concert scene (data-rhonda.js) + ending lines (engine.js).
+// Generated from the approved Still Got It script for Chunk 2.
 export const BOB_SCENES = {
   "generic_workshop_bob": {
     "title": "Workshop",
     "location": "Workshop",
     "art": "Workshop",
+    "variantId": "generic_workshop_bob.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "Bob is fixing a shelf with the focus of someone defusing a bomb. He nods when you come in. After a while, he hands you a screwdriver without asking."
@@ -36,6 +33,9 @@ export const BOB_SCENES = {
         "effects": {
           "friendship": {
             "bob": 1
+          },
+          "flags": {
+            "met_bob": true
           }
         }
       },
@@ -51,53 +51,172 @@ export const BOB_SCENES = {
           },
           {
             "speaker": "BOB",
-            "text": "Wasn’t broken. Loose is different."
+            "text": "Loose."
           },
           {
-            "text": "He hands you the screwdriver anyway. Apparently you have been recruited."
+            "text": "He hands you the screwdriver."
           }
         ],
         "effects": {
           "friendship": {
             "bob": 1
+          },
+          "flags": {
+            "met_bob": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "generic_workshop_bob.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
-            "bob": 2
+            "bob": 1
           },
-          "notFlag": "bob_photo_seen"
+          "notFlag": "bob_photo_seen",
+          "seenVariant": "generic_workshop_bob.v1"
+        },
+        "content": [
+          {
+            "text": "Bob is sitting at a table, chipping at a block of wood with a knife. You watch him for a moment. He looks up at you, pauses, then looks back down and continues chipping away."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Whittling. Ever done it?"
+          },
+        ],
+        "choices": [
+          {
+            "text": "No, can you show me?",
+            "outcome": [
+              {
+                "text": "Bob sets his tools down on the table and you sit across from him."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Carving sculptures in wood. Closest I ever get to being artistic. Want to learn?"
+              },
+              {
+                "text": "You nod. Bob hands you a block of wood and a small knife."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Careful. It's sharp."
+              },
+              {
+                "speaker": "PLAYER",
+                "text": "Shouldn't I use a blunt knife?"
+              },
+              {
+                "speaker": "BOB",
+                "text": "No, that's worse. If it's sharp you won't press so hard and end up slicing a finger off."
+              },
+              {
+                "text": "You wince. Bob is unfazed."
+              },
+              {
+                "speaker": "BOB",
+                "text": "Just play a bit first, get a feel for it. Then I'll show you some techniques."
+              },
+              {
+                "text": "You fiddle with the knife and the wood, which is softer than you thought it'd be. You look over at Bob's. He's carving a rose."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 2
+              },
+              "flags": {
+                "met_bob": true
+              }
+            }
+          },
+          {
+            "text": "Yes, I've whittled before.",
+            "outcome": [
+              {
+                "speaker": "BOB",
+                "text": "Good."
+              },
+              {
+                "text": "He hands you a knife and a block of wood. You sit down next to him. You both chip and carve the wood for a while."
+              },
+              {
+                "text": "Silence is comfortable with Bob."
+              },
+              {
+                "text": "After an hour, Bob puts his tools down, stands up, and walks out. He comes back five minutes later with two cups of tea, and you resume whittling in silence."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 2
+              },
+              "flags": {
+                "met_bob": true
+              }
+            }
+          },
+          {
+            "text": "Ugh. There's too much sawdust in here. I'm out.",
+            "outcome": [
+              {
+                "text": "Bob nods without looking up. You leave."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": -1
+              },
+              "flags": {
+                "met_bob": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "generic_workshop_bob.v3",
+        "oneShot": true,
+        "when": {
+          "seenScene": "generic_workshop_bob",
+          "seenVariant": "generic_workshop_bob.v2"
         },
         "content": [
           {
             "text": "Bob has the toolbox open, looking for a smaller screwdriver."
           },
           {
-            "text": "There is a photograph taped inside the lid. A woman stands in front of a rose bed, squinting at the camera, mid-laugh."
+            "text": "There are two photographs taped inside the lid. One is a group of men in army fatigues. It looks like the oldest of them is only around 25. Your eyes move to the other picture. It's a woman, standing in front of a rose bed, squinting at the camera, a big proud smile on her face."
           },
           {
-            "text": "Bob sees you seeing it."
-          },
-          {
-            "text": "He does not close the lid. He does not explain it either."
+            "text": "Bob sees you looking."
           },
           {
             "speaker": "BOB",
-            "text": "June."
+            "text": "Vietnam. My section."
+          },
+          {
+            "text": "He follows your gaze to the second picture."
+          },
+          {
+            "speaker": "BOB",
+            "text": "And that's June."
           },
           {
             "text": "He finds the screwdriver."
           },
           {
             "speaker": "BOB",
-            "text": "Grew those from cuttings. Whole bed. People said it couldn’t be done in that soil."
+            "text": "My wife."
           },
           {
-            "text": "He tightens something that does not need tightening."
+            "text": "Grew those roses from cuttings. People said it couldn’t be done in that soil."
+          },
+          {
+            "text": "He tightens something."
           },
           {
             "speaker": "BOB",
@@ -109,29 +228,30 @@ export const BOB_SCENES = {
             "text": "Pass him the clamp.",
             "outcome": [
               {
-                "text": "You pass him the clamp. The two of you work until the light goes."
+                "text": "You pass him the clamp. The two of you work for a while."
               },
               {
-                "text": "He closes the toolbox lid gently, the way you’d close a door on someone sleeping."
+                "text": "When he's finished, he closes the toolbox lid gently, the way you’d close a door on someone sleeping."
               }
             ],
             "effects": {
               "friendship": {
                 "bob": 2
               },
+              "flags": {
+                "bob_photo_seen": true,
+                "met_bob": true
+              },
               "memories": [
                 "bob_june_roses"
-              ],
-              "flags": {
-                "bob_photo_seen": true
-              }
+              ]
             }
           },
           {
-            "text": "“She has a great smile.”",
+            "text": "She has a great smile.",
             "outcome": [
               {
-                "text": "Bob looks at the photograph for a moment."
+                "text": "Bob looks at the photograph for a moment, and nods."
               },
               {
                 "speaker": "BOB",
@@ -139,35 +259,32 @@ export const BOB_SCENES = {
               },
               {
                 "text": "He picks up the clamp himself."
-              },
-              {
-                "text": "You stay anyway. He seems to prefer it."
               }
             ],
             "effects": {
               "friendship": {
                 "bob": 1
               },
+              "flags": {
+                "bob_photo_seen": true,
+                "met_bob": true
+              },
               "memories": [
                 "bob_june_roses"
-              ],
-              "flags": {
-                "bob_photo_seen": true
-              }
+              ]
             }
           }
         ]
       },
       {
-        "when": {
-          "seenScene": "generic_workshop_bob"
-        },
+        "id": "generic_workshop_bob.v4",
+        "oneShot": true,
         "content": [
           {
             "text": "Bob is at the bench. He slides a screwdriver toward you before you ask."
           },
           {
-            "text": "The two of you work on whatever is broken this week. Not much gets said. Nothing needs to be."
+            "text": "The two of you work on whatever is broken this week. Not much gets said."
           }
         ],
         "choices": [
@@ -175,7 +292,7 @@ export const BOB_SCENES = {
             "text": "Work beside him.",
             "outcome": [
               {
-                "text": "The job is small and fiddly. Bob handles the fiddly part. You handle the small part."
+                "text": "The job is small and fiddly. Bob handles the fiddly parts and you pass him screws and tools."
               },
               {
                 "speaker": "BOB",
@@ -185,10 +302,16 @@ export const BOB_SCENES = {
             "effects": {
               "friendship": {
                 "bob": 1
+              },
+              "flags": {
+                "met_bob": true
               }
             }
           }
-        ]
+        ],
+        "when": {
+          "seenVariant": "generic_workshop_bob.v3"
+        }
       }
     ]
   },
@@ -196,12 +319,14 @@ export const BOB_SCENES = {
     "title": "The bus at two",
     "location": "Reception",
     "art": "Reception",
+    "variantId": "bob_reunion.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "A small bus idles outside reception. A cardboard sign in the window reads 7 RAR — ANNUAL."
       },
       {
-        "text": "Three men in pressed shirts are already aboard, arguing about the route."
+        "text": "Three men in pressed shirts are already aboard."
       },
       {
         "text": "Bob stands near the door in his good jacket, holding his hat."
@@ -229,13 +354,16 @@ export const BOB_SCENES = {
         ],
         "effects": {
           "flags": {
-            "bob_reunion_missed": true
+            "bob_reunion_missed": true,
+            "met_bob": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "bob_reunion.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "bob": 5
@@ -272,8 +400,7 @@ export const BOB_SCENES = {
         ],
         "choices": [
           {
-            "text": "“June ironed that shirt twice so you could go. Not so you could sit on a bench.”",
-            "requiresMemory": "bob_june_roses",
+            "text": "June ironed that shirt twice so you could go. Not so you could sit on a bench.",
             "outcome": [
               {
                 "text": "Bob looks at you."
@@ -293,7 +420,7 @@ export const BOB_SCENES = {
                 "text": "She’d have liked you."
               },
               {
-                "text": "He boards the bus. The men in pressed shirts make room without making a fuss."
+                "text": "He boards the bus. The men in pressed shirts make room without a fuss."
               },
               {
                 "text": "The bus pulls out. Someone inside is already laughing."
@@ -304,12 +431,14 @@ export const BOB_SCENES = {
                 "bob": 3
               },
               "flags": {
-                "bob_went_reunion": true
+                "bob_went_reunion": true,
+                "met_bob": true
               }
-            }
+            },
+            "requiresMemory": "bob_june_roses"
           },
           {
-            "text": "“Your mates will be glad to see you, whatever you say.”",
+            "text": "Your mates will be glad to see you, whatever you say.",
             "outcome": [
               {
                 "speaker": "BOB",
@@ -337,19 +466,20 @@ export const BOB_SCENES = {
                 "bob": 1
               },
               "flags": {
-                "bob_reunion_missed": true
+                "bob_reunion_missed": true,
+                "met_bob": true
               }
             }
           },
           {
-            "text": "“Want a hand in the workshop instead?”",
+            "text": "Want a hand in the workshop instead?",
             "outcome": [
               {
                 "text": "Bob looks at the bus, then at you."
               },
               {
                 "speaker": "BOB",
-                "text": "Yeah. Righto."
+                "text": "Yeah."
               },
               {
                 "text": "The two of you fix a chair that did not need fixing."
@@ -366,7 +496,8 @@ export const BOB_SCENES = {
                 "bob": 1
               },
               "flags": {
-                "bob_reunion_missed": true
+                "bob_reunion_missed": true,
+                "met_bob": true
               }
             }
           }
@@ -378,9 +509,11 @@ export const BOB_SCENES = {
     "title": "The good jacket",
     "location": "Workshop",
     "art": "Workshop",
+    "variantId": "bob_reunion_consequence.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The workshop smells of oil and cut timber. A paper op-shop bag sits beside Bob's bench."
+        "text": "The workshop smells of oil and cut timber. A paper op-shop bag sits beside Bob’s bench."
       },
       {
         "text": "His good jacket is folded on top. One sleeve has slipped over the side."
@@ -408,18 +541,24 @@ export const BOB_SCENES = {
           },
           {
             "speaker": "BOB",
-            "text": "That'll hold."
+            "text": "That’ll hold."
           }
         ],
         "effects": {
           "friendship": {
             "bob": 1
+          },
+          "flags": {
+            "met_bob": true,
+            "met_miranda": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "bob_reunion_consequence.v2",
+        "oneShot": true,
         "when": {
           "flag": "bob_went_reunion"
         },
@@ -442,12 +581,12 @@ export const BOB_SCENES = {
             "text": "Spelling."
           },
           {
-            "text": "The poem is in block letters. June's name is at the top. There are no spelling mistakes you can see."
+            "text": "The poem is in block letters. June’s name is at the top. There are no spelling mistakes you can see."
           }
         ],
         "choices": [
           {
-            "text": "Hand him the pencil.",
+            "text": "Pick up the pencil.",
             "outcome": [
               {
                 "text": "You mark one comma you are not sure about. Bob studies it as if it matters."
@@ -462,7 +601,10 @@ export const BOB_SCENES = {
             ],
             "effects": {
               "friendship": {
-                "bob": 1
+                "bob": 2
+              },
+              "flags": {
+                "met_bob": true
               }
             }
           }
@@ -470,5 +612,4 @@ export const BOB_SCENES = {
       }
     ]
   }
-
 };

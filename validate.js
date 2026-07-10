@@ -2,22 +2,24 @@
 //
 //   node validate.js
 //
-// Exit code 0 = safe to upload. Non-zero = do not deploy; fix errors first.
+// Exit code 0 = no blocking errors. Warnings still need review before release.
+// Non-zero = do not deploy; fix errors first.
 //
 // It checks referential integrity (every sceneId, memory, friendship id, and
-// flag reference resolves), scene shape, schedule coverage of all 84 slots,
+// flag reference resolves), scene shape, schedule coverage of every calendar slot,
 // scene id collisions across data files — and then PLAYS the game three ways:
 // a stay-home run, a Rhonda golden-path run, and a Bob Crossroads run,
 // asserting the key flags and endings come out right.
 
-import { DAYS, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, SCENES, CHARACTERS, MEMORIES, SCENE_SOURCES } from "./data-index.js";
+import { DAYS, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, STORY_QUEUES, SCENES, CHARACTERS, MEMORIES, SCENE_SOURCES } from "./data-index.js";
 import * as engine from "./engine.js";
-import { createInitialState } from "./state.js";
+import { createInitialState, normalizeState } from "./state.js";
 
 let errors = 0;
 let warnings = 0;
 const err = msg => { errors += 1; console.error("  ERROR:", msg); };
 const warn = msg => { warnings += 1; console.warn("  warn :", msg); };
+const MAX_WEEK = Math.max(...DAYS.map(day => day.week));
 
 // ---------------------------------------------------------------------------
 console.log("1. Scene id collisions across data files");
@@ -32,7 +34,7 @@ console.log("1. Scene id collisions across data files");
 }
 
 // ---------------------------------------------------------------------------
-console.log("2. Schedule integrity (84 slots)");
+console.log(`2. Schedule integrity (${DAYS.length * TIME_SLOTS.length} slots)`);
 {
   for (let d = 0; d < DAYS.length; d++) {
     for (let s = 0; s < TIME_SLOTS.length; s++) {
@@ -58,6 +60,20 @@ console.log("2. Schedule integrity (84 slots)");
       if (item.replaces && special.exclusive) warn(`SPECIALS "${key}" item "${item.id}" has replaces inside an exclusive slot (replaces is ignored)`);
     }
   }
+  for (const [location, queue] of Object.entries(STORY_QUEUES)) {
+    if (!Array.isArray(queue)) {
+      err(`STORY_QUEUES "${location}" is not an array`);
+      continue;
+    }
+    for (const [i, beat] of queue.entries()) {
+      const where = `STORY_QUEUES "${location}" beat[${i}]`;
+      if (!beat.sceneId) err(`${where}: missing sceneId`);
+      else if (!SCENES[beat.sceneId]) err(`${where}: references missing scene "${beat.sceneId}"`);
+      if (beat.minDay !== undefined && (!Number.isInteger(beat.minDay) || beat.minDay < 0 || beat.minDay >= DAYS.length)) {
+        err(`${where}: minDay ${beat.minDay} is outside the ${DAYS.length}-day calendar`);
+      }
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -65,13 +81,18 @@ console.log("3. Scene shape and reference integrity");
 {
   const checkWhen = (when, where) => {
     if (!when) return;
-    const known = ["flag", "notFlag", "anyFlag", "memory", "notMemory", "seenScene", "minFriendship", "week", "weeks"];
+    const known = ["flag", "notFlag", "anyFlag", "memory", "notMemory", "seenScene", "seenVariant", "notSeenVariant", "anySeenVariant", "minFriendship", "week", "weeks"];
     for (const key of Object.keys(when)) {
       if (!known.includes(key)) err(`${where}: unknown when-condition "${key}"`);
     }
     if (when.memory && !MEMORIES[when.memory]) err(`${where}: unknown memory "${when.memory}"`);
     if (when.notMemory && !MEMORIES[when.notMemory]) err(`${where}: unknown memory "${when.notMemory}"`);
-    if (when.weeks && (!Array.isArray(when.weeks) || when.weeks.some(w => !Number.isInteger(w) || w < 1 || w > 4))) err(`${where}: invalid weeks condition`);
+    if (when.week !== undefined && (!Number.isInteger(when.week) || when.week < 1 || when.week > MAX_WEEK)) {
+      err(`${where}: impossible week ${when.week} for a ${MAX_WEEK}-week game`);
+    }
+    if (when.weeks && (!Array.isArray(when.weeks) || when.weeks.some(w => !Number.isInteger(w) || w < 1 || w > MAX_WEEK))) {
+      err(`${where}: impossible weeks condition for a ${MAX_WEEK}-week game`);
+    }
     if (when.seenScene && !SCENES[when.seenScene]) err(`${where}: unknown scene "${when.seenScene}"`);
     if (when.minFriendship) {
       for (const id of Object.keys(when.minFriendship)) {
@@ -111,6 +132,13 @@ console.log("3. Scene shape and reference integrity");
     }
   };
 
+  const checkScheduleItemWeeks = (item, where) => {
+    if (!item.weeks) return;
+    if (!Array.isArray(item.weeks) || item.weeks.some(w => !Number.isInteger(w) || w < 1 || w > MAX_WEEK)) {
+      err(`${where}: impossible weeks condition for a ${MAX_WEEK}-week game`);
+    }
+  };
+
   for (const [id, scene] of Object.entries(SCENES)) {
     const where = `scene "${id}"`;
     if (!scene.title) err(`${where}: no title`);
@@ -118,8 +146,10 @@ console.log("3. Scene shape and reference integrity");
     checkBlocks(scene.content, where);
     checkChoices(scene.choices, where);
     if (!(scene.choices || []).length && !(scene.variants || []).length) warn(`${where}: no choices (player will be stuck)`);
+    if (scene.oneShot && !scene.variantId) err(`${where}: oneShot base variation requires variantId`);
     for (const [vi, variant] of (scene.variants || []).entries()) {
       const vwhere = `${where} variant[${vi}]`;
+      if (variant.oneShot && !variant.id) err(`${vwhere}: oneShot variant requires a stable id`);
       if (!variant.when) warn(`${vwhere}: no when-condition (base scene is unreachable)`);
       checkWhen(variant.when, vwhere);
       checkBlocks(variant.content, vwhere);
@@ -129,8 +159,32 @@ console.log("3. Scene shape and reference integrity");
       }
     }
   }
+
+  for (const [slotKey, items] of Object.entries(WEEKLY_TEMPLATE)) {
+    for (const [i, item] of items.entries()) checkScheduleItemWeeks(item, `WEEKLY_TEMPLATE "${slotKey}" item[${i}]`);
+  }
+  for (const [key, special] of Object.entries(SPECIALS)) {
+    for (const [i, item] of special.items.entries()) checkScheduleItemWeeks(item, `SPECIALS "${key}" item[${i}]`);
+  }
+  for (const [location, queue] of Object.entries(STORY_QUEUES)) {
+    for (const [i, beat] of queue.entries()) checkWhen(beat.when, `STORY_QUEUES "${location}" beat[${i}]`);
+  }
 }
 
+// ---------------------------------------------------------------------------
+console.log("3b. One-shot variation ids");
+{
+  const ids = new Map();
+  const note = (id, where) => {
+    if (!id) return;
+    if (ids.has(id)) err(`variation id "${id}" used by both ${ids.get(id)} and ${where}`);
+    ids.set(id, where);
+  };
+  for (const [sceneId, scene] of Object.entries(SCENES)) {
+    note(scene.variantId, `scene "${sceneId}" base`);
+    for (const [vi, variant] of (scene.variants || []).entries()) note(variant.id, `scene "${sceneId}" variant[${vi}]`);
+  }
+}
 
 // ---------------------------------------------------------------------------
 console.log("4. Prose lint warnings");
@@ -146,7 +200,15 @@ console.log("4. Prose lint warnings");
     { pattern: /smiles despite (himself|herself|themself|themselves)/i, label: "overused smile beat" },
     { pattern: /almost smiles/i, label: "overused smile beat: 'almost smiles'" },
     { pattern: /whole personality/i, label: "quip tic: 'whole personality'" },
-    { pattern: /^Beat\.?$/i, label: "screenplay tic: standalone 'Beat.'" }
+    { pattern: /^Beat\.?$/i, label: "screenplay tic: standalone 'Beat.'" },
+    { pattern: /^(AL|BOB|JEAN|MIRANDA|PABLO|RHONDA)\s*[:.]?$/, label: "merge artefact: standalone character heading/speaker label" },
+    { pattern: /\b(AL|BOB|JEAN|MIRANDA|PABLO|RHONDA)\s*[:.]\s+/, label: "merge artefact: pasted speaker label inside narration" },
+    { pattern: /\bBorn\s+(18|19|20)\d{2}\b/, label: "merge artefact: pasted character biography" },
+    { pattern: /(Silk scarf, pearl earrings|Former restaurateur\. Warm|Practical, sharp, hard to impress|Calm, traditional, shy|Retired librarian, freelance writer|Ladies[’'] man, old band stories|Former actress)/i, label: "merge artefact: pasted character biography text" },
+    { pattern: /^(SHARED VILLAGE SCENES|VILLAGE SCENES|SHARED SCENES|CHARACTER NOTES|SCENE NOTES|SCENES|SECTION)\s*$/i, label: "merge artefact: standalone section heading" },
+    { pattern: /^[A-Z][A-Z0-9 /&-]{8,}$/, label: "possible merge artefact: all-caps imported heading" },
+    { pattern: /(?<!\.)\.\.(?!\.)|,,|!!|\?\?|;;|::/, label: "copy-editing error: doubled punctuation" },
+    { pattern: /\b(TODO|FIXME|Scene spec|Generated from|approved Still Got It script|Chunk \d+)\b/i, label: "merge artefact: imported instruction/source text" }
   ];
 
   const checkText = (value, where) => {
@@ -186,6 +248,7 @@ console.log("5. Reachability: every scene appears on the schedule");
   const scheduled = new Set(["apartment_morning", "apartment_afternoon", "apartment_evening"]);
   for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) scheduled.add(item.sceneId);
   for (const special of Object.values(SPECIALS)) for (const item of special.items) scheduled.add(item.sceneId);
+  for (const queue of Object.values(STORY_QUEUES)) for (const beat of queue) scheduled.add(beat.sceneId);
   const collectNext = choices => {
     for (const choice of choices || []) if (choice.nextSceneId) scheduled.add(choice.nextSceneId);
   };
@@ -229,6 +292,7 @@ console.log("6. Critical memory availability");
   const bump = sceneId => scheduleOccurrences.set(sceneId, (scheduleOccurrences.get(sceneId) || 0) + 1);
   for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) bump(item.sceneId);
   for (const special of Object.values(SPECIALS)) for (const item of special.items) bump(item.sceneId);
+  for (const queue of Object.values(STORY_QUEUES)) for (const beat of queue) bump(beat.sceneId);
 
   for (const [memoryId, requiredScenes] of requiredMemories.entries()) {
     const grantScenes = grantedMemories.get(memoryId) || new Set();
@@ -283,7 +347,7 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
     "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings", "rhonda_pushed_too_hard",
     "rhonda_night_before_success", "rhonda_night_before_failed", "rhonda_recruitment_seen",
     "miranda_delegated", "miranda_did_it_alone", "pablo_cooked_carmens", "pablo_substituted",
-    "jean_let_go", "jean_carried_it_alone", "jean_deflected_festival", "al_dropped_the_act", "al_kept_the_act",
+    "jean_let_go", "jean_carried_it_alone", "jean_deflected_festival",
     "concert_started", "rhonda_rehearsal_seen"
   ]) readFlags.add(flag);
 
@@ -292,6 +356,67 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
   }
   for (const flag of setFlags) {
     if (!readFlags.has(flag)) warn(`flag "${flag}" is set but never read (dead flag — fine if intentional)`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+console.log("7b. One-shot availability and save migration");
+{
+  const migrated = normalizeState({ ...createInitialState(), seenVariants: undefined });
+  if (!Array.isArray(migrated.seenVariants)) err("old save migration did not add seenVariants");
+
+
+  const tv = createInitialState();
+  tv.dayIndex = 3; // Thursday, week 1
+  tv.slotIndex = 2;
+  let tvItem = engine.getNoticeboardItems(tv).find(item => item.sceneId === "generic_tv_room");
+  if (!tvItem) err("television pilot scene is not initially available");
+  else {
+    engine.beginActivity(tv, tvItem.id);
+    const scene = engine.resolveScene(tv, tv.activeSceneId);
+    if (scene?.variantId !== "generic_tv_room.default") err("television pilot resolved the wrong variation");
+    engine.chooseSceneOption(tv, 0);
+    engine.continueAfterOutcome(tv);
+    tv.dayIndex = 4; // Friday, week 1
+    tv.slotIndex = 2;
+    tvItem = engine.getNoticeboardItems(tv).find(item => item.sceneId === "generic_tv_room");
+    if (tvItem) err("television location remained after its only variation was played");
+  }
+
+  const movie = createInitialState();
+  movie.seenScenes.push("rhonda_movie_night"); // expose the recurring pilot scene
+  movie.dayIndex = 2; // Wednesday, week 1
+  movie.slotIndex = 2;
+  let movieItem = engine.getNoticeboardItems(movie).find(item => item.sceneId === "generic_movie");
+  if (!movieItem) err("default movie variation is not initially available");
+  else {
+    engine.beginActivity(movie, movieItem.id);
+    let scene = engine.resolveScene(movie, movie.activeSceneId);
+    if (scene?.variantId !== "generic_movie.default") err("default movie resolved the wrong variation");
+    engine.chooseSceneOption(movie, 0);
+    engine.continueAfterOutcome(movie);
+
+    movie.dayIndex = 9; // Wednesday, week 2: no new eligible movie variation
+    movie.slotIndex = 2;
+    movieItem = engine.getNoticeboardItems(movie).find(item => item.sceneId === "generic_movie");
+    if (movieItem) err("movie remained visible with no eligible unplayed variation");
+
+    movie.friendships.rhonda = 2;
+    movie.dayIndex = 16; // Wednesday, week 3: Rhonda variation becomes eligible
+    movie.slotIndex = 2;
+    movieItem = engine.getNoticeboardItems(movie).find(item => item.sceneId === "generic_movie");
+    if (!movieItem) err("movie did not return when a later variation became eligible");
+    else {
+      engine.beginActivity(movie, movieItem.id);
+      scene = engine.resolveScene(movie, movie.activeSceneId);
+      if (scene?.variantId !== "generic_movie.rhonda_hat") err("Rhonda movie variation did not take priority when eligible");
+      engine.chooseSceneOption(movie, 0);
+      engine.continueAfterOutcome(movie);
+      movie.dayIndex = 16;
+      movie.slotIndex = 2;
+      movieItem = engine.getNoticeboardItems(movie).find(item => item.sceneId === "generic_movie");
+      if (movieItem) err("movie remained visible after all eligible variations were played");
+    }
   }
 }
 
@@ -372,7 +497,7 @@ function crossroadsNav(location, crossroadsSceneId, memoryId, minFr) {
   };
 }
 
-// Run A: hermit. Stay home for 28 days.
+// Run A: hermit. Stay home for 21 days.
 playRun("hermit run", (state, items) => apartment(items), (state, ending) => {
   if (!state.flags.missed_concert) throw new Error("hermit should have missed_concert set");
   if (!ending.lines.some(l => l.includes("applause through the door"))) throw new Error("missed-concert ending line absent");
@@ -383,7 +508,7 @@ playRun("hermit run", (state, items) => apartment(items), (state, ending) => {
 // choice at the night-before scene; attend the concert.
 playRun("rhonda golden path", (state, items) => {
   const targets = [
-    "rhonda_first_meeting", "rhonda_pottery", "rhonda_old_box", "rhonda_movie_night",
+    "rhonda_first_meeting", "rhonda_pottery", "rhonda_movie_night",
     "rhonda_concert_notice", "rhonda_recruitment", "rhonda_rehearsal",
     "rhonda_lounge_before_show", "rhonda_final_rehearsal", "rhonda_lounge_short"
   ];
@@ -449,13 +574,6 @@ playRun("jean crossroads", crossroadsNav("Library", "jean_figtree", "jean_festiv
   if (!ending.lines.some(l => l.includes("Rae") && l.includes("tambourine player"))) throw new Error("jean crossroads success ending line absent");
 });
 
-// Run: Al Crossroads. Cards until the memory appears, dance-night pressure point
-// with the memory choice, concert cold.
-playRun("al crossroads", crossroadsNav("Community Lounge", "al_dance", "al_designated_driver", 5), (state, ending) => {
-  if (!state.memories.includes("al_designated_driver")) throw new Error("al_designated_driver not collected");
-  if (!state.flags.al_dropped_the_act) throw new Error("al_dropped_the_act not set — pressure point or memory gate failed");
-  if (!ending.lines.some(l => l.includes("straight") && l.includes("nobody"))) throw new Error("al crossroads success ending line absent");
-});
 
 // Run D: reunion without closeness — the observer base scene must appear and
 // set the missed flag without offering the pressure point.
@@ -471,8 +589,13 @@ playRun("bob reunion as stranger", (state, items) => {
 // ---------------------------------------------------------------------------
 console.log("");
 if (errors) {
-  console.error(`FAILED: ${errors} error(s), ${warnings} warning(s). Do not deploy.`);
+  console.error(`FAILED: ${errors} error(s), ${warnings} warning(s).`);
+  console.error("Release readiness: not ready; fix errors before upload.");
   process.exit(1);
+} else if (warnings) {
+  console.log(`PASSED WITH WARNINGS: 0 errors, ${warnings} warning(s).`);
+  console.log("Release readiness: warnings need review before upload.");
 } else {
-  console.log(`PASSED: 0 errors, ${warnings} warning(s). Safe to upload.`);
+  console.log("PASSED: 0 errors, 0 warnings.");
+  console.log("Release readiness: ready to upload.");
 }

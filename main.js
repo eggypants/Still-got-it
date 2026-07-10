@@ -1,31 +1,42 @@
-import { createInitialState, SAVE_VERSION } from "./state.js";
+import { createInitialState, normalizeState, SAVE_VERSION } from "./state.js";
 import {
   beginActivity,
   chooseSceneOption,
+  closeOverlay,
   continueAfterOutcome,
   openTab,
+  recoverLoadedState,
   startGame
 } from "./engine.js";
 import { clearSave, loadGame as loadSavedGame, saveGame as persistGame } from "./save.js";
 import { render } from "./ui.js";
 
 let state = createInitialState();
+let systemWarning = "";
 const app = document.getElementById("app");
 
 const saved = loadSavedGame();
-if (saved && saved.version === SAVE_VERSION) {
-  state = saved;
-}
+applyLoadedGame(saved, { automatic: true });
 
 const actions = {
   startGame(player) {
     startGame(state, player);
-    persistGame(state);
+    persistCurrentGame();
     update();
   },
 
   openTab(tabName) {
     openTab(state, tabName);
+    update();
+  },
+
+  closeOverlay() {
+    closeOverlay(state);
+    update();
+  },
+
+  dismissWarning() {
+    systemWarning = "";
     update();
   },
 
@@ -37,34 +48,33 @@ const actions = {
 
   chooseSceneOption(index) {
     chooseSceneOption(state, index);
-    persistGame(state);
+    persistCurrentGame();
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   continueAfterOutcome() {
     continueAfterOutcome(state);
-    persistGame(state);
+    persistCurrentGame();
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   saveGame() {
-    persistGame(state);
-    alert("Saved.");
+    if (persistCurrentGame()) {
+      alert("Saved.");
+    } else {
+      update();
+    }
   },
 
   loadGame() {
     const loaded = loadSavedGame();
-    if (!loaded) {
+    if (!loaded.ok && loaded.reason === "empty") {
       alert("No saved game found in this browser.");
       return;
     }
-    if (loaded.version !== SAVE_VERSION) {
-      alert("That save is from an older version and cannot be loaded. Start a new month instead.");
-      return;
-    }
-    state = loaded;
+    applyLoadedGame(loaded);
     update();
   },
 
@@ -73,13 +83,47 @@ const actions = {
     if (!yes) return;
     clearSave();
     state = createInitialState();
+    systemWarning = "";
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 
 function update() {
-  render(app, state, actions);
+  render(app, { ...state, systemWarning }, actions);
+}
+
+function persistCurrentGame() {
+  const result = persistGame(state);
+  if (!result.ok) {
+    systemWarning = "Saving failed in this browser. You can keep playing, but progress may not persist.";
+    return false;
+  }
+  if (systemWarning.startsWith("Saving failed")) systemWarning = "";
+  return true;
+}
+
+function applyLoadedGame(result, options = {}) {
+  if (!result.ok) {
+    if (result.reason === "empty") return;
+    state = recoverLoadedState(normalizeState(null), { forceNoticeboard: true });
+    systemWarning = "That save could not be read, so play has been returned to the noticeboard.";
+    return;
+  }
+
+  const loaded = result.state && typeof result.state === "object" ? result.state : null;
+  const outdated = !loaded || loaded.version !== SAVE_VERSION;
+  const previousView = loaded?.view;
+  const previousSceneId = loaded?.activeSceneId;
+  state = recoverLoadedState(normalizeState(loaded), { forceNoticeboard: outdated });
+
+  if (outdated) {
+    systemWarning = "That save was from an older build, so play has been returned to the noticeboard.";
+  } else if ((previousView === "scene" || previousView === "outcome") && state.view === "noticeboard" && previousSceneId) {
+    systemWarning = "That save pointed to a scene that is no longer available, so play has been returned to the noticeboard.";
+  } else if (!options.automatic) {
+    systemWarning = "";
+  }
 }
 
 // Integrity check: every scheduled sceneId must exist. Runs once on load.

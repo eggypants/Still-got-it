@@ -1,14 +1,14 @@
-// Pablo — arc owner file. Belief: 'Love means providing until there is nothing left to give.'
-// Crossroads: the harvest feast (week 3, day 20 evening).
-// Key image: Carmen’s rice — seasoned by taste, never exactly the same, never once wrong.
+// Generated from the approved Still Got It script for Chunk 2.
 export const PABLO_SCENES = {
   "generic_cafe_pablo": {
     "title": "Tea in the café",
     "location": "Village Café",
     "art": "Village Café",
+    "variantId": "generic_cafe_pablo.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "Pablo is in the café explaining that a biscuit can be dry without being bad. He seems to consider this an important distinction."
+        "text": "Pablo is in the café explaining that a biscuit can be dry without being bad."
       }
     ],
     "choices": [
@@ -16,41 +16,84 @@ export const PABLO_SCENES = {
         "text": "Stay for a while.",
         "outcome": [
           {
-            "text": "The time passes more quickly than you expected."
+            "text": "Pablo sees you and comes over."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Tea? And a biscuit?"
+          },
+          {
+            "text": "You ask if the biscuit has to be dry. Pablo laughs."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Cake, then."
+          },
+          {
+            "text": "He brings your tea and a slice of almond cake."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Tarta de Santiago. Not dry."
+          },
+          {
+            "text": "You take a bite. It's delicious."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "pablo": 2
+          },
+          "flags": {
+            "met_pablo": true
+          }
+        }
+      },
+      {
+        "text": "Leave, preferably before someone talks to you.",
+        "outcome": [
+          {
+            "text": "You leave. Before you do, Pablo catches your eye and smiles."
           }
         ],
         "effects": {
           "friendship": {
             "pablo": 1
+          },
+          "flags": {
+            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "generic_cafe_pablo.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "pablo": 2
           },
-          "notFlag": "pablo_recipe_seen"
+          "notFlag": "pablo_recipe_seen",
+          "seenVariant": "generic_cafe_pablo.v1"
         },
         "content": [
           {
             "text": "The café is quiet, the mid-morning lull. Pablo is at the corner table, copying something onto a fresh card."
           },
           {
-            "text": "The old card has gone soft at the folds. The handwriting on it is not his."
+            "text": "The old card has gone soft at the folds. The handwriting on it is not his. You sit down."
           },
           {
             "speaker": "PABLO",
-            "text": "My wife's. Carmen. Twenty-nine years in the kitchen beside me, and she never once wrote a recipe down until I made her."
+            "text": "My wife’s. Carmen. Twenty-nine years in the kitchen beside me, and she never once wrote a recipe down until I made her."
           },
           {
             "text": "He smooths the old card flat with two fingers."
           },
           {
             "speaker": "PABLO",
-            "text": "Carmen's rice."
+            "text": "Carmen’s rice."
           },
           {
             "text": "He does not look up."
@@ -61,11 +104,63 @@ export const PABLO_SCENES = {
           },
           {
             "text": "He finishes the copy, checks it against the original, and then keeps the original."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "I know what you are thinking. If she never measured it, why did I ask her to write it down?"
+          },
+          {
+            "text": "You look at him. He smiles sadly."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "It's because I knew I would want it when she was gone."
           }
         ],
         "choices": [
           {
-            "text": "“Do you ever make it?”",
+            "text": "Why do you need to make a copy of it?",
+            "outcome": [
+              {
+                "text": "Pablo looks at the cards."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "I don't know."
+              },
+              {
+                "text": "He pauses for a while. You hear the clock on the wall ticking quietly."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "I haven't made it since she died."
+              },
+              {
+                "text": "He speaks quietly."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "But if I do, I don't want to get a stain on her card."
+              },
+              {
+                "text": "He stands, and by the time he reaches the counter he is himself again, asking if you have eaten, deciding you have not."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 2
+              },
+              "flags": {
+                "pablo_recipe_seen": true,
+                "met_pablo": true
+              },
+              "memories": [
+                "pablo_carmen_rice"
+              ]
+            }
+          },
+          {
+            "text": "Do you ever make the recipe?",
             "outcome": [
               {
                 "speaker": "PABLO",
@@ -76,7 +171,7 @@ export const PABLO_SCENES = {
               },
               {
                 "speaker": "PABLO",
-                "text": "I make everything else."
+                "text": "I make everything else. But not this one, so far."
               },
               {
                 "text": "He stands, and by the time he reaches the counter he is himself again, asking if you have eaten, deciding you have not."
@@ -86,12 +181,13 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 2
               },
+              "flags": {
+                "pablo_recipe_seen": true,
+                "met_pablo": true
+              },
               "memories": [
                 "pablo_carmen_rice"
-              ],
-              "flags": {
-                "pablo_recipe_seen": true
-              }
+              ]
             }
           },
           {
@@ -105,35 +201,147 @@ export const PABLO_SCENES = {
                 "text": "You are good company."
               },
               {
-                "text": "He says it as a verdict, the way he says a soup needs lemon."
+                "text": "He stands up and places the cards into his wallet."
               }
             ],
             "effects": {
               "friendship": {
                 "pablo": 1
               },
+              "flags": {
+                "pablo_recipe_seen": true,
+                "met_pablo": true
+              },
               "memories": [
                 "pablo_carmen_rice"
-              ],
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "generic_cafe_pablo.v3",
+        "oneShot": true,
+        "when": {
+          "seenScene": "generic_cafe_pablo",
+          "seenVariant": "generic_cafe_pablo.v2"
+        },
+        "content": [
+          {
+            "text": "Pablo sees you come in and starts your order before you sit down. He has decided what you want before you have. He is right."
+          },
+          {
+            "text": "When he brings your tea and cake over, you ask him a question."
+          },
+        ],
+        "choices": [
+          {
+            "text": "Do they pay you to work here?",
+            "outcome": [
+              {
+                "text": "Pablo laughs."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "Do they pay me? I wish!"
+              },
+              {
+                "text": "He sits down at your table."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "I started the cafe here because I needed something to do. I don't make a wage but I cover my costs. And I get to do what I love."
+              },
+              {
+                "speaker": "PLAYER",
+                "text": "Isn't this supposed to be a retirement village?"
+              },
+              {
+                "text": "Pablo sighs theatrically."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "A chef can never truly retire while there are people to be fed."
+              },
+              {
+                "text": "He winks at you, gets up, and goes back to the kitchen, whistling."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 1
+              },
               "flags": {
-                "pablo_recipe_seen": true
+                "met_pablo": true
+              }
+            }
+          },
+          {
+            "text": "How did you know what I wanted?",
+            "outcome": [
+              {
+                "text": "Pablo grins."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "Experience. I have had many restaurants. I have been a chef my whole life. I know what you want from the moment you sit down."
+              },
+              {
+                "speaker": "PLAYER",
+                "text": "What gives it away?"
+              },
+              {
+                "text": "Pablo thinks for a moment."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "I don't know. But I do know this: I was put on Earth to feed people. It's my passion. It's why I started a cafe in a retirement village. Even though I'm retired!"
+              },
+              {
+                "text": "He laughs at this. So do you."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "So maybe I was born with it."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "pablo": 1
+              },
+              "flags": {
+                "met_pablo": true
               }
             }
           }
         ]
       },
       {
-        "when": {
-          "seenScene": "generic_cafe_pablo"
-        },
+        "id": "generic_cafe_pablo.v4",
+        "oneShot": true,
         "content": [
           {
-            "text": "Pablo sees you come in and starts your order before you sit down. He has decided what you like."
-          },
-          {
-            "text": "He is right, which is the annoying part."
+            "text": "You walk into the café. Pablo brings your tea and cake. It is delicious, as ever."
           }
-        ]
+        ],
+        "choices": [
+          {
+            "text": "Continue.",
+            "outcome": [
+              {
+                "text": "The moment passes."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "met_pablo": true
+              }
+            }
+          }
+        ],
+        "when": {
+          "seenVariant": "generic_cafe_pablo.v3"
+        }
       }
     ]
   },
@@ -141,6 +349,8 @@ export const PABLO_SCENES = {
     "title": "The harvest feast",
     "location": "Village Café",
     "art": "Village Café",
+    "variantId": "pablo_feast.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "The café tables have been pushed together and covered. The whole village is here, and the food keeps coming."
@@ -153,9 +363,6 @@ export const PABLO_SCENES = {
       },
       {
         "text": "He eats afterwards, alone in the kitchen, off the corner of the bench."
-      },
-      {
-        "text": "Whatever is on his plate, it is not what was on the menu, and it is not Carmen’s rice either."
       }
     ],
     "choices": [
@@ -163,7 +370,7 @@ export const PABLO_SCENES = {
         "text": "Stay to help stack plates.",
         "outcome": [
           {
-            "text": "You stack plates. Pablo washes. He hums something Spanish and slightly sad, and if you asked him about it he would say it is a song about a donkey."
+            "text": "You stack plates. Pablo washes. He hums something slightly sad, and you don't ask about it."
           },
           {
             "text": "The recipe card stays in his wallet."
@@ -173,14 +380,36 @@ export const PABLO_SCENES = {
           "friendship": {
             "pablo": 1
           },
-          "flags": {
-            "pablo_substituted": true
+            "flags": {
+              "pablo_substituted": true,
+              "met_miranda": true,
+              "met_pablo": true
+          }
+        }
+      },
+      {
+        "text": "Leave him be.",
+        "outcome": [
+          {
+            "text": "You leave Pablo to it and head to your apartment."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "pablo": 0
+          },
+            "flags": {
+              "pablo_substituted": true,
+              "met_miranda": true,
+              "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "pablo_feast.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "pablo": 5
@@ -188,68 +417,89 @@ export const PABLO_SCENES = {
         },
         "content": [
           {
-            "text": "Three hours before the feast, the kitchen is under control, because it is Pablo’s kitchen."
+            "text": "Three hours before the feast, the kitchen is humming. Six pans bubble on burners and two ovens brown both beef and cakes. On the bench, propped against the salt, is the soft-folded card. Carmen's recipe."
           },
           {
-            "text": "Six pans, two ovens, a list in his head and nowhere else."
-          },
-          {
-            "text": "On the bench, propped against the salt, is the soft-folded card. He has not touched it."
-          },
-          {
-            "text": "He is cooking something else. It is going to be excellent."
+            "text": "He is cooking something else. It smells amazing. He looks at you while stirring."
           },
           {
             "speaker": "PABLO",
-            "text": "You can stir, if you keep the elbow moving. My kitchen, my rules."
+            "text": "You want to stir? You can take over from me."
           },
           {
-            "text": "He says it warmly. He means it completely."
+            "text": "You do. Pablo pulls some spices from a rack, and sets them on the bench. Miranda emerges from the back of the kitchen carrying freshly washed pots."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Is your arm tired yet? Here, give it to me."
+          },
+          {
+            "text": "You hand the stirring back over to Pablo."
+          },
+          {
+            "text": "You can't help but look over at the recipe card. Pablo notices. He pauses for a moment, looking at the recipe card, then goes back to stirring."
           }
         ],
         "choices": [
           {
-            "text": "Make Carmen’s rice.",
-            "requiresMemory": "pablo_carmen_rice",
+            "text": "Why don't we make Carmen’s rice?",
             "outcome": [
               {
-                "text": "Pablo looks at the card for a long time."
+                "text": "Pablo looks at you, then the recipe card for a long time. Miranda has stopped moving pots, and is watching you both."
               },
               {
                 "speaker": "PABLO",
-                "text": "If it is wrong, it is on you."
+                "text": "I don't know."
               },
               {
-                "text": "It is not a joke, and then it is."
+                "text": "He stirs. Then he stops. He sighs."
               },
               {
-                "text": "He talks you through it. Jean stirs. You watch the rice. When the moment comes, he tastes the pot, frowns, and adds a careful pinch of salt."
+                "speaker": "PABLO",
+                "text": "Okay. We will make Carmen's rice."
               },
               {
-                "text": "At the feast, it goes in the centre of the table. He tells nobody what it is."
+                "text": "He sounds defeated for a moment. But then he nods, and he gazes at the recipe card with warmth and appreciation."
               },
               {
-                "text": "Everybody has seconds."
+                "speaker": "PABLO",
+                "text": "Yes. Right!"
+              },
+              {
+                "text": "He claps his hands, and begins directing you and Miranda around the kitchen."
+              },
+              {
+                "text": "He talks you through it. Miranda stirs. You watch the rice. When the moment comes, he tastes the pot, frowns, and adds a careful pinch of salt."
+              },
+              {
+                "text": "At the feast, it goes in the centre of the table. Nobody else knows the significance, but everybody has seconds."
               },
               {
                 "text": "Late in the evening, somebody puts a full plate in front of Pablo and tells him to sit down."
               },
               {
-                "text": "He sits down."
+                "text": "He sits down. He looks, somehow, a tiny bit different. Tired from the day, but a little bit younger, maybe."
               }
             ],
             "effects": {
               "friendship": {
                 "pablo": 3
               },
-              "flags": {
-                "pablo_cooked_carmens": true
+            "flags": {
+              "pablo_cooked_carmens": true,
+              "met_miranda": true,
+              "met_pablo": true
               }
-            }
+            },
+            "requiresMemory": "pablo_carmen_rice"
           },
           {
-            "text": "“Smells incredible. What can I carry?”",
+            "text": "Smells incredible. What is it?",
             "outcome": [
+              {
+                "speaker": "PABLO",
+                "text": "We have gazpacho. Pimientos. Croquetas. Here, take this to the table."
+              },
               {
                 "text": "He loads your arms with bread baskets, delighted."
               },
@@ -261,13 +511,15 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 1
               },
-              "flags": {
-                "pablo_substituted": true
+            "flags": {
+              "pablo_substituted": true,
+              "met_miranda": true,
+              "met_pablo": true
               }
             }
           },
           {
-            "text": "“You should sit down. You’ve done enough.”",
+            "text": "You should sit down. You’ve done enough.",
             "outcome": [
               {
                 "speaker": "PABLO",
@@ -277,12 +529,14 @@ export const PABLO_SCENES = {
                 "text": "He grins and hands you a spoon to lick, which is how he ends conversations."
               },
               {
-                "text": "He is on his feet until midnight. The feast is a triumph. He eats standing up."
+                "text": "He is on his feet until midnight. The feast is a triumph. He eats later in the kitchen, standing up at the bench."
               }
             ],
             "effects": {
-              "flags": {
-                "pablo_substituted": true
+            "flags": {
+              "pablo_substituted": true,
+              "met_miranda": true,
+              "met_pablo": true
               }
             }
           }
@@ -294,64 +548,75 @@ export const PABLO_SCENES = {
     "title": "Soup for supper",
     "location": "Village Café",
     "art": "Village Café",
+    "variantId": "pablo_feast_consequence.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The café is between meals, which means Pablo has made soup."
+        "text": "The café is between meals. Pablo is making soup."
       },
       {
-        "text": "A pot simmers on the stove. The recipe card is tucked in his wallet, visible when he reaches for a cloth."
-      },
-      {
-        "text": "He tops up two bowls before anyone asks."
+        "text": "A pot simmers on the stove."
       },
       {
         "speaker": "PABLO",
         "text": "People say they are not hungry. This is a temporary condition."
       },
       {
-        "text": "He eats a spoonful standing at the pass, then wipes the bench and checks the bread."
+        "text": "He eats a spoonful standing at the pass, nods his approval, then wipes the bench and checks the bread."
       },
       {
-        "text": "The card stays where it is."
+        "text": "You tell him it looks good."
+      },
+      {
+        "speaker": "PABLO",
+        "text": "Then you will have some. Go, sit."
+      },
+      {
+        "text": "You sit in the café. Pablo brings you a bowl of soup with crusty bread."
+      },
+      {
+        "text": "You consider asking him about Carmen's recipe, but he goes back to the kitchen before you make up your mind."
+      },
+      {
+        "text": "You finish the soup and head back to your apartment."
       }
     ],
     "choices": [
       {
-        "text": "Carry two bowls.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "You carry two bowls to the nearest table. Pablo follows with bread, butter, pepper, and opinions about pepper."
-          },
-          {
-            "speaker": "PABLO",
-            "text": "Good. Sit before someone gives you a job."
+            "text": "The moment passes."
           }
         ],
         "effects": {
-          "friendship": {
-            "pablo": 1
+          "flags": {
+            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "pablo_feast_consequence.v2",
+        "oneShot": true,
         "when": {
           "flag": "pablo_cooked_carmens"
         },
         "content": [
           {
-            "text": "At the small table by the window, Pablo has a plate in front of him."
-          },
-          {
-            "text": "Someone else made it. The rice is not his, and the peas have been added with confidence he would not have approved in the kitchen."
-          },
-          {
-            "text": "He is sitting down."
+            "text": "At the small table by the window, Pablo has a plate in front of him. He yells out to the kitchen."
           },
           {
             "speaker": "PABLO",
             "text": "Too much paprika."
+          },
+          {
+            "text": "Miranda's voice calls back."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Matter of opinion."
           },
           {
             "text": "He takes another forkful."
@@ -361,22 +626,40 @@ export const PABLO_SCENES = {
             "text": "Also, very good."
           },
           {
-            "text": "His wallet is on the table. The recipe card is not out."
+            "text": "There is a pause."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Thank you."
+          },
+          {
+            "text": "Pablo turns to you."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Sit."
+          },
+          {
+            "text": "You sit. He cuts a piece of omelette with the side of his fork, puts it on a side plate and hands it to you."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Try it. It's good."
           }
         ],
         "choices": [
           {
-            "text": "Sit with him.",
+            "text": "Continue.",
             "outcome": [
               {
-                "text": "You sit. He cuts a piece of omelette with the side of his fork and leaves it on your plate without quite looking."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "You are too thin. Or maybe I am retired badly."
+                "text": "The moment passes."
               }
             ],
             "effects": {
+              "flags": {
+                "met_miranda": true,
+                "met_pablo": true
+              },
               "friendship": {
                 "pablo": 1
               }
@@ -386,5 +669,4 @@ export const PABLO_SCENES = {
       }
     ]
   }
-
 };

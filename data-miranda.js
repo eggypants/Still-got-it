@@ -1,17 +1,17 @@
-// Miranda — arc owner file. Belief: 'If I do everything right, I will never feel helpless again.'
-// Crossroads: the garden competition (week 3, day 15 afternoon).
-// Key image: the good tablecloth, mended for thirty years.
+// Generated from the approved Still Got It script for Chunk 2.
 export const MIRANDA_SCENES = {
   "generic_garden_miranda": {
     "title": "Garden volunteers",
     "location": "Gardens",
     "art": "Gardens",
+    "variantId": "generic_garden_miranda.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The garden is warm and full of small jobs. Miranda gives instructions without raising her voice. People obey anyway."
+        "text": "The garden is warm and full of small jobs. Miranda gives instructions without raising her voice. Nobody selected her to be in charge, but they follow her lead anyway."
       },
       {
-        "text": "She looks at the beds, then at you, then at a tray of seedlings that clearly has plans for your morning."
+        "text": "She looks at the garden beds, then at you, then at a tray of seedlings that clearly has plans for your morning."
       },
       {
         "speaker": "MIRANDA",
@@ -24,46 +24,158 @@ export const MIRANDA_SCENES = {
         "outcome": [
           {
             "speaker": "MIRANDA",
-            "text": "Useful answer."
+            "text": "Good. A useful one."
           },
           {
             "text": "She points you toward the seedlings and gives instructions in the order she expects them obeyed. You obey most of them."
           },
           {
-            "text": "At the end she inspects the row, moves one plant half an inch, and says nothing else. It feels like passing."
+            "text": "At the end she inspects the row, nods, and says nothing. Somehow, it feels like praise."
+          },
+          {
+            "text": "A few people remain milling around the garden. Miranda looks at you."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
+          },
+          {
+            "text": "Jean's ears prick up."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
+          },
+          {
+            "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "They win because they have the best garden."
+          },
+          {
+            "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "I intend to have the best garden this year."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 1
+          },
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true
           }
         }
       },
       {
-        "text": "Say you can learn.",
+        "text": "Say you can try.",
         "outcome": [
+          {
+            "text": "Miranda's face doesn't move."
+          },
           {
             "speaker": "MIRANDA",
             "text": "That is not what I asked."
           },
           {
-            "text": "But she hands you gloves anyway. You learn quickly, because Miranda’s silence when you get something right is preferable to the alternative."
+            "text": "But she hands you gloves anyway. You learn quickly, and Miranda doesn't seem too annoyed. This feels like success."
+          },
+          {
+            "text": "A few people remain milling around the garden. Miranda looks at you."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
+          },
+          {
+            "text": "Jean's ears prick up."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
+          },
+          {
+            "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "They win because they have the best garden."
+          },
+          {
+            "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "I intend to have the best garden this year."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 1
+          },
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true
+          }
+        }
+      },
+      {
+        "text": "Ask if she wants your help.",
+        "outcome": [
+          {
+            "text": "Miranda smiles a little."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Yes. Be here on time and follow instructions."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 2
+          },
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true
+          }
+        }
+      },
+      {
+        "text": "Sounds like a waste of time.",
+        "outcome": [
+          {
+            "text": "Miranda looks at you blankly."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Then you needn't be involved."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": -1
+          },
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "generic_garden_miranda.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "miranda": 2
           },
-          "notFlag": "miranda_tablecloth_seen"
+          "notFlag": "miranda_tablecloth_seen",
+          "seenVariant": "generic_garden_miranda.v1"
         },
         "content": [
           {
@@ -81,51 +193,56 @@ export const MIRANDA_SCENES = {
           },
           {
             "speaker": "MIRANDA",
-            "text": "My mother had one good tablecloth. I kept it mended for thirty years. Same stitch as this."
+            "text": "My mother had one good tablecloth. I kept it mended for years in a house with six siblings. Same stitch as this."
           },
           {
             "text": "She ties off the thread."
           },
           {
             "speaker": "MIRANDA",
-            "text": "You can be poor or you can look poor. Only one of those is compulsory."
+            "text": "See, I discovered that you can be poor, and you can look poor. Only one of those is beyond your control."
           },
           {
-            "text": "She inspects the repair. It is invisible, which is the point."
+            "text": "She inspects the repair. It is invisible."
           }
         ],
         "choices": [
           {
-            "text": "“Who mends the tablecloth now?”",
+            "text": "Who mends the tablecloth now?",
             "outcome": [
               {
                 "text": "Miranda folds the netting kit closed."
               },
               {
                 "speaker": "MIRANDA",
-                "text": "Nobody. It sits in a drawer. I have a dozen good ones now, and I use the same one I always did."
+                "text": "Nobody. It sits in a drawer. I have a few good ones now, and I still only use one."
               },
               {
-                "text": "She checks a stake, finds it already straight, checks it anyway."
+                "text": "She checks a stake, wobbling it gently to test its sturdiness."
               },
               {
                 "speaker": "MIRANDA",
-                "text": "You spend the first half of your life wanting enough, and the second half not knowing what to do with the quiet when it comes."
+                "text": "You spend the first half of your life wanting enough, and the second half not knowing what to do with it when it comes."
               },
               {
-                "text": "She hands you the watering can, which is her way of ending a sentence she has said too much of."
+                "text": "She hands you the watering can."
+              },
+              {
+                "speaker": "MIRANDA",
+                "text": "Don't drown the seedlings, please."
               }
             ],
             "effects": {
               "friendship": {
                 "miranda": 2
               },
+              "flags": {
+                "miranda_tablecloth_seen": true,
+                "met_miranda": true
+              },
               "memories": [
                 "miranda_good_tablecloth"
-              ],
-              "flags": {
-                "miranda_tablecloth_seen": true
-              }
+              ]
             }
           },
           {
@@ -146,19 +263,23 @@ export const MIRANDA_SCENES = {
               "friendship": {
                 "miranda": 1
               },
+              "flags": {
+                "miranda_tablecloth_seen": true,
+                "met_miranda": true
+              },
               "memories": [
                 "miranda_good_tablecloth"
-              ],
-              "flags": {
-                "miranda_tablecloth_seen": true
-              }
+              ]
             }
           }
         ]
       },
       {
+        "id": "generic_garden_miranda.v3",
+        "oneShot": true,
         "when": {
-          "seenScene": "generic_garden_miranda"
+          "seenScene": "generic_garden_miranda",
+          "seenVariant": "generic_garden_miranda.v2"
         },
         "content": [
           {
@@ -183,10 +304,43 @@ export const MIRANDA_SCENES = {
             "effects": {
               "friendship": {
                 "miranda": 1
+              },
+              "flags": {
+                "met_miranda": true
               }
             }
           }
         ]
+      },
+      {
+        "id": "generic_garden_miranda.v4",
+        "oneShot": true,
+        "content": [
+          {
+            "text": "You walk into the garden. Miranda is elsewhere, but you can see the work she's been putting in."
+          },
+          {
+            "text": "You pick up the watering can and tend to the seedlings you planted."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Continue.",
+            "outcome": [
+              {
+                "text": "The moment passes."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "met_miranda": true
+              }
+            }
+          }
+        ],
+        "when": {
+          "seenVariant": "generic_garden_miranda.v3"
+        }
       }
     ]
   },
@@ -194,6 +348,8 @@ export const MIRANDA_SCENES = {
     "title": "Judging day",
     "location": "Gardens",
     "art": "Gardens",
+    "variantId": "miranda_competition.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "The regional garden judges arrive at two. Clipboards, hats, sensible shoes."
@@ -234,13 +390,18 @@ export const MIRANDA_SCENES = {
             "miranda": 1
           },
           "flags": {
-            "miranda_did_it_alone": true
+            "miranda_did_it_alone": true,
+            "met_jean": true,
+            "met_miranda": true,
+            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "miranda_competition.v2",
+        "oneShot": true,
         "when": {
           "minFriendship": {
             "miranda": 5
@@ -248,68 +409,75 @@ export const MIRANDA_SCENES = {
         },
         "content": [
           {
-            "text": "The judges arrive at two. It is nine in the morning and Miranda is already behind, which has never happened before."
+            "text": "The judges arrive at two. It is nine in the morning and Miranda is already behind."
           },
           {
-            "text": "Her left wrist is strapped. She is not discussing it."
+            "text": "Her left wrist is strapped. She is not discussing it. Jean offered to help earlier. Pablo offered twice. She drops the ball of twine. It rolls under the bench."
           },
           {
-            "text": "There are three jobs happening and she is doing all of them: staking the dahlias, sweeping the path, re-labelling the herb bed because the first labels were crooked by a degree only she could see."
-          },
-          {
-            "text": "Jean offered to help earlier. Pablo offered twice."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "I have a system."
-          },
-          {
-            "text": "She drops the ball of twine. It rolls under the bench."
-          },
-          {
-            "text": "She looks at it."
+            "text": "She looks exhausted."
           },
           {
             "text": "For a moment, she does not move at all."
+          },
+          {
+            "speaker": "PLAYER",
+            "text": "Are you doing this all yourself?"
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Nobody else will do it right."
+          },
+          {
+            "text": "She looks at you and sighs."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Sorry. That came out sideways. I'm just tired. But it'll be worth it."
+          },
+          {
+            "text": "Suddenly you realise how small she is. 5'2\" with gardening boots on. Her presence always made her seem taller."
+          },
+          {
+            "speaker": "PLAYER",
+            "text": "You need to let people help, Miranda."
+          },
+          {
+            "text": "You bite your lip as she looks at you - but she's not angry. She looks afraid."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "I need to take care of things. I'm not helpless."
           }
         ],
         "choices": [
           {
-            "text": "“You kept that tablecloth mended for thirty years and nobody ever thought you were poor. Nobody here will think you’re helpless.”",
-            "requiresMemory": "miranda_good_tablecloth",
+            "text": "You kept that tablecloth mended for thirty years and nobody ever thought you were poor. Nobody here will think you’re helpless.",
             "outcome": [
               {
                 "text": "Miranda looks at you."
               },
               {
-                "text": "It is the look she gives crooked labels."
+                "text": "Now, she does look angry. But it fades almost instantly."
+              },
+              {
+                "text": "She retrieves the twine herself. Then she stands still for a moment."
               },
               {
                 "speaker": "MIRANDA",
-                "text": "That is a misuse of a private conversation."
-              },
-              {
-                "text": "She retrieves the twine herself. Then she stands still, holding it."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "Jean can sweep. She sweeps adequately."
-              },
-              {
-                "text": "She says it like a court ruling."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "Pablo may carry. You may label. I will supervise, because none of you can be trusted with the dahlias."
+                "text": "Jean can sweep. Pablo can water. You may pick up leaves. I will look for anything I've missed."
               },
               {
                 "text": "By two o’clock the garden is ready. Miranda has been sitting for half an hour, directing traffic with a teacup."
               },
               {
-                "text": "The judges take forty minutes. Summer Hills wins its category."
+                "text": "The judges take forty minutes."
               },
               {
-                "text": "The applause is loud. Some of it is clearly for Miranda. She pretends not to notice."
+                "text": "Summer Hills wins best garden."
+              },
+              {
+                "text": "The residents cheer, and Miranda looks around at them, smiling."
               }
             ],
             "effects": {
@@ -317,22 +485,26 @@ export const MIRANDA_SCENES = {
                 "miranda": 3
               },
               "flags": {
-                "miranda_delegated": true
+                "miranda_delegated": true,
+                "met_jean": true,
+                "met_miranda": true,
+                "met_pablo": true
               }
-            }
+            },
+            "requiresMemory": "miranda_good_tablecloth"
           },
           {
-            "text": "“Let me do the watering, at least.”",
+            "text": "Let me do the watering, at least.",
             "outcome": [
               {
                 "speaker": "MIRANDA",
                 "text": "The watering is done."
               },
               {
-                "text": "It is not done. It gets done, later, by her."
+                "text": "It isn't. She does it later, herself."
               },
               {
-                "text": "The garden wins its category. Miranda accepts the certificate with her good hand."
+                "text": "The garden wins first place. Miranda accepts the certificate with her good hand."
               },
               {
                 "text": "She does not stay for the tea."
@@ -343,12 +515,15 @@ export const MIRANDA_SCENES = {
                 "miranda": 1
               },
               "flags": {
-                "miranda_did_it_alone": true
+                "miranda_did_it_alone": true,
+                "met_jean": true,
+                "met_miranda": true,
+                "met_pablo": true
               }
             }
           },
           {
-            "text": "“You’ll manage. You always do.”",
+            "text": "You’ll manage. You always do.",
             "outcome": [
               {
                 "speaker": "MIRANDA",
@@ -359,14 +534,14 @@ export const MIRANDA_SCENES = {
               },
               {
                 "text": "The garden wins. She manages. She always does."
-              },
-              {
-                "text": "You have never seen anyone look less like a winner."
               }
             ],
             "effects": {
               "flags": {
-                "miranda_did_it_alone": true
+                "miranda_did_it_alone": true,
+                "met_jean": true,
+                "met_miranda": true,
+                "met_pablo": true
               }
             }
           }
@@ -378,25 +553,17 @@ export const MIRANDA_SCENES = {
     "title": "Plant labels",
     "location": "Gardens",
     "art": "Gardens",
+    "variantId": "miranda_competition_consequence.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The certificate is propped against a terracotta pot in the garden shed."
+        "text": "The Best Garden certificate is up in the garden shed."
       },
       {
-        "text": "Miranda's wrist is still strapped. She is writing new labels in a straight line."
+        "text": "Miranda’s wrist is still strapped. She is writing new labels in a straight line."
       },
       {
-        "text": "The winning bed outside is exact enough to make people lower their voices."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "Do not touch the white pen. It clogs if people breathe near it."
-      },
-      {
-        "text": "She writes three more labels, then flexes her fingers once."
-      },
-      {
-        "text": "A resident leaves a bunch of parsley at the door. Miranda glances at it and keeps working."
+        "text": "A resident leaves a bunch of parsley at the door. Miranda nods her thanks at it and keeps working."
       }
     ],
     "choices": [
@@ -404,60 +571,82 @@ export const MIRANDA_SCENES = {
         "text": "Put the parsley in water.",
         "outcome": [
           {
-            "text": "You find a jar. Miranda says nothing until the parsley is upright."
+            "text": "You find a jar for the parsley."
           },
           {
             "speaker": "MIRANDA",
-            "text": "Acceptable."
+            "text": "Thank you."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 1
+          },
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true,
+            "met_pablo": true
+          }
+        }
+      },
+      {
+        "text": "Leave her to it.",
+        "outcome": [
+          {
+            "text": "You walk away. The light in the shed is on for a while longer."
+          }
+        ],
+        "effects": {
+          "flags": {
+            "met_jean": true,
+            "met_miranda": true,
+            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
+        "id": "miranda_competition_consequence.v2",
+        "oneShot": true,
         "when": {
           "flag": "miranda_delegated"
         },
         "content": [
           {
-            "text": "The garden shed has acquired offerings: twine, clean gloves, a packet of labels, secateurs with a ribbon tied badly around the handle."
+            "text": "The garden shed has acquired new toys: twine, clean gloves, a packet of labels, seeds, secateurs - all new in their packaging. Miranda is writing herb labels with a chalk pen while Jean sips tea beside her, chatting away."
           },
           {
-            "text": "Miranda has arranged all of them by usefulness."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "The wrapping was incompetent."
-          },
-          {
-            "text": "She picks up the secateurs and tests the spring."
+            "text": "When they see you, they both smile warmly. Miranda beckons you."
           },
           {
             "speaker": "MIRANDA",
-            "text": "The tool is sound."
+            "text": "Ah, good. Come and help with the new things."
           },
           {
-            "text": "Outside, three residents are deadheading under her instructions. Miranda stays seated on an upturned crate with tea beside her."
+            "text": "You pick up the secateurs and test the spring. It feels fancy."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Thought we deserved some rewards."
+          },
+          {
+            "text": "Outside, three residents are deadheading flowers and pruning bushes. Inside, you three stay and chat for a while."
           }
         ],
         "choices": [
           {
-            "text": "Label the packet shelf.",
+            "text": "Continue.",
             "outcome": [
               {
-                "text": "She watches your handwriting for one line, corrects the spacing, then lets you finish."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "Neat enough."
+                "text": "The moment passes."
               }
             ],
             "effects": {
+              "flags": {
+                "met_jean": true,
+                "met_miranda": true
+              },
               "friendship": {
                 "miranda": 1
               }
@@ -467,5 +656,4 @@ export const MIRANDA_SCENES = {
       }
     ]
   }
-
 };

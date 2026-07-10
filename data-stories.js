@@ -21,13 +21,13 @@
 export const STORY_QUEUES = {
   "Community Lounge": [
     { sceneId: "rhonda_first_meeting" },
-    { sceneId: "rhonda_old_box", minDay: 2 },
+    { sceneId: "rhonda_memories", minDay: 2 },
     { sceneId: "rhonda_recruitment", minDay: 9, when: { seenScene: "rhonda_concert_notice" } },
     { sceneId: "rhonda_lounge_before_show", minDay: 16, when: { anyFlag: ["rhonda_rehearsal_seen", "rhonda_recruitment_seen"] } },
     // Al's memory reveal shares the lounge (cards). Placed LAST so it never
     // shadows Rhonda's arc; it only surfaces once her eligible beats are done
     // and the player is friendly with Al.
-    { sceneId: "generic_cards_al", when: { minFriendship: { al: 2 }, notFlag: "al_driver_seen" } }
+    { sceneId: "generic_cards_al", when: { minFriendship: { al: 2 }, notSeenVariant: "generic_cards_al.v2" } }
   ],
 
   "Craft Room": [
@@ -65,8 +65,4 @@ export const STORY_QUEUES = {
     { sceneId: "generic_workshop_bob", when: { minFriendship: { bob: 2 }, notFlag: "bob_photo_seen" } },
     { sceneId: "bob_reunion_consequence", minDay: 16, when: { anyFlag: ["bob_went_reunion", "bob_reunion_missed"] } }
   ],
-
-  "Hall": [
-    { sceneId: "al_dance_consequence", minDay: 16, when: { anyFlag: ["al_dropped_the_act", "al_kept_the_act"] } }
-  ]
 };

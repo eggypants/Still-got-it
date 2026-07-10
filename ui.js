@@ -68,7 +68,7 @@ function renderSetup(state, actions) {
 
   inner.appendChild(form);
 
-  const note = el("p", "small muted", "Your first month at Summer Hills starts on a Monday.");
+  const note = el("p", "small muted", "Your first three weeks at Summer Hills start on a Monday.");
   inner.appendChild(note);
 
   screen.appendChild(card);
@@ -78,6 +78,7 @@ function renderSetup(state, actions) {
 function renderGameShell(state, actions) {
   const screen = el("main", "screen");
   screen.appendChild(renderTopbar(state));
+  if (state.systemWarning) screen.appendChild(renderSystemWarning(state, actions));
   screen.appendChild(renderTabs(state, actions));
 
   const stage = el("section", "stage");
@@ -105,6 +106,10 @@ function renderGameShell(state, actions) {
 
   stage.appendChild(panel);
   screen.appendChild(stage);
+
+  if (state.overlayTab) {
+    screen.appendChild(renderModalOverlay(state, actions));
+  }
 
   return screen;
 }
@@ -147,7 +152,8 @@ function renderTabs(state, actions) {
   ];
 
   for (const [id, label] of items) {
-    const button = el("button", `tab-button ${state.activeTab === id && state.view === "noticeboard" ? "active" : ""}`, label);
+    const active = state.overlayTab === id || (state.activeTab === id && state.view === "noticeboard");
+    const button = el("button", `tab-button ${active ? "active" : ""}`, label);
     button.type = "button";
     button.addEventListener("click", () => actions.openTab(id));
     tabs.appendChild(button);
@@ -223,7 +229,7 @@ function renderScene(state, actions) {
 
   const choices = el("div", "choice-list");
   for (const [index, choice] of scene.choices.entries()) {
-    const button = el("button", "choice-button", getChoiceButtonText(scene, choice));
+    const button = el("button", "choice-button", choice.text);
     button.type = "button";
     button.addEventListener("click", () => actions.chooseSceneOption(index));
     choices.appendChild(button);
@@ -244,13 +250,6 @@ function renderOutcome(state, actions) {
   return wrapper;
 }
 
-function getChoiceButtonText(scene, choice) {
-  if (scene.choices.length === 1 && !choice.nextSceneId && !/^continue[.!?]?$/i.test(choice.text.trim())) {
-    return "Continue";
-  }
-  return choice.text;
-}
-
 function renderSceneText(content) {
   const box = el("div", "scene-text");
   for (const block of content || []) {
@@ -264,6 +263,51 @@ function renderSceneText(content) {
     box.appendChild(p);
   }
   return box;
+}
+
+function renderSystemWarning(state, actions) {
+  const banner = el("div", "system-warning");
+  banner.setAttribute("role", "status");
+  banner.appendChild(el("span", null, state.systemWarning));
+
+  const dismiss = el("button", "link-button", "Dismiss");
+  dismiss.type = "button";
+  dismiss.addEventListener("click", actions.dismissWarning);
+  banner.appendChild(dismiss);
+
+  return banner;
+}
+
+function renderModalOverlay(state, actions) {
+  const overlay = el("div", "modal-overlay");
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) actions.closeOverlay();
+  });
+
+  const modal = el("section", "card modal-card");
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+
+  const closeRow = el("div", "modal-close-row");
+  const close = el("button", "secondary-button modal-close", "Close");
+  close.type = "button";
+  close.addEventListener("click", actions.closeOverlay);
+  closeRow.appendChild(close);
+  modal.appendChild(closeRow);
+
+  if (state.overlayTab === "journal") {
+    modal.setAttribute("aria-label", "Journal");
+    modal.appendChild(renderJournal(state));
+  } else if (state.overlayTab === "residents") {
+    modal.setAttribute("aria-label", "Residents");
+    modal.appendChild(renderResidents(state));
+  } else if (state.overlayTab === "settings") {
+    modal.setAttribute("aria-label", "Settings");
+    modal.appendChild(renderSettings(actions));
+  }
+
+  overlay.appendChild(modal);
+  return overlay;
 }
 
 function renderJournal(state) {
@@ -334,14 +378,14 @@ function renderEnding(state, actions) {
   const screen = el("main", "screen");
 
   const art = el("aside", "art-panel");
-  art.appendChild(el("p", "kicker", "One month later"));
+  art.appendChild(el("p", "kicker", "After the concert"));
   art.appendChild(el("h2", null, "Summer Hills"));
   screen.appendChild(art);
 
   const card = el("section", "card");
   const inner = el("div", "card-inner");
   card.appendChild(inner);
-  inner.appendChild(el("h2", null, "One month later"));
+  inner.appendChild(el("h2", null, "After the concert"));
 
   const list = el("div", "ending-list");
   for (const line of ending.lines) {
@@ -375,7 +419,7 @@ function applySlotClass(app, state) {
 }
 
 function focusMainHeading(app) {
-  const heading = app.querySelector(".scene-card h2, .noticeboard h2, .panel h2, .setup h1, section.card h2, main h1, main h2");
+  const heading = app.querySelector(".modal-card h2") || app.querySelector(".scene-card h2, .noticeboard h2, .panel h2, .setup h1, section.card h2, main h1, main h2");
   if (!heading) return;
   heading.setAttribute("tabindex", "-1");
   heading.focus({ preventScroll: true });

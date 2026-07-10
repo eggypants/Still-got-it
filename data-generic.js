@@ -1,230 +1,291 @@
-// Village-wide recurring scenes and apartment scenes. No character arcs live here.
-// The apartment week-variants ARE the player arc. Keep them plain. Never narrate growth.
-// generic_walking floats by friendship: whoever you are closest to (Bob, Miranda,
-// or Jean) walks with you. It is a soft, recurring relationship check-in, not an arc beat.
+// Generated from the approved Still Got It script for Chunk 2.
 export const GENERIC_SCENES = {
   "generic_walking": {
     "title": "Walking group",
     "location": "Reception",
     "art": "Reception",
+    "variantId": "generic_walking.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The walking group gathers by reception in hats chosen for several conflicting forecasts."
+        "text": "The walking group gathers by reception and decides the park would be nice today."
       },
       {
-        "text": "Somebody with a clipboard proposes the short loop. Somebody else asks whether the shady side counts. Nobody rules on it."
+        "text": "The group passes the big fig tree, whose leaves are becoming more numerous."
       },
       {
-        "text": "The group sets off at a pace that leaves room for two walking frames, one stick, and a full account of last night’s rain."
+        "speaker": "MIRANDA",
+        "text": "She’s about ready to fruit."
       },
       {
-        "text": "It is pleasant enough. You walk near the back and let the conversation happen without you."
+        "text": "A man in a cap sidles up to you."
+      },
+      {
+        "speaker": "AL",
+        "text": "Now, what brings a young, sprightly soul like you out with a bunch of old codgers like us?"
       }
     ],
     "choices": [
       {
-        "text": "Enjoy the walk.",
+        "text": "I’m not young and sprightly.",
         "outcome": [
           {
-            "text": "You do a slow lap of the block. By the end, three people know your name and one has forgotten it again."
+            "text": "The man laughs and offers his hand."
           },
           {
-            "text": "The jacarandas are, as promised, worth it."
+            "speaker": "AL",
+            "text": "Al. Pleasure. Now, Bob here’s not young, but sprightly? Look at him go!"
+          },
+          {
+            "text": "Bob gives him a grumpy look as he powers ahead. At the reserve, a colossal mountain ash shades the benches."
+          },
+          {
+            "speaker": "AL",
+            "text": "Whopper, isn’t it?"
           }
         ],
-        "effects": {}
+        "effects": {
+          "flags": {
+            "met_al": true,
+            "met_bob": true,
+            "met_miranda": true
+          }
+        },
+        "nextSceneId": "generic_walking_intro_bob_al"
+      },
+      {
+        "text": "Let’s just say I like it slow.",
+        "outcome": [
+          {
+            "text": "The man laughs and offers his hand."
+          },
+          {
+            "speaker": "AL",
+            "text": "Al. Pleasure."
+          },
+          {
+            "text": "At the reserve, a colossal mountain ash shades the benches."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Tallest flowering plant in the world."
+          }
+        ],
+        "effects": {
+          "flags": {
+            "met_al": true,
+            "met_bob": true,
+            "met_miranda": true
+          }
+        },
+        "nextSceneId": "generic_walking_intro_al_miranda"
       }
     ],
     "variants": [
       {
+        "id": "generic_walking.alt_intro",
+        "oneShot": true,
         "when": {
-          "minFriendship": {
-            "bob": 3
-          }
+          "flag": "met_al",
+          "notSeenVariant": "generic_walking.v1"
         },
         "content": [
           {
-            "text": "The group is assembling by reception. Bob is already there, doing a slow circuit of the flat ground while he waits, the way a man does when sitting still is the harder option."
+            "text": "Al sidles up to you."
           },
           {
-            "text": "He falls into step with you without discussion. He sets a steady pace and holds it."
+            "speaker": "AL",
+            "text": "Settle this for me. Who’s more handsome — me or Bob?"
           },
           {
-            "speaker": "BOB",
-            "text": "Did this route every morning for forty years. Different block. Same idea."
-          },
-          {
-            "text": "At the corner, he nods at a front garden gone to seed."
-          },
-          {
-            "speaker": "BOB",
-            "text": "June would’ve had that fixed by Tuesday. Not a criticism. Just true."
+            "text": "Bob looks embarrassed. Al looks delighted."
           }
         ],
         "choices": [
           {
-            "text": "Keep pace with him.",
+            "text": "Al.",
             "outcome": [
               {
-                "text": "You walk the loop at Bob’s pace, which is unhurried and exact. He does not fill the quiet, and neither do you."
-              },
-              {
-                "text": "When you get back he says the walk was good company. From Bob, that is a paragraph."
+                "text": "Al laughs and slaps Bob on the shoulder, then admits Bob is his best buddy and too much fun to tease."
               }
             ],
             "effects": {
-              "friendship": {
-                "bob": 1
+              "flags": {
+                "met_al": true,
+                "met_bob": true,
+                "met_miranda": true
               }
-            }
+            },
+            "nextSceneId": "generic_walking_alt_followup"
           },
           {
-            "text": "“Forty years is a lot of mornings.”",
+            "text": "Bob.",
             "outcome": [
               {
-                "speaker": "BOB",
-                "text": "You do a thing because it holds the day together. Then one day the day holds itself, and you keep doing it anyway."
-              },
-              {
-                "text": "He walks a few steps."
-              },
-              {
-                "speaker": "BOB",
-                "text": "Habit’s not the worst company a man’s had."
+                "text": "Al laughs and tells Bob he must have broken his share of hearts. Bob powers ahead to Miranda while Al watches, amused and apologetic."
               }
             ],
             "effects": {
-              "friendship": {
-                "bob": 1
+              "flags": {
+                "met_al": true,
+                "met_bob": true,
+                "met_miranda": true
               }
-            }
+            },
+            "nextSceneId": "generic_walking_alt_followup"
           }
         ]
       },
       {
+        "id": "generic_walking.v2",
+        "oneShot": true,
         "when": {
-          "minFriendship": {
-            "miranda": 3
-          }
+          "anySeenVariant": [
+            "generic_walking.v1",
+            "generic_walking.alt_intro"
+          ]
         },
         "content": [
           {
-            "text": "Miranda is at the front of the group, having somehow become responsible for the route without volunteering."
+            "text": "The group assembles by reception. Bob falls into step with you while Miranda and Pablo lead through the side streets."
           },
           {
-            "text": "She walks briskly and expects the pavement to keep up. You match her stride."
+            "text": "At a neglected garden, Bob says Miranda should be allowed at it. Miranda objects to the borage spreading everywhere; Pablo observes that the mess, not the herb, is the problem."
+          },
+          {
+            "text": "Near home, a young woman with short pink hair drives away in a dirty red hatchback."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Rae was here. I would have liked to say hello."
           },
           {
             "speaker": "MIRANDA",
-            "text": "The clipboard person means well. But if you let a committee choose a route you end up walking to a vote, not a destination."
-          },
-          {
-            "text": "She steers the group around a puddle nobody else had noticed yet."
+            "text": "Lovely girl."
           }
         ],
         "choices": [
           {
-            "text": "Let her set the pace.",
+            "text": "Finish the loop with them.",
             "outcome": [
               {
-                "text": "Miranda sets a good pace and a better line, and the whole group is quietly grateful without quite knowing why."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "You keep up. That is not nothing. Most people dawdle and call it enjoying themselves."
+                "text": "The group turns back toward Summer Hills together."
               }
             ],
             "effects": {
               "friendship": {
-                "miranda": 1
-              }
-            }
-          },
-          {
-            "text": "“You could just let someone else lead.”",
-            "outcome": [
-              {
-                "text": "Miranda considers this as though you have suggested she stop breathing to save air."
+                "miranda": 1,
+                "pablo": 1,
+                "bob": 1
               },
-              {
-                "speaker": "MIRANDA",
-                "text": "I could."
-              },
-              {
-                "text": "She does not. But at the next corner she asks the group which way, and looks faintly surprised when the answer is reasonable."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "miranda": 1
+              "flags": {
+                "met_miranda": true,
+                "met_pablo": true,
+                "met_bob": true
               }
             }
           }
         ]
       },
       {
+        "id": "generic_walking.v3",
+        "oneShot": true,
         "when": {
-          "minFriendship": {
-            "jean": 3
-          }
+          "seenVariant": "generic_walking.v2"
         },
         "content": [
           {
-            "text": "Jean is holding court at the back of the group, which means the back of the group is now the front of the conversation."
+            "text": "Bob and Al lead the walk. Al says about ten words for each of Bob’s, but the conversation still flows."
           },
           {
-            "text": "She waves you over and picks up a thread as though you had always been in it."
+            "text": "Jean walks with Miranda at the back and waves you over."
           },
           {
             "speaker": "JEAN",
-            "text": "— so I told the council, if you’re going to widen the road you can explain to the possums. Anyway. Walk with me, I’m being outvoted on the route."
+            "text": "—so I told her, tell them they can take their three percent and shove it."
           },
           {
-            "text": "The group takes the long way. Jean considers this a victory."
+            "speaker": "MIRANDA",
+            "text": "Right. Less than inflation."
+          },
+          {
+            "text": "Jean explains that Rae is on her workplace bargaining team, with the pride some parents reserve for surgeons."
+          },
+          {
+            "text": "A grey cat watches the group pass through the laneway as though you are trespassing."
           }
         ],
         "choices": [
           {
-            "text": "Take the long way with her.",
+            "text": "Walk back with Jean and Miranda.",
             "outcome": [
               {
-                "text": "The long way passes the fig tree, the community garden, and three houses Jean has opinions about."
-              },
-              {
-                "text": "It takes twice as long and you arrive back in a better mood than the short loop would have allowed."
+                "text": "The argument about enterprise bargaining carries you all the way home."
               }
             ],
             "effects": {
               "friendship": {
-                "jean": 1
+                "jean": 1,
+                "miranda": 1
+              },
+              "flags": {
+                "met_jean": true,
+                "met_miranda": true,
+                "met_al": true,
+                "met_bob": true
               }
             }
+          }
+        ]
+      },
+      {
+        "id": "generic_walking.v4",
+        "oneShot": true,
+        "when": {
+          "seenVariant": "generic_walking.v3"
+        },
+        "content": [
+          {
+            "text": "The usual group walks to the reserve. You chat with Al and Miranda and share a few words with Bob."
           },
           {
-            "text": "Ask what she’s campaigning about this week.",
+            "text": "A currawong hops lightly between branches. A honeyeater works much harder at the banksias. The grey cat in the laneway remains unimpressed by everyone."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Finish the walk.",
             "outcome": [
               {
-                "speaker": "JEAN",
-                "text": "This week? Nothing. Which is suspicious. When I’ve nothing to fight I start reorganising the library by mood, and nobody wants that."
-              },
-              {
-                "text": "She laughs, then goes quiet for half a block, as though the joke had a true thing in it she hadn’t meant to say."
+                "text": "You return to Summer Hills at the group’s slow, familiar pace."
               }
             ],
             "effects": {
               "friendship": {
-                "jean": 1
+                "al": 1,
+                "miranda": 1,
+                "bob": 1
+              },
+              "flags": {
+                "met_al": true,
+                "met_miranda": true,
+                "met_bob": true
               }
             }
           }
         ]
       }
-    ]
+    ],
+    "when": {
+      "notFlag": "met_al"
+    }
   },
   "generic_tv_room": {
     "title": "Television room",
     "location": "TV Room",
     "art": "TV Room",
+    "variantId": "generic_tv_room.default",
+    "oneShot": true,
     "content": [
       {
         "text": "A quiz show is on. Everyone knows the answer after the contestant gets it wrong. This seems to be the main pleasure of the format."
@@ -242,152 +303,31 @@ export const GENERIC_SCENES = {
       }
     ]
   },
-  "generic_cafe_supper": {
-    "title": "Café supper",
-    "location": "Village Café",
-    "art": "Village Café",
-    "content": [
-      {
-        "text": "Supper is soup and bread. Pablo says the soup needs lemon. Miranda says it needs salt. Jean says it needs a better funding model."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "pablo": 1,
-            "miranda": 1,
-            "jean": 1
-          }
-        }
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "weeks": [
-            2,
-            3
-          ],
-          "minFriendship": {
-            "pablo": 2
-          },
-          "notMemory": "pablo_carmen_rice"
-        },
-        "content": [
-          {
-            "text": "Supper is almost over when Pablo brings out one last bowl for the table to try. He says it is only rice, which makes everyone suspicious."
-          },
-          {
-            "text": "He stands behind his chair while people eat. In his hand is a folded recipe card, soft at the edges."
-          },
-          {
-            "speaker": "PABLO",
-            "text": "Carmen never wrote it properly. She tasted, frowned, added a little more, and then it was right. This is not that. But it is close enough for supper."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Tell him people want seconds.",
-            "outcome": [
-              {
-                "text": "Pablo looks toward the table. Jean is already scraping the serving spoon around the bowl."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "Then perhaps it is close enough to survive."
-              },
-              {
-                "text": "He folds the card and returns it to his wallet, behind the photographs."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "pablo": 2
-              },
-              "memories": [
-                "pablo_carmen_rice"
-              ],
-              "flags": {
-                "pablo_recipe_seen": true
-              }
-            }
-          },
-          {
-            "text": "Stay quiet and let the table answer.",
-            "outcome": [
-              {
-                "text": "The table answers by emptying the bowl. Pablo pretends not to watch."
-              },
-              {
-                "text": "When he clears it away, the serving spoon is clean. He looks annoyed by how much this matters."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "pablo": 1
-              },
-              "memories": [
-                "pablo_carmen_rice"
-              ],
-              "flags": {
-                "pablo_recipe_seen": true
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "generic_market": {
-    "title": "Village market table",
-    "location": "Foyer",
-    "art": "Foyer",
-    "content": [
-      {
-        "text": "The foyer table has books, jams, plants, and one mysterious box labelled 'useful'. Al buys nothing and compliments everyone. This is apparently his contribution."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "al": 1
-          }
-        }
-      }
-    ]
-  },
   "generic_pre_show_breakfast": {
     "title": "Breakfast",
     "location": "Village Café",
     "art": "Village Café",
+    "variantId": "generic_pre_show_breakfast.v1",
+    "oneShot": true,
     "content": [
       {
-        "text": "The concert is tonight. The café has the feeling of a place pretending to be normal. Pablo says the food will be ready. Al says his hair will be ready. Bob says the chairs had better be ready."
+        "text": "The concert is tonight. The café has the feeling of a place pretending to be normal. Pablo says the food will be ready. Al says there better be enough room for his fans. Bob straightens up the rows of chairs."
       }
     ],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "The time passes more quickly than you expected."
+            "text": "The moment passes."
           }
         ],
         "effects": {
+          "flags": {
+            "met_al": true,
+            "met_bob": true,
+            "met_pablo": true
+          },
           "friendship": {
             "pablo": 1,
             "al": 1,
@@ -401,6 +341,8 @@ export const GENERIC_SCENES = {
     "title": "Hall setup",
     "location": "Hall",
     "art": "Hall",
+    "variantId": "generic_hall_setup.v1",
+    "oneShot": true,
     "content": [
       {
         "text": "You help set up chairs in the hall. Pablo arranges food with care. Al arranges himself near the entrance. Jean tapes up a sign, takes it down, and tapes it up straighter."
@@ -421,7 +363,10 @@ export const GENERIC_SCENES = {
             "jean": 1
           },
           "flags": {
-            "helped_hall_setup": true
+            "helped_hall_setup": true,
+            "met_al": true,
+            "met_jean": true,
+            "met_pablo": true
           }
         }
       }
@@ -438,10 +383,10 @@ export const GENERIC_SCENES = {
     ],
     "choices": [
       {
-        "text": "Let the time pass.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "Later, the light has changed."
+            "text": "The moment passes."
           }
         ],
         "effects": {
@@ -449,21 +394,6 @@ export const GENERIC_SCENES = {
             "spent_time_alone": true
           }
         }
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "week": 4
-        },
-        "content": [
-          {
-            "text": "You stay in and make toast. The trolley squeaks past, on time."
-          },
-          {
-            "text": "You know now that it is the library trolley, and that it is always five minutes early, and that knowing this is what living somewhere means."
-          }
-        ]
       }
     ]
   },
@@ -478,10 +408,10 @@ export const GENERIC_SCENES = {
     ],
     "choices": [
       {
-        "text": "Let the time pass.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "Later, the light has changed."
+            "text": "The moment passes."
           }
         ],
         "effects": {
@@ -498,10 +428,22 @@ export const GENERIC_SCENES = {
         },
         "content": [
           {
-            "text": "You stay in while the light moves across the carpet. Down in the garden, someone is being instructed."
-          },
+            "text": "You stay in while the light moves across the carpet. You hear voices outside, and then birds, and then silence."
+          }
+        ],
+        "choices": [
           {
-            "text": "You could name the instructor from the rhythm alone."
+            "text": "Continue.",
+            "outcome": [
+              {
+                "text": "The moment passes."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "spent_time_alone": true
+              }
+            }
           }
         ]
       }
@@ -513,15 +455,15 @@ export const GENERIC_SCENES = {
     "art": "Your Apartment",
     "content": [
       {
-        "text": "You make tea and stay in your apartment. Outside, the village carries on without making a fuss about it."
+        "text": "You make tea and stay in your apartment. Outside, the village carries on."
       }
     ],
     "choices": [
       {
-        "text": "Let the time pass.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "Later, the light has changed."
+            "text": "The moment passes."
           }
         ],
         "effects": {
@@ -534,19 +476,6 @@ export const GENERIC_SCENES = {
     "variants": [
       {
         "when": {
-          "week": 4
-        },
-        "content": [
-          {
-            "text": "You make tea. The kettle works. The door can stay closed."
-          },
-          {
-            "text": "You notice, tonight, that closing it is something you do."
-          }
-        ]
-      },
-      {
-        "when": {
           "week": 3
         },
         "content": [
@@ -555,6 +484,21 @@ export const GENERIC_SCENES = {
           },
           {
             "text": "The second time, you almost recognise it."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Continue.",
+            "outcome": [
+              {
+                "text": "The moment passes."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "spent_time_alone": true
+              }
+            }
           }
         ]
       },
@@ -565,12 +509,24 @@ export const GENERIC_SCENES = {
         "content": [
           {
             "text": "You make tea and stay in your apartment. The quiet is the same as last week."
-          },
+          }
+        ],
+        "choices": [
           {
-            "text": "It has a clock in it now."
+            "text": "Continue.",
+            "outcome": [
+              {
+                "text": "The moment passes."
+              }
+            ],
+            "effects": {
+              "flags": {
+                "spent_time_alone": true
+              }
+            }
           }
         ]
-      }
+      },
     ]
   },
   "apartment_pre_show": {
@@ -580,14 +536,17 @@ export const GENERIC_SCENES = {
     "content": [
       {
         "text": "You spend the afternoon in your apartment. Through the wall, faintly, you hear chairs scraping in the hall."
+      },
+      {
+        "text": "Later, the light has changed."
       }
     ],
     "choices": [
       {
-        "text": "Let the time pass.",
+        "text": "Continue.",
         "outcome": [
           {
-            "text": "Later, the light has changed."
+            "text": "The moment passes."
           }
         ],
         "effects": {
@@ -624,46 +583,24 @@ export const GENERIC_SCENES = {
       }
     ]
   },
-  "generic_pottery": {
-    "title": "Pottery",
-    "location": "Craft Room",
-    "art": "Craft Room",
-    "content": [
-      {
-        "text": "The craft room smells of wet clay and optimism."
-      },
-      {
-        "text": "People are making uneven bowls and pretending they meant to. The teacher says ‘lovely’ at regular intervals, to everyone, about everything."
-      },
-      {
-        "text": "A wheel is free."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Have a go.",
-        "outcome": [
-          {
-            "text": "Your bowl begins as a vase, becomes a plate, and settles on being an ashtray for a household that does not smoke."
-          },
-          {
-            "text": "The teacher says it is lovely. You suspect a pattern."
-          }
-        ],
-        "effects": {}
-      }
-    ]
-  },
   "generic_movie": {
     "title": "Movie night",
     "location": "Cinema Room",
     "art": "Cinema Room",
+    "variantId": "generic_movie.default",
+    "oneShot": true,
     "content": [
       {
         "text": "The cinema room is dark except for the projector glow. Someone has brought wrapped peppermints. The wrappers take longer than the peppermints."
       },
       {
         "text": "Tonight’s film is older than most of the audience, which everyone finds reassuring."
+      },
+      {
+        "text": "The film is good in the way old films are good: everyone talks fast and sounds extraordinarily cool, and also like your parents. The men all wear hats and the women are all too glamorous."
+      },
+      {
+        "text": "People drift out slowly afterwards, still talking about the ending."
       }
     ],
     "choices": [
@@ -671,10 +608,7 @@ export const GENERIC_SCENES = {
         "text": "Stay for the film.",
         "outcome": [
           {
-            "text": "The film is good in the way old films are good: everyone talks fast and nobody explains their feelings."
-          },
-          {
-            "text": "People drift out slowly afterwards, still talking about the ending."
+            "text": "You stay until the lights come up."
           }
         ],
         "effects": {}
@@ -682,15 +616,12 @@ export const GENERIC_SCENES = {
     ],
     "variants": [
       {
+        "id": "generic_movie.rhonda_hat",
+        "oneShot": true,
         "when": {
-          "weeks": [
-            3,
-            4
-          ],
           "minFriendship": {
             "rhonda": 2
-          },
-          "notMemory": "rhonda_hat_laugh"
+          }
         },
         "content": [
           {
@@ -727,7 +658,8 @@ export const GENERIC_SCENES = {
                 "rhonda_hat_laugh"
               ],
               "flags": {
-                "rhonda_told_hat_story": true
+                "rhonda_told_hat_story": true,
+                "met_rhonda": true
               }
             }
           },
@@ -750,7 +682,8 @@ export const GENERIC_SCENES = {
                 "rhonda_hat_laugh"
               ],
               "flags": {
-                "rhonda_told_hat_story": true
+                "rhonda_told_hat_story": true,
+                "met_rhonda": true
               }
             }
           }
@@ -758,103 +691,170 @@ export const GENERIC_SCENES = {
       }
     ]
   },
-  "generic_lounge_evening": {
-    "title": "Lounge after dinner",
-    "location": "Community Lounge",
-    "art": "Community Lounge",
-    "content": [
-      {
-        "text": "The lounge after dinner runs on tea and settled opinions."
-      },
-      {
-        "text": "Somebody’s grandson has done something either wonderful or alarming; the room is divided. The biscuits are not, and go quickly."
-      }
-    ],
+  "generic_walking_intro_bob_al": {
+    "title": "Walking group",
+    "location": "Reception",
+    "art": "Reception",
+    "hidden": true,
+    "content": [],
     "choices": [
       {
-        "text": "Stay for a while.",
+        "text": "Walk around with Bob.",
         "outcome": [
           {
-            "text": "You stay until the tea goes cold and the argument resolves itself into agreement that young people are, on balance, a mixed bag."
+            "text": "You join Bob for two brisk laps and ask about his veteran’s cap."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Vietnam. Army."
+          },
+          {
+            "text": "He does not elaborate. At the end he stops abruptly."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Ah, good to get the heart going. Nice walking with you."
+          },
+          {
+            "text": "You and Al return at a more reasonable pace."
           }
         ],
-        "effects": {}
-      }
-    ],
-    "variants": [
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 2
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      },
       {
-        "when": {
-          "weeks": [
-            2,
-            3,
-            4
-          ],
-          "minFriendship": {
-            "rhonda": 3
-          },
-          "notMemory": "rhonda_miss_performing"
-        },
-        "content": [
+        "text": "Sit with Al.",
+        "outcome": [
           {
-            "text": "The lounge after dinner is busy enough that no one notices the old programme on Rhonda’s lap until she closes it."
+            "text": "Al points out a handsome robin and asks you superficial questions. You return them."
           },
           {
-            "speaker": "RHONDA",
-            "text": "Tiny theatre. Terrible seats. Twenty-seven people and a damp patch on the ceiling."
-          },
-          {
-            "text": "She taps the programme once with her finger."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Best laugh I ever got. Not glamorous. Just alive."
+            "text": "He says he kept his money in stocks and moved into Summer Hills when he decided to retire from cleaning rented houses."
           }
         ],
-        "choices": [
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "bob": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true
+          }
+        }
+      }
+    ]
+  },
+  "generic_walking_intro_al_miranda": {
+    "title": "Walking group",
+    "location": "Reception",
+    "art": "Reception",
+    "hidden": true,
+    "content": [],
+    "choices": [
+      {
+        "text": "Walk around with Al.",
+        "outcome": [
           {
-            "text": "Ask if she misses it.",
-            "outcome": [
-              {
-                "speaker": "RHONDA",
-                "text": "No."
-              },
-              {
-                "text": "She says it too quickly."
-              },
-              {
-                "speaker": "RHONDA",
-                "text": "Yes. Not in the way people think."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "rhonda": 2
-              },
-              "memories": [
-                "rhonda_miss_performing"
-              ]
-            }
+            "text": "Al points out a robin and chats about his two years at Summer Hills, rented houses and his retirement from cleaning."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "miranda": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_miranda": true
+          }
+        }
+      },
+      {
+        "text": "Sit with Miranda.",
+        "outcome": [
+          {
+            "text": "Miranda sits in companionable silence before pointing to the grass."
           },
           {
-            "text": "Let the programme stay closed.",
-            "outcome": [
-              {
-                "text": "You do not ask. Rhonda keeps one hand on the programme while Al tells a story from across the room."
-              },
-              {
-                "text": "When someone laughs, Rhonda looks toward the sound before she remembers not to."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "rhonda": 1
-              },
-              "memories": [
-                "rhonda_miss_performing"
-              ]
-            }
+            "speaker": "MIRANDA",
+            "text": "Dandelions."
+          },
+          {
+            "text": "She explains how they used to gather them for salads and pies, blanching away the bitterness. You mention that bees like them. She nods approvingly."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 2,
+            "al": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_miranda": true
+          }
+        }
+      }
+    ]
+  },
+  "generic_walking_alt_followup": {
+    "title": "Walking group",
+    "location": "Reception",
+    "art": "Reception",
+    "hidden": true,
+    "content": [],
+    "choices": [
+      {
+        "text": "Walk around with Bob and Miranda.",
+        "outcome": [
+          {
+            "text": "You take two brisk laps with Bob and Miranda. Their conversation consists mostly of plants, ducks and short agreements."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Ah, good to get the heart going. Nice walking with you both."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 1,
+            "miranda": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true,
+            "met_miranda": true
+          }
+        }
+      },
+      {
+        "text": "Sit with Al.",
+        "outcome": [
+          {
+            "text": "Al points out a robin, chats about Summer Hills, and tells you he retired from cleaning when his last lease ended."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "bob": 1,
+            "miranda": 1
+          },
+          "flags": {
+            "met_al": true,
+            "met_bob": true,
+            "met_miranda": true
+          }
+        }
       }
     ]
   }

@@ -143,6 +143,24 @@ button {
   gap: 8px;
 }
 
+.system-warning {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #d8a42f;
+  border-radius: 18px;
+  background: #fff5cf;
+  color: #5d4310;
+  font-size: 0.95rem;
+}
+
+.system-warning .link-button {
+  flex: 0 0 auto;
+  color: #5d4310;
+}
+
 .tab-button,
 .primary-button,
 .secondary-button,
@@ -422,6 +440,35 @@ button:active {
   margin-top: 12px;
 }
 
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(46, 32, 40, 0.42);
+}
+
+.modal-card {
+  width: min(720px, 100%);
+  max-height: min(86vh, 880px);
+  overflow: auto;
+  padding: 18px;
+}
+
+.modal-close-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.modal-close {
+  width: auto;
+  min-width: 110px;
+  padding: 10px 14px;
+}
+
 @media (max-width: 760px) {
   .app-shell {
     padding-left: 12px;
@@ -452,5 +499,10 @@ button:active {
 
   .card-inner {
     padding: 18px;
+  }
+
+  .system-warning {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

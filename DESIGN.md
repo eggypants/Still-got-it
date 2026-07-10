@@ -2,7 +2,7 @@
 
 Supersedes the handoff brief where they conflict. The brief's tone rules, character
 arcs, and writing rules all still apply; this document resolves its structural
-contradictions and fixes the 28-day plan.
+contradictions and fixes the 21-day plan.
 
 ## Thesis (unchanged)
 
@@ -14,10 +14,9 @@ already could have been.
 
 ## Resolved structural decisions
 
-**1. Crossroads in week 3, Concert as convergence in week 4.**
-Every character's Crossroads event happens during week 3 (Rhonda's spans W3→W4
-because she owns the concert: her rehearsal crisis is W3, her night-before
-resolution is day 26). The week-4 Autumn Concert is not Rhonda's event alone —
+**1. Crossroads in week 3, Concert as convergence at the end of week 3.**
+Every character's Crossroads event happens during the three-week game, with the
+Autumn Concert on the final evening. The concert is not Rhonda's event alone —
 it is where the *results* of every arc appear on stage, in concrete objects and
 performances. Bob reads the June poem or something safe. Pablo's table carries
 his wife's dish or a substitute. Miranda's flowers decorate the hall or don't.
@@ -36,35 +35,35 @@ data.js is dead. Each character owns a `data-<name>.js` file; the schedule and
 calendar live in `data-core.js`; everything merges in `data-index.js`. An editor
 working on Jean physically cannot corrupt Rhonda.
 
-## The 28-day shape
+## The 21-day shape
 
 Week 1 — Arrival. First meetings, low-stakes activities, the village's weekly
 rhythm establishes itself. One early bespoke beat per character maximum.
 Week 2 — Deepening. Recurring scenes start playing their friendship-band
-variants. Key memories become collectable. NPC-duet beats begin.
-Week 3 — Crossroads. Each character's belief is tested in a public event with a
-private pressure point. Duets escalate. Concert preparation begins (notice day
-14, recruitment day 16, first rehearsal day 18).
-Week 4 — Consequences. Quieter bespoke scenes reflecting Crossroads outcomes,
-final rehearsals (days 25–26), night-before (day 26 evening), Concert (day 27
-evening, exclusive slot vs. apartment).
+variants. Key memories become collectable. NPC-duet beats begin. Concert
+preparation starts.
+Week 3 — Crossroads, consequences, and concert. Each character's belief is
+tested in a public event with a private pressure point. Quieter consequence
+beats can surface through the floating story queues before the final evening.
+The Autumn Concert closes the schedule.
 
-### Crossroads calendar (week 3, current plan)
+### Crossroads and concert calendar (current 21-day plan)
 
-| Day | Slot | Event | Character |
+| Day index | Slot | Event | Character |
 |---|---|---|---|
-| 14 (Mon) | Aft | Concert notice appears | Rhonda (setup) |
-| 16 (Wed) | Morn | Concert planning | Rhonda |
-| 18 (Fri) | Aft | First rehearsal — her crisis | Rhonda |
-| 20 (Sun) | Aft | Veterans' reunion — the bus at two | Bob ✅ built |
+| 8 (Tue) | Morn | Concert notice appears | Rhonda (setup) |
+| 14 (Mon) | Aft | Veterans' reunion — the bus at two | Bob ✅ built |
 | 15 (Tue) | Aft | Garden competition judging | Miranda ✅ built |
-| 19 (Sat) | Eve | Dance night | Al — TODO |
-| 17 (Thu) | Aft | Fig tree campaign meeting | Jean — TODO |
-| 20 (Sun) | Eve | Harvest feast | Pablo ✅ built |
+| 15 (Tue) | Eve | Harvest feast | Pablo ✅ built |
+| 16 (Wed) | Aft | Fig tree campaign meeting | Jean ✅ built |
+| 17 (Thu) | Aft | First rehearsal — her crisis | Rhonda ✅ built |
+| 19 (Sat) | Aft | Final rehearsal | Rhonda ✅ built |
+| 19 (Sat) | Eve | The night before | Rhonda ✅ built |
+| 20 (Sun) | Eve | Autumn Concert | Full cast ✅ built |
 
-Slots are suggestions; whoever builds each arc may move them, but they must stay
-in week 3, must not collide with each other's slot, and SHOULD collide with an
-attractive alternative (opportunity cost is the design).
+Al's pressure point is now carried through the cards and song chain rather than
+a separate dance-night special. Slots should stay inside the 21-day schedule and
+SHOULD collide with an attractive alternative (opportunity cost is the design).
 
 ### Character routines (template anchors)
 
@@ -105,7 +104,7 @@ Example: "Someone says Bob has been in the workshop with the radio off" is good.
 - 2–3 bespoke deepening scenes (weeks 2–3) — at least one grants the key memory
 - 1 Crossroads scene: observer base + pressure-point variant (gated ~Warm, key
   choice gated on the memory)
-- 1 week-4 consequence scene (short)
+- 1 post-Crossroads consequence scene (short, if it fits before the concert)
 - Concert conditional blocks (2 lines: success/failure)
 - Ending lines (2: success/failure) + resident-note ladder in engine.js
 
@@ -119,8 +118,7 @@ apartment, not through dialogue. Built: the apartment scenes
 gain week-banded variants (`when: { week: n }`) — identical routine, slowly
 changing interiority. Week 1: the quiet is a relief. Week 2: the quiet has a
 clock in it. Week 3: names drift through the wall and the player knows them now.
-Week 4: the kettle works; the door can still stay closed; it is a choice now,
-not a default. Never stated as growth. The hermit ending stays non-judgmental.
+Never stated as growth. The hermit ending stays non-judgmental.
 
 ## Systems reference (engine v0.4.3)
 
