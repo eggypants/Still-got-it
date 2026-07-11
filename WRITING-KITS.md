@@ -47,7 +47,7 @@ right", accidentally revealing she stages every room she is in; grants nothing
 but +1 and texture.
 Never: let her cry, monologue about fame, or thank anyone without an edge.
 
-## BOB (crossroads built — kit for post-Crossroads + duet)
+## BOB (crossroads built — kit for week-4 + duet)
 
 Belief: *Strength means carrying everything yourself.* He can discuss Vietnam
 matter-of-factly — mud, boredom, blokes, logistics. He cannot say June's name
@@ -56,7 +56,7 @@ gains maybe 20% more words and one unprompted question per scene; that is the
 entire visible change. Register: flat declaratives, tool vocabulary, kindness
 via acts (sliding a screwdriver over, making room). Duet with Rhonda: she makes
 him laugh against his will; he is the only person she doesn't perform for.
-Post-Crossroads consequence scene spec: success — Bob asks the player to check a poem
+Week-4 consequence scene spec: success — Bob asks the player to check a poem
 "for spelling" (it is not about spelling); failure — the good jacket goes to
 the op-shop bag, then quietly comes back out of it.
 
@@ -92,8 +92,8 @@ died ten years ago, name not fixed — pick one and add to DESIGN.md).
 Crossroads: harvest feast (week 3, day 20 evening). Base: he substitutes a
 different dish; nobody notices; the recipe card stays in his wallet. Pressure
 point: afternoon of the feast, the choice of what to cook; success = the dish
-cooked WITH help he accepts. Success consequence: someone else cooks for him
-afterward and he sits down and lets them. Failure: the card stays in the wallet;
+cooked WITH help he accepts. Success consequence: someone else cooks for him in
+week 4 and he sits down and lets them. Failure: the card stays in the wallet;
 he tops up everyone's plates standing up, like always.
 Duet with Miranda continues regardless (data-duets.js).
 
@@ -125,7 +125,7 @@ is the act getting 10% quieter, not a confession. Loneliness is allowed one
 sentence per scene, maximum, and he must immediately cap it with a joke. Key
 memory (to author): one true thing under the band stories — suggested: he was
 the one who drove everyone home after gigs, sober, because he liked being
-needed at 3am better than being adored at 10pm. Memory id: `al_band_days`.
+needed at 3am better than being adored at 10pm. Memory id: `al_designated_driver`.
 Crossroads: dance night (week 3). Base: he works the room, charms everyone,
 goes home alone with the act intact. Pressure point: gated scene where the
 music is too fast for his hip and the choice is to perform through it or sit
@@ -139,8 +139,9 @@ village neither of whom is fooled.
 
 ## Duets backlog (data-duets.js)
 
-Pablo+Miranda: built through week 3 (tea → seedlings → corner table → gift).
-Jean+Al: 3 beats across weeks 2–3. Rhonda+Bob: 2 beats in week 3 — she coaches his
+Pablo+Miranda: built through week 3 (tea → seedlings → corner table). Needs a
+week-4 beat: suggested — Miranda brings HIM something, badly wrapped.
+Jean+Al: 3 beats, weeks 2–4. Rhonda+Bob: 2 beats, weeks 3–4 — she coaches his
 poem reading; he is the only rehearsal note she gives gently.
 Rule: the player witnesses or misses these; they never require the player.
 

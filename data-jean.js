@@ -1,11 +1,13 @@
-// Generated from the approved Still Got It script for Chunk 2.
+// Built mechanically from sol-scenes.json under the Verbatim Law.
+// Authored scenes with content and no choices remain choice-free terminal beats;
+// the engine supplies the standard Continue navigation control at runtime.
+// The final library repeat requires the base visit, the festival memory, and
+// the biographies flag, encoding the source instruction that all prior beats played.
 export const JEAN_SCENES = {
   "generic_library_jean": {
     "title": "Library hour",
     "location": "Library",
     "art": "Library",
-    "variantId": "generic_library_jean.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "Jean is in the library with a stack of books beside her, one open in front of her, and a pencil tucked behind one ear."
@@ -26,12 +28,8 @@ export const JEAN_SCENES = {
             "text": "She holds up the book so you can read the cover. It's Simone de Beauvoir, The Second Sex."
           }
         ],
-        "effects": {
-          "flags": {
-            "met_jean": true
-          }
-        },
-        "nextSceneId": "generic_library_jean_books"
+        "nextSceneId": "generic_library_jean__v0_c1",
+        "flow": true
       },
       {
         "text": "Sit down and read with her.",
@@ -46,24 +44,18 @@ export const JEAN_SCENES = {
         "effects": {
           "friendship": {
             "jean": 1
-          },
-          "flags": {
-            "met_jean": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "generic_library_jean.v2",
-        "oneShot": true,
         "when": {
-          "flag": "jean_deflected_festival",
-          "notFlag": "jean_festival_seen",
           "minFriendship": {
             "jean": 2
           },
-          "seenVariant": "generic_library_jean.v3"
+          "flag": "jean_deflected_festival",
+          "notFlag": "jean_festival_seen"
         },
         "content": [
           {
@@ -111,24 +103,19 @@ export const JEAN_SCENES = {
                 "text": "Lovely man. Rae's dad, as you've probably guessed. A great father. But he found worse things than pot and LSD. I tried, for a few years, but eventually I had to let go."
               },
               {
-                "text": "She smiles at the image, - not sadly, as you expected - but lovingly. Then she turns to you."
-              },
-              {
-                "speaker": "JEAN",
-                "text": "Letting go of him was the hardest thing I'd ever done. But once I did, our new life began."
+                "text": "She smiles at the image, - not sadly, as you expected - but lovingly. Then she turns to you. >JEAN. Letting go of him was the hardest thing I'd ever done. But once I did, our new life began."
               }
             ],
             "effects": {
               "friendship": {
                 "jean": 2
               },
-              "flags": {
-                "jean_festival_seen": true,
-                "met_jean": true
-              },
               "memories": [
                 "jean_festival_days"
-              ]
+              ],
+              "flags": {
+                "jean_festival_seen": true
+              }
             }
           },
           {
@@ -144,23 +131,17 @@ export const JEAN_SCENES = {
             "effects": {
               "friendship": {
                 "jean": 1
-              },
-              "flags": {
-                "met_jean": true
               }
             }
           }
         ]
       },
       {
-        "id": "generic_library_jean.v3",
-        "oneShot": true,
         "when": {
           "minFriendship": {
             "jean": 2
           },
-          "notFlag": "jean_festival_seen",
-          "seenVariant": "generic_library_jean.v1"
+          "notFlag": "jean_festival_seen"
         },
         "content": [
           {
@@ -205,8 +186,7 @@ export const JEAN_SCENES = {
             ],
             "effects": {
               "flags": {
-                "jean_deflected_festival": true,
-                "met_jean": true
+                "jean_deflected_festival": true
               }
             }
           },
@@ -243,24 +223,20 @@ export const JEAN_SCENES = {
               "friendship": {
                 "jean": 3
               },
-              "flags": {
-                "jean_festival_seen": true,
-                "met_jean": true
-              },
               "memories": [
                 "jean_festival_days"
-              ]
+              ],
+              "flags": {
+                "jean_festival_seen": true
+              }
             }
           }
         ]
       },
       {
-        "id": "generic_library_jean.v4",
-        "oneShot": true,
         "when": {
           "seenScene": "generic_library_jean",
-          "notFlag": "jean_biographies_seen",
-          "seenVariant": "generic_library_jean.v3"
+          "notFlag": "jean_biographies_seen"
         },
         "content": [
           {
@@ -295,8 +271,7 @@ export const JEAN_SCENES = {
                 "jean": 1
               },
               "flags": {
-                "jean_biographies_seen": true,
-                "met_jean": true
+                "jean_biographies_seen": true
               }
             }
           },
@@ -313,16 +288,18 @@ export const JEAN_SCENES = {
             ],
             "effects": {
               "flags": {
-                "jean_biographies_seen": true,
-                "met_jean": true
+                "jean_biographies_seen": true
               }
             }
           }
         ]
       },
       {
-        "id": "generic_library_jean.v5",
-        "oneShot": true,
+        "when": {
+          "seenScene": "generic_library_jean",
+          "memory": "jean_festival_days",
+          "flag": "jean_biographies_seen"
+        },
         "content": [
           {
             "text": "You enter the library. Jean is on a computer, looking very frustrated."
@@ -335,140 +312,75 @@ export const JEAN_SCENES = {
             "text": "You offer to help, but she's decided to abandon whatever she was doing. She disappears among the shelves."
           },
           {
-            "text": "You sit down with a new magazine. Eventually, Jean returns, back in good spirits, and reads with you for a while."
+            "text": "You sit down with a new magazine. Eventually, Jean returns, back in good spirits, and reads with you for a while. - effects: Jean friendship +1"
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_jean": true
-              },
-              "friendship": {
-                "jean": 1
-              }
-            }
-          }
-        ],
-        "when": {
-          "seenVariant": "generic_library_jean.v4"
-        }
+        "choices": []
       }
     ]
   },
-  "generic_writing_jean": {
-    "title": "Writing circle",
+  "generic_library_jean__v0_c1": {
+    "title": "Library hour",
     "location": "Library",
     "art": "Library",
-    "variantId": "generic_writing_jean.v1",
-    "oneShot": true,
-    "content": [
-      {
-        "text": "Jean is at a long table with a notebook open and three pens laid out in a row. Al sits at the end of the table, daydreaming. Jean's rewriting the opening paragraph of something. You peer over her shoulder."
-      },
-      {
-        "speaker": "JEAN",
-        "text": "Don’t read over my shoulder. It puts me right off."
-      },
-      {
-        "text": "You sit down across from her instead."
-      }
-    ],
+    "content": [],
     "choices": [
       {
-        "text": "Ask what she's writing.",
+        "text": "Way better than Sartre, though",
         "outcome": [
           {
-            "text": "She looks at you with intensity, like she was waiting for you to ask. She says it like it's a new scientific discovery."
+            "text": "Jean grins at you."
           },
           {
             "speaker": "JEAN",
-            "text": "Slam. Poetry."
+            "text": "No comparison."
           },
           {
-            "text": "You look at her, not sure how to react. Jean turns to Al."
+            "text": "You eye the stack of books. It contains women writers from the Brontës to bell hooks. {note for AI - DO NOT capitalise 'bell hooks\")"
           },
           {
-            "speaker": "JEAN",
-            "text": "Show her, Al."
-          },
-          {
-            "text": "Al snaps back to reality."
-          },
-          {
-            "speaker": "AL",
-            "text": "Show her what, now?"
-          },
-          {
-            "speaker": "JEAN",
-            "text": "The one Rae showed us. On the YouTube. Come on, you know I don't know how to do it."
-          },
-          {
-            "speaker": "AL",
-            "text": "Ah."
-          },
-          {
-            "text": "He pulls out his phone and navigates the menus. It takes him a while, but eventually he's playing a video, a bit too loudly."
-          },
-          {
-            "text": "The video is a young woman, wearing a black hijab and white sneakers. She passionately delivers a poem about injustice. When it finishes, you look over at Jean. She is looking at the phone, enraptured."
-          },
-          {
-            "speaker": "JEAN",
-            "text": "It's brilliant."
-          },
-          {
-            "text": "She looks at you, determined."
-          },
-          {
-            "speaker": "JEAN",
-            "text": "I'm going to do that."
-          },
-          {
-            "text": "Al nods approvingly."
-          },
-          {
-            "speaker": "AL",
-            "text": "Rock on, sister."
-          },
-          {
-            "text": "They laugh."
+            "text": "You sit down and read with Jean for a while."
           }
         ],
         "effects": {
           "friendship": {
-            "jean": 2,
-            "al": 1
-          },
-          "flags": {
-            "met_al": true,
-            "met_jean": true
+            "jean": 2
           }
         }
       },
       {
-        "text": "Write quietly by yourself.",
+        "text": "Never heard of it.",
         "outcome": [
           {
-            "text": "You pull out a notebook and start writing a journal. You jot down a few memories, but then you run out of ideas."
+            "speaker": "JEAN",
+            "text": "Well, that suggests we had very different experiences of higher education."
           },
           {
-            "text": "You pick up a nearby newspaper instead and fill in the crossword."
+            "text": "You're not quite sure what she means by that, but the tone is friendly."
+          },
+          {
+            "text": "You sit down and read with Jean for a while."
           }
         ],
         "effects": {
           "friendship": {
             "jean": 1
+          }
+        }
+      },
+      {
+        "text": "I prefer fiction.",
+        "outcome": [
+          {
+            "text": "Jean looks unbothered. JEAN. So do I. Have you had a look around the library yet?"
           },
-          "flags": {
-            "met_al": true,
-            "met_jean": true
+          {
+            "text": "Jean walks you through the library, pointing out some of her favourite fiction works. You pick a few up, and thank her as you head off to do some reading."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "jean": 1
           }
         }
       }
@@ -478,8 +390,6 @@ export const JEAN_SCENES = {
     "title": "The fig tree petition",
     "location": "Gardens",
     "art": "Gardens",
-    "variantId": "jean_figtree.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The old fig tree by the east fence has a council notice tied to it with orange tape. A loose end of the tape flaps and snaps in the wind."
@@ -529,8 +439,7 @@ export const JEAN_SCENES = {
             "jean": 2
           },
           "flags": {
-            "jean_carried_it_alone": true,
-            "met_jean": true
+            "jean_carried_it_alone": true
           }
         }
       },
@@ -549,16 +458,13 @@ export const JEAN_SCENES = {
             "jean": 1
           },
           "flags": {
-            "jean_carried_it_alone": true,
-            "met_jean": true
+            "jean_carried_it_alone": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "jean_figtree.v2",
-        "oneShot": true,
         "when": {
           "minFriendship": {
             "jean": 5
@@ -582,14 +488,16 @@ export const JEAN_SCENES = {
             "text": "A young council officer approaches, holding a folder to his chest."
           },
           {
-            "text": "OFFICER. Jean?"
+            "speaker": "OFFICER",
+            "text": "Jean?"
           },
           {
             "speaker": "JEAN",
             "text": "The same."
           },
           {
-            "text": "OFFICER. You've been calling us."
+            "speaker": "OFFICER",
+            "text": "You've been calling us."
           },
           {
             "text": "He begins trying to explain the appeals process. Jean tries not to interrupt, but eventually fails."
@@ -599,19 +507,22 @@ export const JEAN_SCENES = {
             "text": "So what I’m hearing is, we can save the tree by completing fourteen forms, submitting thirty to forty objections, attending a meeting we’re not invited to, and possibly sacrificing a goat."
           },
           {
-            "text": "OFFICER. Look, let me be real with you. I agree with you. I don’t want to see this tree go either. But my hands are tied."
+            "speaker": "OFFICER",
+            "text": "Look, let me be real with you. I agree with you. I don’t want to see this tree go either. But my hands are tied."
           },
           {
             "text": "The officer shifts uncomfortably."
           },
           {
-            "text": "OFFICER. Listen, I probably shouldn’t say this, but the primary school kids love that tree. Give me your petition, I’ll drop it off at the school. Maybe some kids and parents will sign it. Give it a bit more weight than just some old-"
+            "speaker": "OFFICER",
+            "text": "Listen, I probably shouldn’t say this, but the primary school kids love that tree. Give me your petition, I’ll drop it off at the school. Maybe some kids and parents will sign it. Give it a bit more weight than just some old-"
           },
           {
             "text": "He catches himself."
           },
           {
-            "text": "OFFICER. Um, retired… residents."
+            "speaker": "OFFICER",
+            "text": "Um, retired… residents."
           },
           {
             "text": "You look at the papers in Jean’s hand. The top sheet has Rae’s name on it, signed in thick black marker. Jean turns to you, and whispers loudly enough that the council officer definitely hears it."
@@ -624,6 +535,7 @@ export const JEAN_SCENES = {
         "choices": [
           {
             "text": "You’ve let go before. Maybe that’s what needs to happen now?",
+            "requiresMemory": "jean_festival_days",
             "outcome": [
               {
                 "text": "Jean raises an eyebrow."
@@ -651,11 +563,9 @@ export const JEAN_SCENES = {
                 "jean": 3
               },
               "flags": {
-                "jean_let_go": true,
-                "met_jean": true
+                "jean_let_go": true
               }
-            },
-            "requiresMemory": "jean_festival_days"
+            }
           },
           {
             "text": "I wouldn’t let a bunch of kids handle this.",
@@ -680,8 +590,7 @@ export const JEAN_SCENES = {
                 "jean": 1
               },
               "flags": {
-                "jean_carried_it_alone": true,
-                "met_jean": true
+                "jean_carried_it_alone": true
               }
             }
           },
@@ -711,8 +620,7 @@ export const JEAN_SCENES = {
                 "jean": 1
               },
               "flags": {
-                "jean_carried_it_alone": true,
-                "met_jean": true
+                "jean_carried_it_alone": true
               }
             }
           }
@@ -724,8 +632,6 @@ export const JEAN_SCENES = {
     "title": "The petition folder",
     "location": "Library",
     "art": "Library",
-    "variantId": "jean_figtree_consequence.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "Jean has a stack of papers at a desk, and a pile of books on planning law."
@@ -739,7 +645,7 @@ export const JEAN_SCENES = {
       },
       {
         "text": "She holds out a petition sheet."
-      },
+      }
     ],
     "choices": [
       {
@@ -750,16 +656,13 @@ export const JEAN_SCENES = {
           },
           {
             "speaker": "JEAN",
-            "text": "Thank you — you're a trooper."
+            "text": "Thank you - you're a trooper."
           },
           {
             "text": "She looks tired."
           }
         ],
         "effects": {
-          "flags": {
-            "met_jean": true
-          },
           "friendship": {
             "jean": 1
           }
@@ -771,18 +674,11 @@ export const JEAN_SCENES = {
           {
             "text": "You make an excuse and leave her to it."
           }
-        ],
-        "effects": {
-          "flags": {
-            "met_jean": true
-          },
-        }
+        ]
       }
     ],
     "variants": [
       {
-        "id": "jean_figtree_consequence.v2",
-        "oneShot": true,
         "when": {
           "flag": "jean_let_go"
         },
@@ -838,103 +734,108 @@ export const JEAN_SCENES = {
             "text": "She beams with pride and goes back to reading."
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_jean": true
-              },
-              "friendship": {
-                "jean": 1
-              }
-            }
+        "choices": [],
+        "terminalEffects": {
+          "friendship": {
+            "jean": 1
           }
-        ]
+        }
       }
     ]
   },
-  "generic_library_jean_books": {
-    "title": "Library hour",
+  "generic_writing_jean": {
+    "title": "Writing circle",
     "location": "Library",
     "art": "Library",
-    "hidden": true,
-    "content": [],
+    "content": [
+      {
+        "text": "Jean is at a long table with a notebook open and three pens laid out in a row. Al sits at the end of the table, daydreaming. Jean's rewriting the opening paragraph of something. You peer over her shoulder."
+      },
+      {
+        "speaker": "JEAN",
+        "text": "Don’t read over my shoulder. It puts me right off."
+      },
+      {
+        "text": "You sit down across from her instead."
+      }
+    ],
     "choices": [
       {
-        "text": "Way better than Sartre, though.",
+        "text": "Ask what she's writing.",
         "outcome": [
           {
-            "text": "Jean grins at you."
+            "text": "She looks at you with intensity, like she was waiting for you to ask. She says it like it's a new scientific discovery."
           },
           {
             "speaker": "JEAN",
-            "text": "No comparison."
+            "text": "Slam. Poetry."
           },
           {
-            "text": "You eye the stack of books. It contains women writers from the Brontës to bell hooks."
+            "text": "You look at her, not sure how to react. Jean turns to Al. JEAN. Show her, Al."
           },
           {
-            "text": "You sit down and read with Jean for a while."
+            "text": "Al snaps back to reality."
+          },
+          {
+            "speaker": "AL",
+            "text": "Show her what, now?"
+          },
+          {
+            "speaker": "JEAN",
+            "text": "The one Rae showed us. On the YouTube. Come on, you know I don't know how to do it."
+          },
+          {
+            "speaker": "AL",
+            "text": "Ah."
+          },
+          {
+            "text": "He pulls out his phone and navigates the menus. It takes him a while, but eventually he's playing a video, a bit too loudly."
+          },
+          {
+            "text": "The video is a young woman, wearing a black hijab and white sneakers. She passionately delivers a poem about injustice. When it finishes, you look over at Jean. She is looking at the phone, enraptured."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "It's brilliant."
+          },
+          {
+            "text": "She looks at you, determined."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "I'm going to do that."
+          },
+          {
+            "text": "Al nods approvingly."
+          },
+          {
+            "speaker": "AL",
+            "text": "Rock on, sister."
+          },
+          {
+            "text": "They laugh."
           }
         ],
         "effects": {
           "friendship": {
-            "jean": 2
-          },
-          "flags": {
-            "met_jean": true
+            "jean": 2,
+            "al": 1
           }
         }
       },
       {
-        "text": "Never heard of it.",
+        "text": "Write quietly by yourself.",
         "outcome": [
           {
-            "speaker": "JEAN",
-            "text": "Well, that suggests we had very different experiences of higher education."
+            "text": "You pull out a notebook and start writing a journal. You jot down a few memories, but then you run out of ideas."
           },
           {
-            "text": "You’re not quite sure what she means by that, but the tone is friendly."
-          },
-          {
-            "text": "You sit down and read with Jean for a while."
+            "text": "You pick up a nearby newspaper instead and fill in the crossword."
           }
         ],
         "effects": {
           "friendship": {
             "jean": 1
-          },
-          "flags": {
-            "met_jean": true
-          }
-        }
-      },
-      {
-        "text": "I prefer fiction.",
-        "outcome": [
-          {
-            "text": "Jean looks unbothered."
-          },
-          {
-            "speaker": "JEAN",
-            "text": "So do I. Have you had a look around the library yet?"
-          },
-          {
-            "text": "Jean walks you through the library, pointing out some of her favourite fiction. You pick a few books and thank her before heading off to read."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "jean": 1
-          },
-          "flags": {
-            "met_jean": true
           }
         }
       }

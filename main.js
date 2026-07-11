@@ -1,42 +1,24 @@
-import { createInitialState, normalizeState, SAVE_VERSION } from "./state.js";
+import { createInitialState, SAVE_VERSION } from "./state.js";
 import {
   beginActivity,
   chooseSceneOption,
-  closeOverlay,
   continueAfterOutcome,
-  openTab,
-  recoverLoadedState,
-  startGame
+  openTab
 } from "./engine.js";
 import { clearSave, loadGame as loadSavedGame, saveGame as persistGame } from "./save.js";
 import { render } from "./ui.js";
 
 let state = createInitialState();
-let systemWarning = "";
 const app = document.getElementById("app");
 
 const saved = loadSavedGame();
-applyLoadedGame(saved, { automatic: true });
+if (saved && saved.version === SAVE_VERSION) {
+  state = saved;
+}
 
 const actions = {
-  startGame(player) {
-    startGame(state, player);
-    persistCurrentGame();
-    update();
-  },
-
   openTab(tabName) {
     openTab(state, tabName);
-    update();
-  },
-
-  closeOverlay() {
-    closeOverlay(state);
-    update();
-  },
-
-  dismissWarning() {
-    systemWarning = "";
     update();
   },
 
@@ -48,33 +30,34 @@ const actions = {
 
   chooseSceneOption(index) {
     chooseSceneOption(state, index);
-    persistCurrentGame();
+    persistGame(state);
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   continueAfterOutcome() {
     continueAfterOutcome(state);
-    persistCurrentGame();
+    persistGame(state);
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
   saveGame() {
-    if (persistCurrentGame()) {
-      alert("Saved.");
-    } else {
-      update();
-    }
+    persistGame(state);
+    alert("Saved.");
   },
 
   loadGame() {
     const loaded = loadSavedGame();
-    if (!loaded.ok && loaded.reason === "empty") {
+    if (!loaded) {
       alert("No saved game found in this browser.");
       return;
     }
-    applyLoadedGame(loaded);
+    if (loaded.version !== SAVE_VERSION) {
+      alert("That save is from an older version and cannot be loaded. Start a new month instead.");
+      return;
+    }
+    state = loaded;
     update();
   },
 
@@ -83,47 +66,50 @@ const actions = {
     if (!yes) return;
     clearSave();
     state = createInitialState();
-    systemWarning = "";
     update();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 
+const INTRO_TEXT = "Your son drops you off early in the morning. He has to head off straight away to catch his flight home. He'll see you at Christmas, he says. You look at the buildings in front of you: red brick units surround a central brick building. Big windows with cream-painted wooden frames. Concrete paths lined with native shrubs. Down a small hill to your right, a garden plot. In front of you, apartment 7. Your new home at Summer Hills Retirement Village.";
+
+actions.dismissIntro = function () {
+  state.introSeen = true;
+  persistGame(state);
+  update();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+function renderIntro() {
+  app.innerHTML = "";
+  const wrap = document.createElement("div");
+  wrap.className = "intro-screen";
+  const card = document.createElement("div");
+  card.className = "intro-card";
+  const title = document.createElement("h1");
+  title.className = "intro-title";
+  title.textContent = "Still Got It";
+  const sub = document.createElement("p");
+  sub.className = "intro-sub";
+  sub.textContent = "Summer Hills Retirement Village";
+  const body = document.createElement("p");
+  body.className = "intro-body";
+  body.textContent = INTRO_TEXT;
+  const btn = document.createElement("button");
+  btn.className = "primary-button intro-button";
+  btn.textContent = "Move in";
+  btn.addEventListener("click", () => actions.dismissIntro());
+  card.append(title, sub, body, btn);
+  wrap.appendChild(card);
+  app.appendChild(wrap);
+}
+
 function update() {
-  render(app, { ...state, systemWarning }, actions);
-}
-
-function persistCurrentGame() {
-  const result = persistGame(state);
-  if (!result.ok) {
-    systemWarning = "Saving failed in this browser. You can keep playing, but progress may not persist.";
-    return false;
-  }
-  if (systemWarning.startsWith("Saving failed")) systemWarning = "";
-  return true;
-}
-
-function applyLoadedGame(result, options = {}) {
-  if (!result.ok) {
-    if (result.reason === "empty") return;
-    state = recoverLoadedState(normalizeState(null), { forceNoticeboard: true });
-    systemWarning = "That save could not be read, so play has been returned to the noticeboard.";
+  if (!state.introSeen) {
+    renderIntro();
     return;
   }
-
-  const loaded = result.state && typeof result.state === "object" ? result.state : null;
-  const outdated = !loaded || loaded.version !== SAVE_VERSION;
-  const previousView = loaded?.view;
-  const previousSceneId = loaded?.activeSceneId;
-  state = recoverLoadedState(normalizeState(loaded), { forceNoticeboard: outdated });
-
-  if (outdated) {
-    systemWarning = "That save was from an older build, so play has been returned to the noticeboard.";
-  } else if ((previousView === "scene" || previousView === "outcome") && state.view === "noticeboard" && previousSceneId) {
-    systemWarning = "That save pointed to a scene that is no longer available, so play has been returned to the noticeboard.";
-  } else if (!options.automatic) {
-    systemWarning = "";
-  }
+  render(app, state, actions);
 }
 
 // Integrity check: every scheduled sceneId must exist. Runs once on load.
@@ -137,7 +123,7 @@ import("./data-index.js").then(({ DAYS, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, S
   for (const special of Object.values(SPECIALS)) {
     for (const item of special.items) if (!SCENES[item.sceneId]) missing.add(item.sceneId);
   }
-  for (const id of ["apartment_morning", "apartment_afternoon", "apartment_evening"]) {
+  for (const id of ["apartment_morning", "apartment_evening"]) {
     if (!SCENES[id]) missing.add(id);
   }
   if (missing.size) {

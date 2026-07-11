@@ -5,11 +5,11 @@
 //                    exclusively own a slot. This is where arcs live on the calendar.
 // Noticeboard notes must never identify a resident. Activities, objects, atmosphere only.
 
-export const TIME_SLOTS = ["Morning", "Afternoon", "Evening"];
+export const TIME_SLOTS = ["Morning", "Evening"];
 
 const WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-export const DAYS = Array.from({ length: 21 }, (_, i) => ({
+export const DAYS = Array.from({ length: 28 }, (_, i) => ({
   week: Math.floor(i / 7) + 1,
   weekday: WEEKDAYS[i % 7]
 }));
@@ -54,16 +54,17 @@ export const CHARACTERS = {
 };
 
 export const MEMORIES = {
-  rhonda_hat_laugh: "Rhonda once said the best laugh she ever got was from a tiny comedy role where she lost a hat.",
-  rhonda_children_film: "Rhonda’s three children work in film. She sounds proud, but not only proud.",
-  rhonda_miss_performing: "Rhonda misses performing, though not in the way people assume.",
-  pablo_miranda_tea: "Pablo noticed Miranda takes her tea strong and with no sugar.",
-  miranda_accepts_help: "Miranda let Pablo carry a crate of seedlings, then pretended she hadn’t needed help.",
-  bob_june_roses: "Bob keeps a photograph in his toolbox: his wife June, standing in front of roses she grew from cuttings.",
-  miranda_good_tablecloth: "Miranda kept her family’s one good tablecloth mended for thirty years. You can be poor or you can look poor, she says. Only one of those is compulsory.",
-  pablo_carmen_rice: "Pablo carries Carmen’s rice recipe in his wallet, behind the photographs. Carmen seasoned by taste, frowned at the pot, added a little more, and was always right.",
-  jean_festival_days: "Jean showed you the festival photos: herself barefoot in dry grass, then pregnant beside Rae’s father, the lovely tambourine player she had to let go.",
-  al_band_days: "Al showed you photographs of his old band: four young men playing wherever would have them, sweaty, untidy and happy.",
+  "rhonda_hat_laugh": "A terrible play called Bishops and Bombshells. Rhonda came on in the second act, insulted a priest, lost her hat, left. Every night, when the hat went, the room lost it. The best role she ever had.",
+  "rhonda_children_film": "All three of Rhonda’s children work in film - London, Toronto, Los Angeles. When her own roles dried up, she thought: the door is still open. Just not for me.",
+  "rhonda_miss_performing": "Rhonda misses performing, but not the way people think. Twenty-seven people in a tiny theatre, a rich lady with a poodle, her friend Steve as the poodle - and the best laugh she ever got.",
+  "pablo_miranda_tea": "Pablo had Miranda’s tea ready before she asked. Strong, no sugar.",
+  "miranda_accepts_help": "Miranda let Pablo move the seedlings. She inspected every leaf afterwards and said “acceptable” - which, from Miranda, is applause.",
+  "bob_june_roses": "Two photographs inside the lid of Bob’s toolbox: his section in Vietnam, and his wife June, in front of the roses she grew from cuttings.",
+  "miranda_good_tablecloth": "One good tablecloth, kept mended for years in a house with six siblings. “You can be poor, and you can look poor,” Miranda says. “Only one of those is beyond your control.”",
+  "pablo_carmen_rice": "Carmen never measured. She tasted, frowned, added a little more. Her recipes were never the same twice, and never once wrong. Pablo made her write the recipe down because he knew he would want it when she was gone. He hasn’t cooked it since.",
+  "jean_festival_days": "Three hot days in 1971. Young and free in a yellow scarf, Jean met the tambourine player, and soon they had Rae on the way. He was a lovely man, but he couldn't stay sober and Jean had to let him go. “The hardest thing I’d ever done. But once I did, our new life began.”",
+  "als_band": "Al’s band: Darren on guitar, who’d solo for seven minutes if you let him. Mike on drums, last seen joining an outback cult. And Kev - Al’s best mate, never drank a drop, wildest of the four.",
+  "al_love": "You asked Al if he’d ever been in love. “A few times. Not many.” He chose money and travel over a wife and kids, then picked up the guitar and changed the subject with a song."
 };
 
 // ---------------------------------------------------------------------------
@@ -78,9 +79,7 @@ export const WEEKLY_TEMPLATE = {
   ],
   "Monday-1": [
     { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" },
-  ],
-  "Monday-2": [
-    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Low stakes, old grudges, and a deck of cards that has seen things.", sceneId: "generic_cards_al" },
+    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Low stakes, old grudges, and a deck of cards that has seen things.", sceneId: "generic_cards_al" }
   ],
 
   "Tuesday-0": [
@@ -88,10 +87,8 @@ export const WEEKLY_TEMPLATE = {
     { id: "tpl-library", title: "Library hour", location: "Library", note: "Quiet reading, returned books, and a newspaper folded with disapproval.", sceneId: "generic_library_jean" }
   ],
   "Tuesday-1": [
-    { id: "tpl-garden-pm", title: "Garden volunteers", location: "Gardens", note: "Bring gloves, or borrow the ones with suspicious stains.", sceneId: "generic_garden_miranda" }
-  ],
-  "Tuesday-2": [
-    { id: "tpl-writing", title: "Writing circle", location: "Library", note: "Notebooks, pens, and crossed-out paragraphs.", sceneId: "generic_writing_jean" },
+    { id: "tpl-garden-pm", title: "Garden volunteers", location: "Gardens", note: "Bring gloves, or borrow the ones with suspicious stains.", sceneId: "generic_garden_miranda" },
+    { id: "tpl-lounge-pm", title: "Lounge after dinner", location: "Community Lounge", note: "Armchairs, biscuits, tea and conversation.", sceneId: "generic_lounge_evening" }
   ],
 
   "Wednesday-0": [
@@ -100,11 +97,7 @@ export const WEEKLY_TEMPLATE = {
   ],
   "Wednesday-1": [
     { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" },
-    { id: "tpl-walk", title: "Walking group", location: "Reception", note: "A second chance to learn who complains uphill.", sceneId: "generic_walking" }
-  ],
-  "Wednesday-2": [
-    { id: "tpl-movie", title: "Movie night", location: "Cinema Room", note: "Black-and-white comedy. The good seats go early.", sceneId: "generic_movie" },
-    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Bad shuffling, worse bluffing, and one person who is lying about luck.", sceneId: "generic_cards_al" }
+    { id: "tpl-movie", title: "Movie night", location: "Cinema Room", note: "Black-and-white comedy. The good seats go early.", sceneId: "generic_movie" }
   ],
 
   "Thursday-0": [
@@ -112,9 +105,7 @@ export const WEEKLY_TEMPLATE = {
     { id: "tpl-library", title: "Library hour", location: "Library", note: "Returned books, missing bookmarks, and a notice no one remembers approving.", sceneId: "generic_library_jean" }
   ],
   "Thursday-1": [
-    { id: "tpl-garden-pm", title: "Garden volunteers", location: "Gardens", note: "A list has appeared. The list has sub-lists.", sceneId: "generic_garden_miranda" },
-  ],
-  "Thursday-2": [
+    { id: "tpl-supper", title: "Café supper", location: "Village Café", note: "Soup, bread, and a table of people pretending not to eavesdrop.", sceneId: "generic_cafe_supper" },
     { id: "tpl-tv", title: "Television room", location: "TV Room", note: "A quiz show is on. Everyone knows better than the contestants.", sceneId: "generic_tv_room" }
   ],
 
@@ -123,21 +114,17 @@ export const WEEKLY_TEMPLATE = {
     { id: "tpl-cafe-am", title: "Morning tea", location: "Village Café", note: "Fresh scones. At least three people have opinions.", sceneId: "generic_cafe_pablo" }
   ],
   "Friday-1": [
-    { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" }
-  ],
-  "Friday-2": [
-    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Low stakes, old grudges, and a deck of cards that has seen things.", sceneId: "generic_cards_al" },
-    { id: "tpl-tv", title: "Television room", location: "TV Room", note: "A quiz show is on. Everyone knows better than the contestants.", sceneId: "generic_tv_room" }
+    { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" },
+    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Low stakes, old grudges, and a deck of cards that has seen things.", sceneId: "generic_cards_al" }
   ],
 
   "Saturday-0": [
+    { id: "tpl-market", title: "Village market table", location: "Foyer", note: "Books, jams, plants, and one mysterious box labelled 'useful'.", sceneId: "generic_market" },
     { id: "tpl-garden-am", title: "Garden volunteers", location: "Gardens", note: "Quiet soil, magpies, and leaves under inspection.", sceneId: "generic_garden_miranda" }
   ],
   "Saturday-1": [
     { id: "tpl-library", title: "Library hour", location: "Library", note: "Quiet reading, returned books, and a newspaper folded with disapproval.", sceneId: "generic_library_jean" },
-  ],
-  "Saturday-2": [
-    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Bad shuffling, worse bluffing, and one person who is lying about luck.", sceneId: "generic_cards_al" },
+    { id: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "Bad shuffling, worse bluffing, and one person who is lying about luck.", sceneId: "generic_cards_al" }
   ],
 
   "Sunday-0": [
@@ -145,60 +132,48 @@ export const WEEKLY_TEMPLATE = {
     { id: "tpl-garden-am", title: "Morning in the garden", location: "Gardens", note: "Quiet soil, magpies, and leaves under inspection.", sceneId: "generic_garden_miranda" }
   ],
   "Sunday-1": [
-    { id: "tpl-tv", title: "Television room", location: "TV Room", note: "An old film is on. Half the room has seen it. All of the room has opinions.", sceneId: "generic_tv_room" },
-    { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" }
-  ],
-  "Sunday-2": [
+    { id: "tpl-workshop", title: "Workshop hours", location: "Workshop", note: "Tools out, sawdust down, and a queue of small repairs.", sceneId: "generic_workshop_bob" },
+    { id: "tpl-supper", title: "Café supper", location: "Village Café", note: "Soup, bread, and a table of people pretending not to eavesdrop.", sceneId: "generic_cafe_supper" }
   ]
 };
 
 // ---------------------------------------------------------------------------
-// SPECIALS — story beats on the 21-day calendar. Key: "dayIndex-slotIndex".
+// SPECIALS — story beats on the 28-day calendar. Key: "dayIndex-slotIndex".
 //   { items: [...] }                    → items are ADDED to the template slot.
 //   items with replaces: "tpl-id"       → that template entry is removed first.
 //   { exclusive: true, items: [...] }   → the slot shows ONLY these items.
-// Day index: 0–6 week 1, 7–13 week 2, 14–20 week 3. Day 20 is the concert.
+// Day index: 0–6 week 1, 7–13 week 2, 14–20 week 3, 21–27 week 4. Day 27 is the concert.
 // ---------------------------------------------------------------------------
 
 export const SPECIALS = {
-  "1-1": {
-    items: [
-      { id: "sp-rhonda-pottery", title: "Pottery afternoon", location: "Craft Room", note: "Clay, aprons, and a table already marked with fingerprints.", sceneId: "rhonda_pottery" }
-    ]
-  },
-  "8-0": {
-    items: [
-      { id: "sp-concert-notice", title: "A new notice", location: "Noticeboard", note: "A fresh sheet of paper has been pinned above the usual notices.", sceneId: "rhonda_concert_notice" }
-    ]
-  },
-  "8-2": {
+  "8-1": {
     items: [
       { id: "sp-jean-al-1", replaces: "tpl-writing", title: "Writing circle", location: "Library", note: "Notebooks, pens, and biscuits.", sceneId: "jean_al_heckle_1" }
     ]
   },
-  "11-2": {
+  "11-1": {
     items: [
       { id: "sp-jean-al-2", replaces: "tpl-cards", title: "Cards in the lounge", location: "Community Lounge", note: "A request list sits on the low table.", sceneId: "jean_al_heckle_2" }
     ]
   },
-  "13-2": {
+  "13-1": {
     items: [
-      { id: "sp-jean-al-3", title: "Folded chairs", location: "Hall", note: "Folding chairs, loose cables, and a water jug.", sceneId: "jean_al_heckle_3" }
+      { id: "sp-jean-al-3", replaces: "tpl-gossip", title: "Folded chairs", location: "Hall", note: "Folding chairs, loose cables, and a water jug.", sceneId: "jean_al_heckle_3" }
     ]
   },
-  "14-1": {
+  "14-0": {
     items: [
-      { id: "sp-reunion", title: "Veterans’ reunion", location: "Reception", note: "A bus leaves at two. Pressed shirts optional but likely.", sceneId: "bob_reunion" }
+      { id: "sp-reunion", title: "Veterans’ reunion", location: "Reception", note: "A bus leaves at ten. Pressed shirts optional but likely.", sceneId: "bob_reunion" }
+    ]
+  },
+  "15-0": {
+    items: [
+      { id: "sp-garden-comp", replaces: "tpl-garden-pm", title: "Garden competition — judging day", location: "Gardens", note: "Regional judges arrive at ten. The paths have never been this swept.", sceneId: "miranda_competition" }
     ]
   },
   "15-1": {
     items: [
-      { id: "sp-garden-comp", replaces: "tpl-garden-pm", title: "Garden competition — judging day", location: "Gardens", note: "Regional judges arrive at two. The paths have never been this swept.", sceneId: "miranda_competition" }
-    ]
-  },
-  "15-2": {
-    items: [
-      { id: "sp-harvest-feast", title: "Harvest feast", location: "Village Café", note: "The tables are pushed together. Whatever is in those ovens, there is a lot of it.", sceneId: "pablo_feast" }
+      { id: "sp-harvest-feast", replaces: "tpl-supper", title: "Harvest feast", location: "Village Café", note: "The tables are pushed together. Whatever is in those ovens, there is a lot of it.", sceneId: "pablo_feast" }
     ]
   },
   "16-0": {
@@ -208,51 +183,42 @@ export const SPECIALS = {
   },
   "16-1": {
     items: [
-      { id: "sp-figtree", title: "Fig tree campaign meeting", location: "Gardens", note: "A council notice is tied to the old fig tree with orange tape.", sceneId: "jean_figtree" }
-    ]
-  },
-  "16-2": {
-    items: [
-      { id: "sp-pablo-miranda-gift", title: "Tea in the café", location: "Village Café", note: "A small parcel waits by the counter.", sceneId: "pablo_miranda_gift" }
+      { id: "sp-figtree", replaces: "tpl-garden-pm", title: "Fig tree campaign meeting", location: "Gardens", note: "A council notice is tied to the old fig tree with orange tape.", sceneId: "jean_figtree" },
+      { id: "sp-pablo-miranda-gift", replaces: "tpl-cafe-am", title: "Morning tea", location: "Village Café", note: "A small parcel waits by the counter.", sceneId: "pablo_miranda_gift" }
     ]
   },
   "17-1": {
     items: [
-      { id: "sp-rehearsal", title: "First rehearsal", location: "Hall", note: "The hall is busy. Not organised. Busy.", sceneId: "rhonda_rehearsal" }
+      { id: "sp-rehearsal", replaces: "tpl-pottery", title: "First rehearsal", location: "Hall", note: "The hall is busy. Not organised. Busy.", sceneId: "rhonda_rehearsal" }
     ]
   },
   "18-1": {
     items: [
-      { id: "sp-rhonda-bob-2", title: "Quiet rehearsal", location: "Hall", note: "A lectern faces the back wall.", sceneId: "rhonda_bob_coaching_2" }
+      { id: "sp-rhonda-bob-2", replaces: "tpl-pottery", title: "Quiet rehearsal", location: "Hall", note: "A lectern faces the back wall.", sceneId: "rhonda_bob_coaching_2" }
     ]
   },
-  "19-1": {
+  "26-0": {
     items: [
       { id: "sp-final-rehearsal", replaces: "tpl-library", title: "Final rehearsal", location: "Hall", note: "Chairs, cables, one microphone, and more opinions than required.", sceneId: "rhonda_final_rehearsal" }
     ]
   },
-  "19-2": {
+  "26-1": {
     items: [
-      { id: "sp-night-before", title: "The night before", location: "Hall", note: "The hall is empty. The chairs face the stage.", sceneId: "rhonda_night_before" }
+      { id: "sp-night-before", replaces: "tpl-lounge-pm", title: "The night before", location: "Hall", note: "The hall is empty. The chairs face the stage.", sceneId: "rhonda_night_before" }
     ]
   },
-  "20-0": {
-    items: [
-      { id: "sp-pre-show-breakfast", replaces: "tpl-cafe-am", title: "Breakfast", location: "Village Café", note: "The concert is tonight. Everyone has an opinion.", sceneId: "generic_pre_show_breakfast" }
-    ]
-  },
-  "20-1": {
+  "27-0": {
     exclusive: true,
     items: [
+      { id: "sp-pre-show-breakfast", title: "Breakfast", location: "Village Café", note: "The concert is tonight. Everyone has an opinion.", sceneId: "generic_pre_show_breakfast" },
       { id: "sp-hall-setup", title: "Help set up the hall", location: "Hall", note: "Food tables, folding chairs, and a stage waiting for the evening.", sceneId: "generic_hall_setup" },
       { id: "sp-pre-show-rest", title: "Rest before the concert", location: "Your Apartment", note: "A quiet afternoon. You can hear chairs being moved in the hall.", sceneId: "apartment_pre_show" }
     ]
   },
-  "20-2": {
+  "27-1": {
     exclusive: true,
     items: [
-      { id: "sp-concert", title: "Autumn concert", location: "Hall", note: "The chairs are out. The lights are on. People are arriving.", sceneId: "rhonda_opening_night" },
-      { id: "sp-miss-concert", title: "Stay in your apartment", location: "Your Apartment", note: "The concert goes on down the hall.", sceneId: "apartment_miss_concert" }
+      { id: "sp-concert", title: "Autumn concert", location: "Hall", note: "The chairs are out. The lights are on. People are arriving.", sceneId: "rhonda_opening_night" }
     ]
   }
 };

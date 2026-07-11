@@ -30,7 +30,7 @@ character. This file is the operating manual.
 
 ## How the pieces fit (60-second engine tour)
 
-- `data-core.js` — calendar (21 days × 3 slots), CHARACTERS, MEMORIES,
+- `data-core.js` — calendar (28 days × 3 slots), CHARACTERS, MEMORIES,
   WEEKLY_TEMPLATE (recurring activities keyed "Weekday-slot"), SPECIALS (story
   beats keyed "dayIndex-slot"; items can `replaces:` a template id; a slot can
   be `exclusive`).
@@ -98,16 +98,27 @@ visible to them until Reset.
 
 ## Known open work (priority order)
 
-Built and validated: Rhonda route, Bob arc, Miranda arc, Pablo arc, Jean arc,
-Al arc, player-arc apartment variants, concert convergence for all six, and
-catch-up variants for the current critical memories. Remaining:
+Built and validated: Rhonda route, Bob arc, Miranda arc, Pablo arc, player-arc
+apartment week variants, concert convergence for all four, and catch-up variants
+for the current critical memories. Remaining:
 
-1. Grapevine system: separate journal section for second-hand hints. It should
+1. Jean arc (fig tree / spoken-word piece) — day 17 aft. Follow the Bob/Miranda/Pablo pattern
+   exactly: recurring variant ladder (library/writing circle), key memory
+   (jean_festival_days, see kit), Crossroads with observer base + Warm-gated
+   pressure point, concert pair in data-concert.js (insert after Pablo's pair
+   in ALL THREE branches), ending lines + resident notes in engine.js, flag
+   names to the validator engine-read list, and a simulated run in validate.js.
+2. Al arc (dance night) — day 19 eve. Same checklist.
+3. Duets: Jean+Al and Rhonda+Bob beats (data-duets.js)
+4. Grapevine system: separate journal section for second-hand hints. It should
    point toward routines/places, never unlock pressure-point choices by itself.
-2. Concert scene texture: with 6 arcs converging, re-read the full concert in
+5. Week-4 consequence scenes for every Crossroads (short; kits have specs for
+   Bob and suggestions for others)
+6. Rhonda week-2 gap: one small bespoke scene (kit has the spec)
+7. Concert scene texture: with 6 arcs converging, re-read the full concert in
    each branch for rhythm — the conditional blocks must read as one room, not
    a checklist
-3. Art: the art panel is a placeholder gradient; real art slots in via the
+8. Art: the art panel is a placeholder gradient; real art slots in via the
    existing `art` field when it exists
 
 

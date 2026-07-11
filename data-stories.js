@@ -5,8 +5,8 @@
 //
 // How the engine uses a queue (see getNextStoryBeat in engine.js):
 //   For a location, walk its beats in order and return the FIRST beat that is
-//   (a) not yet seen, (b) past its minDay if it has one, and (c) whose `when`
-//   passes. If no beat qualifies, the location's normal recurring scene plays
+//   (a) not yet seen, (b) within its minDay/maxDay window if it has one, and
+//   (c) whose `when` passes. If no beat qualifies, the location's normal recurring scene plays
 //   (the template scene, which may itself have friendship-banded variants).
 //
 // This means the recurring scene is a location's heartbeat; beats are
@@ -20,14 +20,14 @@
 
 export const STORY_QUEUES = {
   "Community Lounge": [
-    { sceneId: "rhonda_first_meeting" },
-    { sceneId: "rhonda_memories", minDay: 2 },
+    { sceneId: "rhonda_first_meeting", maxDay: 5 },
+    { sceneId: "rhonda_old_box", minDay: 2 },
     { sceneId: "rhonda_recruitment", minDay: 9, when: { seenScene: "rhonda_concert_notice" } },
     { sceneId: "rhonda_lounge_before_show", minDay: 16, when: { anyFlag: ["rhonda_rehearsal_seen", "rhonda_recruitment_seen"] } },
     // Al's memory reveal shares the lounge (cards). Placed LAST so it never
     // shadows Rhonda's arc; it only surfaces once her eligible beats are done
     // and the player is friendly with Al.
-    { sceneId: "generic_cards_al", when: { minFriendship: { al: 2 }, notSeenVariant: "generic_cards_al.v2" } }
+    { sceneId: "generic_cards_al", when: { minFriendship: { al: 2 }, notFlag: "al_driver_seen" } }
   ],
 
   "Craft Room": [
@@ -64,5 +64,5 @@ export const STORY_QUEUES = {
   "Workshop": [
     { sceneId: "generic_workshop_bob", when: { minFriendship: { bob: 2 }, notFlag: "bob_photo_seen" } },
     { sceneId: "bob_reunion_consequence", minDay: 16, when: { anyFlag: ["bob_went_reunion", "bob_reunion_missed"] } }
-  ],
+  ]
 };

@@ -1,11 +1,12 @@
-// Generated from the approved Still Got It script for Chunk 2.
+// Built mechanically from sol-scenes.json under the Verbatim Law.
+// Binding instruction: the dismissive garden choice sets miranda_dismissed.
+// Authored scenes with content and no choices remain choice-free terminal beats;
+// the engine supplies the standard Continue navigation control at runtime.
 export const MIRANDA_SCENES = {
   "generic_garden_miranda": {
     "title": "Garden volunteers",
     "location": "Gardens",
     "art": "Gardens",
-    "variantId": "generic_garden_miranda.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The garden is warm and full of small jobs. Miranda gives instructions without raising her voice. Nobody selected her to be in charge, but they follow her lead anyway."
@@ -16,6 +17,34 @@ export const MIRANDA_SCENES = {
       {
         "speaker": "MIRANDA",
         "text": "Can you follow instructions?"
+      },
+      {
+        "text": "A few people remain milling around the garden. Miranda looks at you."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
+      },
+      {
+        "text": "Jean's ears prick up."
+      },
+      {
+        "speaker": "JEAN",
+        "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
+      },
+      {
+        "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "They win because they have the best garden."
+      },
+      {
+        "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "I intend to have the best garden this year."
       }
     ],
     "choices": [
@@ -31,43 +60,11 @@ export const MIRANDA_SCENES = {
           },
           {
             "text": "At the end she inspects the row, nods, and says nothing. Somehow, it feels like praise."
-          },
-          {
-            "text": "A few people remain milling around the garden. Miranda looks at you."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
-          },
-          {
-            "text": "Jean's ears prick up."
-          },
-          {
-            "speaker": "JEAN",
-            "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
-          },
-          {
-            "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "They win because they have the best garden."
-          },
-          {
-            "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "I intend to have the best garden this year."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 1
-          },
-          "flags": {
-            "met_jean": true,
-            "met_miranda": true
           }
         }
       },
@@ -75,51 +72,32 @@ export const MIRANDA_SCENES = {
         "text": "Say you can try.",
         "outcome": [
           {
-            "text": "Miranda's face doesn't move."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "That is not what I asked."
+            "text": "Miranda's face doesn't move. MIRANDA. That is not what I asked."
           },
           {
             "text": "But she hands you gloves anyway. You learn quickly, and Miranda doesn't seem too annoyed. This feels like success."
-          },
-          {
-            "text": "A few people remain milling around the garden. Miranda looks at you."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
-          },
-          {
-            "text": "Jean's ears prick up."
-          },
-          {
-            "speaker": "JEAN",
-            "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
-          },
-          {
-            "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "They win because they have the best garden."
-          },
-          {
-            "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "I intend to have the best garden this year."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 1
+          }
+        }
+      },
+      {
+        "text": "\"Oh! I have a vision for a garden. Listen.",
+        "outcome": [
+          {
+            "text": "Miranda holds her hand up, stopping you."
           },
-          "flags": {
-            "met_jean": true,
-            "met_miranda": true
+          {
+            "speaker": "MIRANDA",
+            "text": "I've already planned everything. But you can help - if you can follow instructions."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 2
           }
         }
       },
@@ -127,20 +105,12 @@ export const MIRANDA_SCENES = {
         "text": "Ask if she wants your help.",
         "outcome": [
           {
-            "text": "Miranda smiles a little."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "Yes. Be here on time and follow instructions."
+            "text": "Miranda smiles a little. >MIRANDA. Yes. Be here on time and follow instructions."
           }
         ],
         "effects": {
           "friendship": {
             "miranda": 2
-          },
-          "flags": {
-            "met_jean": true,
-            "met_miranda": true
           }
         }
       },
@@ -148,11 +118,7 @@ export const MIRANDA_SCENES = {
         "text": "Sounds like a waste of time.",
         "outcome": [
           {
-            "text": "Miranda looks at you blankly."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "Then you needn't be involved."
+            "text": "Miranda looks at you blankly. MIRANDA. Then you needn't be involved."
           }
         ],
         "effects": {
@@ -160,22 +126,18 @@ export const MIRANDA_SCENES = {
             "miranda": -1
           },
           "flags": {
-            "met_jean": true,
-            "met_miranda": true
+            "miranda_dismissed": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "generic_garden_miranda.v2",
-        "oneShot": true,
         "when": {
           "minFriendship": {
             "miranda": 2
           },
-          "notFlag": "miranda_tablecloth_seen",
-          "seenVariant": "generic_garden_miranda.v1"
+          "notFlag": "miranda_tablecloth_seen"
         },
         "content": [
           {
@@ -236,13 +198,12 @@ export const MIRANDA_SCENES = {
               "friendship": {
                 "miranda": 2
               },
-              "flags": {
-                "miranda_tablecloth_seen": true,
-                "met_miranda": true
-              },
               "memories": [
                 "miranda_good_tablecloth"
-              ]
+              ],
+              "flags": {
+                "miranda_tablecloth_seen": true
+              }
             }
           },
           {
@@ -263,23 +224,20 @@ export const MIRANDA_SCENES = {
               "friendship": {
                 "miranda": 1
               },
-              "flags": {
-                "miranda_tablecloth_seen": true,
-                "met_miranda": true
-              },
               "memories": [
                 "miranda_good_tablecloth"
-              ]
+              ],
+              "flags": {
+                "miranda_tablecloth_seen": true
+              }
             }
           }
         ]
       },
       {
-        "id": "generic_garden_miranda.v3",
-        "oneShot": true,
         "when": {
           "seenScene": "generic_garden_miranda",
-          "seenVariant": "generic_garden_miranda.v2"
+          "notFlag": "miranda_dismissed"
         },
         "content": [
           {
@@ -304,17 +262,15 @@ export const MIRANDA_SCENES = {
             "effects": {
               "friendship": {
                 "miranda": 1
-              },
-              "flags": {
-                "met_miranda": true
               }
             }
           }
         ]
       },
       {
-        "id": "generic_garden_miranda.v4",
-        "oneShot": true,
+        "when": {
+          "flag": "miranda_dismissed"
+        },
         "content": [
           {
             "text": "You walk into the garden. Miranda is elsewhere, but you can see the work she's been putting in."
@@ -323,24 +279,7 @@ export const MIRANDA_SCENES = {
             "text": "You pick up the watering can and tend to the seedlings you planted."
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_miranda": true
-              }
-            }
-          }
-        ],
-        "when": {
-          "seenVariant": "generic_garden_miranda.v3"
-        }
+        "choices": []
       }
     ]
   },
@@ -348,8 +287,6 @@ export const MIRANDA_SCENES = {
     "title": "Judging day",
     "location": "Gardens",
     "art": "Gardens",
-    "variantId": "miranda_competition.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The regional garden judges arrive at two. Clipboards, hats, sensible shoes."
@@ -390,18 +327,13 @@ export const MIRANDA_SCENES = {
             "miranda": 1
           },
           "flags": {
-            "miranda_did_it_alone": true,
-            "met_jean": true,
-            "met_miranda": true,
-            "met_pablo": true
+            "miranda_did_it_alone": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "miranda_competition.v2",
-        "oneShot": true,
         "when": {
           "minFriendship": {
             "miranda": 5
@@ -453,6 +385,7 @@ export const MIRANDA_SCENES = {
         "choices": [
           {
             "text": "You kept that tablecloth mended for thirty years and nobody ever thought you were poor. Nobody here will think you’re helpless.",
+            "requiresMemory": "miranda_good_tablecloth",
             "outcome": [
               {
                 "text": "Miranda looks at you."
@@ -485,13 +418,9 @@ export const MIRANDA_SCENES = {
                 "miranda": 3
               },
               "flags": {
-                "miranda_delegated": true,
-                "met_jean": true,
-                "met_miranda": true,
-                "met_pablo": true
+                "miranda_delegated": true
               }
-            },
-            "requiresMemory": "miranda_good_tablecloth"
+            }
           },
           {
             "text": "Let me do the watering, at least.",
@@ -515,10 +444,7 @@ export const MIRANDA_SCENES = {
                 "miranda": 1
               },
               "flags": {
-                "miranda_did_it_alone": true,
-                "met_jean": true,
-                "met_miranda": true,
-                "met_pablo": true
+                "miranda_did_it_alone": true
               }
             }
           },
@@ -538,10 +464,7 @@ export const MIRANDA_SCENES = {
             ],
             "effects": {
               "flags": {
-                "miranda_did_it_alone": true,
-                "met_jean": true,
-                "met_miranda": true,
-                "met_pablo": true
+                "miranda_did_it_alone": true
               }
             }
           }
@@ -553,8 +476,6 @@ export const MIRANDA_SCENES = {
     "title": "Plant labels",
     "location": "Gardens",
     "art": "Gardens",
-    "variantId": "miranda_competition_consequence.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The Best Garden certificate is up in the garden shed."
@@ -581,11 +502,6 @@ export const MIRANDA_SCENES = {
         "effects": {
           "friendship": {
             "miranda": 1
-          },
-          "flags": {
-            "met_jean": true,
-            "met_miranda": true,
-            "met_pablo": true
           }
         }
       },
@@ -595,20 +511,11 @@ export const MIRANDA_SCENES = {
           {
             "text": "You walk away. The light in the shed is on for a while longer."
           }
-        ],
-        "effects": {
-          "flags": {
-            "met_jean": true,
-            "met_miranda": true,
-            "met_pablo": true
-          }
-        }
+        ]
       }
     ],
     "variants": [
       {
-        "id": "miranda_competition_consequence.v2",
-        "oneShot": true,
         "when": {
           "flag": "miranda_delegated"
         },
@@ -631,28 +538,10 @@ export const MIRANDA_SCENES = {
             "text": "Thought we deserved some rewards."
           },
           {
-            "text": "Outside, three residents are deadheading flowers and pruning bushes. Inside, you three stay and chat for a while."
+            "text": "Outside, three residents are deadheading flowers and pruning bushes. Inside, you three stay and chat for a while. - effect: Miranda friendship +1"
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_jean": true,
-                "met_miranda": true
-              },
-              "friendship": {
-                "miranda": 1
-              }
-            }
-          }
-        ]
+        "choices": []
       }
     ]
   }

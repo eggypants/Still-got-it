@@ -30,21 +30,6 @@ body {
     linear-gradient(135deg, #fff7e8 0%, var(--bg) 45%, #eee6e2 100%);
 }
 
-body.slot-morning {
-  --bg: #f6f2ec;
-  --accent: #80506a;
-}
-
-body.slot-afternoon {
-  --bg: #f8efe7;
-  --accent: #8e4160;
-}
-
-body.slot-evening {
-  --bg: #ede3df;
-  --accent: #733852;
-}
-
 button,
 input,
 select,
@@ -143,24 +128,6 @@ button {
   gap: 8px;
 }
 
-.system-warning {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 14px;
-  border: 1px solid #d8a42f;
-  border-radius: 18px;
-  background: #fff5cf;
-  color: #5d4310;
-  font-size: 0.95rem;
-}
-
-.system-warning .link-button {
-  flex: 0 0 auto;
-  color: #5d4310;
-}
-
 .tab-button,
 .primary-button,
 .secondary-button,
@@ -210,11 +177,15 @@ button:active {
   align-content: end;
   padding: 22px;
   border-radius: var(--radius);
+  --loc-a: #c6868d;
+  --loc-b: #8f6c88;
+  --loc-c: #665778;
+  --loc-ink: #fffaf4;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(46, 32, 40, 0.35)),
-    radial-gradient(circle at 30% 20%, rgba(255, 246, 218, 0.95), rgba(255, 246, 218, 0) 16rem),
-    linear-gradient(135deg, #c6868d, #8f6c88 45%, #665778 100%);
-  color: #fffaf4;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(46, 32, 40, 0.28)),
+    radial-gradient(circle at 30% 20%, rgba(255, 246, 218, 0.92), rgba(255, 246, 218, 0) 16rem),
+    linear-gradient(135deg, var(--loc-a), var(--loc-b) 45%, var(--loc-c) 100%);
+  color: var(--loc-ink);
   box-shadow: var(--shadow);
   overflow: hidden;
   position: relative;
@@ -440,35 +411,6 @@ button:active {
   margin-top: 12px;
 }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  background: rgba(46, 32, 40, 0.42);
-}
-
-.modal-card {
-  width: min(720px, 100%);
-  max-height: min(86vh, 880px);
-  overflow: auto;
-  padding: 18px;
-}
-
-.modal-close-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.modal-close {
-  width: auto;
-  min-width: 110px;
-  padding: 10px 14px;
-}
-
 @media (max-width: 760px) {
   .app-shell {
     padding-left: 12px;
@@ -500,9 +442,65 @@ button:active {
   .card-inner {
     padding: 18px;
   }
-
-  .system-warning {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
+
+/* Opening scene */
+.intro-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.intro-card {
+  max-width: 620px;
+  background: var(--bg-card, #fbf6f0);
+  border-radius: 20px;
+  padding: 40px 32px;
+  box-shadow: 0 8px 40px rgba(46, 32, 40, 0.12);
+}
+.intro-title {
+  font-size: 2.4rem;
+  margin: 0 0 4px;
+  color: var(--ink, #2e2028);
+}
+.intro-sub {
+  margin: 0 0 24px;
+  color: var(--accent, #8e4160);
+  font-size: 1.05rem;
+}
+.intro-body {
+  line-height: 1.7;
+  color: var(--ink, #2e2028);
+  margin: 0 0 28px;
+  font-size: 1.08rem;
+}
+.intro-button {
+  width: 100%;
+}
+
+/* ---- Location colours (feature card only) ---- */
+/* Apartment - cream */
+.art-panel.loc-apartment { --loc-a:#f3ead9; --loc-b:#e6d6bd; --loc-c:#d9c3a0; --loc-ink:#3a2f22; }
+/* Garden - sage green */
+.art-panel.loc-garden { --loc-a:#a9bfa8; --loc-b:#8ba775; --loc-c:#6d8a5b; --loc-ink:#fffaf4; }
+/* Cafe - lemon yellow */
+.art-panel.loc-cafe { --loc-a:#f6e9a0; --loc-b:#eed877; --loc-c:#e3c552; --loc-ink:#42391a; }
+/* Lounge - maroon */
+.art-panel.loc-lounge { --loc-a:#a55a68; --loc-b:#8a3f4f; --loc-c:#6d2f3d; --loc-ink:#fffaf4; }
+/* Walking - grey */
+.art-panel.loc-walking { --loc-a:#c3bfbc; --loc-b:#a7a2a0; --loc-c:#877f7d; --loc-ink:#fffaf4; }
+/* Workshop / Craft - soft orange */
+.art-panel.loc-workshop { --loc-a:#edb98a; --loc-b:#dd9a60; --loc-c:#c47c42; --loc-ink:#fffaf4; }
+/* Library - slate blue */
+.art-panel.loc-library { --loc-a:#8fa1b8; --loc-b:#6f83a0; --loc-c:#546986; --loc-ink:#fffaf4; }
+/* Cinema / TV - brown */
+.art-panel.loc-cinema { --loc-a:#a98a72; --loc-b:#856450; --loc-c:#63483a; --loc-ink:#fffaf4; }
+/* TV Room - blue-toned red (cooler than lounge maroon) */
+.art-panel.loc-tvroom { --loc-a:#a85c6e; --loc-b:#8a3d55; --loc-c:#6b2c48; --loc-ink:#fffaf4; }
+/* Craft Room - ochre */
+.art-panel.loc-craft { --loc-a:#e0b878; --loc-b:#cb9c4a; --loc-c:#a87d31; --loc-ink:#42391a; }
+/* Hall - fawny amber */
+.art-panel.loc-hall { --loc-a:#e6c48f; --loc-b:#d3a45f; --loc-c:#b78641; --loc-ink:#4a3a1e; }
+/* Noticeboard - purple (default, matches original) */
+.art-panel.loc-noticeboard { --loc-a:#c6868d; --loc-b:#8f6c88; --loc-c:#665778; --loc-ink:#fffaf4; }

@@ -1,11 +1,13 @@
-// Generated from the approved Still Got It script for Chunk 2.
+// Built mechanically from sol-scenes.json under the Verbatim Law.
+// Authored scenes with content and no choices remain choice-free terminal beats;
+// the engine supplies the standard Continue navigation control at runtime.
+// The final café repeat requires Carmen’s recipe and the later café duet,
+// encoding the source instruction that all preceding café beats have played.
 export const PABLO_SCENES = {
   "generic_cafe_pablo": {
     "title": "Tea in the café",
     "location": "Village Café",
     "art": "Village Café",
-    "variantId": "generic_cafe_pablo.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "Pablo is in the café explaining that a biscuit can be dry without being bad."
@@ -23,11 +25,7 @@ export const PABLO_SCENES = {
             "text": "Tea? And a biscuit?"
           },
           {
-            "text": "You ask if the biscuit has to be dry. Pablo laughs."
-          },
-          {
-            "speaker": "PABLO",
-            "text": "Cake, then."
+            "text": "You ask if the biscuit has to be dry. Pablo laughs. PABLO. Cake, then."
           },
           {
             "text": "He brings your tea and a slice of almond cake."
@@ -43,9 +41,6 @@ export const PABLO_SCENES = {
         "effects": {
           "friendship": {
             "pablo": 2
-          },
-          "flags": {
-            "met_pablo": true
           }
         }
       },
@@ -59,23 +54,17 @@ export const PABLO_SCENES = {
         "effects": {
           "friendship": {
             "pablo": 1
-          },
-          "flags": {
-            "met_pablo": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "generic_cafe_pablo.v2",
-        "oneShot": true,
         "when": {
           "minFriendship": {
-            "pablo": 2
+            "pablo": 3
           },
-          "notFlag": "pablo_recipe_seen",
-          "seenVariant": "generic_cafe_pablo.v1"
+          "notFlag": "pablo_recipe_seen"
         },
         "content": [
           {
@@ -119,21 +108,13 @@ export const PABLO_SCENES = {
         ],
         "choices": [
           {
-            "text": "Why do you need to make a copy of it?",
+            "text": "Why do you need make a copy of it?",
             "outcome": [
               {
-                "text": "Pablo looks at the cards."
+                "text": "Pablo looks at the cards. PABLO. I don't know."
               },
               {
-                "speaker": "PABLO",
-                "text": "I don't know."
-              },
-              {
-                "text": "He pauses for a while. You hear the clock on the wall ticking quietly."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "I haven't made it since she died."
+                "text": "He pauses for a while. You hear the clock on the wall ticking quietly. PABLO. I haven't made it since she died."
               },
               {
                 "text": "He speaks quietly."
@@ -150,13 +131,12 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 2
               },
-              "flags": {
-                "pablo_recipe_seen": true,
-                "met_pablo": true
-              },
               "memories": [
                 "pablo_carmen_rice"
-              ]
+              ],
+              "flags": {
+                "pablo_recipe_seen": true
+              }
             }
           },
           {
@@ -181,13 +161,12 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 2
               },
-              "flags": {
-                "pablo_recipe_seen": true,
-                "met_pablo": true
-              },
               "memories": [
                 "pablo_carmen_rice"
-              ]
+              ],
+              "flags": {
+                "pablo_recipe_seen": true
+              }
             }
           },
           {
@@ -208,23 +187,21 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 1
               },
-              "flags": {
-                "pablo_recipe_seen": true,
-                "met_pablo": true
-              },
               "memories": [
                 "pablo_carmen_rice"
-              ]
+              ],
+              "flags": {
+                "pablo_recipe_seen": true
+              }
             }
           }
         ]
       },
       {
-        "id": "generic_cafe_pablo.v3",
-        "oneShot": true,
         "when": {
           "seenScene": "generic_cafe_pablo",
-          "seenVariant": "generic_cafe_pablo.v2"
+          "notMemory": "pablo_carmen_rice",
+          "notFlag": "pablo_recipe_seen"
         },
         "content": [
           {
@@ -232,7 +209,7 @@ export const PABLO_SCENES = {
           },
           {
             "text": "When he brings your tea and cake over, you ask him a question."
-          },
+          }
         ],
         "choices": [
           {
@@ -257,7 +234,7 @@ export const PABLO_SCENES = {
                 "text": "Isn't this supposed to be a retirement village?"
               },
               {
-                "text": "Pablo sighs theatrically."
+                "text": "Pablo sighs, theatrically."
               },
               {
                 "speaker": "PABLO",
@@ -270,9 +247,6 @@ export const PABLO_SCENES = {
             "effects": {
               "friendship": {
                 "pablo": 1
-              },
-              "flags": {
-                "met_pablo": true
               }
             }
           },
@@ -280,11 +254,7 @@ export const PABLO_SCENES = {
             "text": "How did you know what I wanted?",
             "outcome": [
               {
-                "text": "Pablo grins."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "Experience. I have had many restaurants. I have been a chef my whole life. I know what you want from the moment you sit down."
+                "text": "Pablo grins. PABLO. Experience. I have had many restaurants. I am a chef my whole life. I know what you want from the moment you sit down."
               },
               {
                 "speaker": "PLAYER",
@@ -308,40 +278,23 @@ export const PABLO_SCENES = {
             "effects": {
               "friendship": {
                 "pablo": 1
-              },
-              "flags": {
-                "met_pablo": true
               }
             }
           }
         ]
       },
       {
-        "id": "generic_cafe_pablo.v4",
-        "oneShot": true,
+        "when": {
+          "seenScene": "pablo_miranda_corner_table",
+          "memory": "pablo_carmen_rice",
+          "flag": "pablo_recipe_seen"
+        },
         "content": [
           {
             "text": "You walk into the café. Pablo brings your tea and cake. It is delicious, as ever."
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_pablo": true
-              }
-            }
-          }
-        ],
-        "when": {
-          "seenVariant": "generic_cafe_pablo.v3"
-        }
+        "choices": []
       }
     ]
   },
@@ -349,8 +302,6 @@ export const PABLO_SCENES = {
     "title": "The harvest feast",
     "location": "Village Café",
     "art": "Village Café",
-    "variantId": "pablo_feast.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The café tables have been pushed together and covered. The whole village is here, and the food keeps coming."
@@ -380,10 +331,8 @@ export const PABLO_SCENES = {
           "friendship": {
             "pablo": 1
           },
-            "flags": {
-              "pablo_substituted": true,
-              "met_miranda": true,
-              "met_pablo": true
+          "flags": {
+            "pablo_substituted": true
           }
         }
       },
@@ -398,18 +347,14 @@ export const PABLO_SCENES = {
           "friendship": {
             "pablo": 0
           },
-            "flags": {
-              "pablo_substituted": true,
-              "met_miranda": true,
-              "met_pablo": true
+          "flags": {
+            "pablo_substituted": true
           }
         }
       }
     ],
     "variants": [
       {
-        "id": "pablo_feast.v2",
-        "oneShot": true,
         "when": {
           "minFriendship": {
             "pablo": 5
@@ -443,6 +388,7 @@ export const PABLO_SCENES = {
         "choices": [
           {
             "text": "Why don't we make Carmen’s rice?",
+            "requiresMemory": "pablo_carmen_rice",
             "outcome": [
               {
                 "text": "Pablo looks at you, then the recipe card for a long time. Miranda has stopped moving pots, and is watching you both."
@@ -452,21 +398,13 @@ export const PABLO_SCENES = {
                 "text": "I don't know."
               },
               {
-                "text": "He stirs. Then he stops. He sighs."
+                "text": "He stirs. Then he stops. He sighs. PABLO. Okay. We will make Carmen's rice."
               },
               {
-                "speaker": "PABLO",
-                "text": "Okay. We will make Carmen's rice."
+                "text": "He sounds defeated for a moment. But then he nods, and he gazes at the recipe card with warmth and appreciation. PABLO. Yes. Right!"
               },
               {
-                "text": "He sounds defeated for a moment. But then he nods, and he gazes at the recipe card with warmth and appreciation."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "Yes. Right!"
-              },
-              {
-                "text": "He claps his hands, and begins directing you and Miranda around the kitchen."
+                "text": "He claps his hands, and begins directing you and Jean around the kitchen."
               },
               {
                 "text": "He talks you through it. Miranda stirs. You watch the rice. When the moment comes, he tastes the pot, frowns, and adds a careful pinch of salt."
@@ -485,20 +423,17 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 3
               },
-            "flags": {
-              "pablo_cooked_carmens": true,
-              "met_miranda": true,
-              "met_pablo": true
+              "flags": {
+                "pablo_cooked_carmens": true
               }
-            },
-            "requiresMemory": "pablo_carmen_rice"
+            }
           },
           {
-            "text": "Smells incredible. What is it?",
+            "text": "Smells incredible. What is it\"",
             "outcome": [
               {
                 "speaker": "PABLO",
-                "text": "We have gazpacho. Pimientos. Croquetas. Here, take this to the table."
+                "text": "We have Gazpatcho. Pimientos. Croquetas. Here, take this to the table."
               },
               {
                 "text": "He loads your arms with bread baskets, delighted."
@@ -511,10 +446,8 @@ export const PABLO_SCENES = {
               "friendship": {
                 "pablo": 1
               },
-            "flags": {
-              "pablo_substituted": true,
-              "met_miranda": true,
-              "met_pablo": true
+              "flags": {
+                "pablo_substituted": true
               }
             }
           },
@@ -533,10 +466,8 @@ export const PABLO_SCENES = {
               }
             ],
             "effects": {
-            "flags": {
-              "pablo_substituted": true,
-              "met_miranda": true,
-              "met_pablo": true
+              "flags": {
+                "pablo_substituted": true
               }
             }
           }
@@ -548,8 +479,6 @@ export const PABLO_SCENES = {
     "title": "Soup for supper",
     "location": "Village Café",
     "art": "Village Café",
-    "variantId": "pablo_feast_consequence.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The café is between meals. Pablo is making soup."
@@ -572,7 +501,7 @@ export const PABLO_SCENES = {
         "text": "Then you will have some. Go, sit."
       },
       {
-        "text": "You sit in the café. Pablo brings you a bowl of soup with crusty bread."
+        "text": "You sit in the cafe. Pablo brings you a bowl of soup with crusty bread."
       },
       {
         "text": "You consider asking him about Carmen's recipe, but he goes back to the kitchen before you make up your mind."
@@ -581,31 +510,15 @@ export const PABLO_SCENES = {
         "text": "You finish the soup and head back to your apartment."
       }
     ],
-    "choices": [
-      {
-        "text": "Continue.",
-        "outcome": [
-          {
-            "text": "The moment passes."
-          }
-        ],
-        "effects": {
-          "flags": {
-            "met_pablo": true
-          }
-        }
-      }
-    ],
+    "choices": [],
     "variants": [
       {
-        "id": "pablo_feast_consequence.v2",
-        "oneShot": true,
         "when": {
           "flag": "pablo_cooked_carmens"
         },
         "content": [
           {
-            "text": "At the small table by the window, Pablo has a plate in front of him. He yells out to the kitchen."
+            "text": "At the small table by the window, Pablo has a plate in front of him. He yells out to the kitchen"
           },
           {
             "speaker": "PABLO",
@@ -644,28 +557,13 @@ export const PABLO_SCENES = {
           },
           {
             "speaker": "PABLO",
-            "text": "Try it. It's good."
+            "text": "Try - it's good."
+          },
+          {
+            "text": "- effect: Pablo friendship +1"
           }
         ],
-        "choices": [
-          {
-            "text": "Continue.",
-            "outcome": [
-              {
-                "text": "The moment passes."
-              }
-            ],
-            "effects": {
-              "flags": {
-                "met_miranda": true,
-                "met_pablo": true
-              },
-              "friendship": {
-                "pablo": 1
-              }
-            }
-          }
-        ]
+        "choices": []
       }
     ]
   }

@@ -14,12 +14,6 @@ export function render(app, state, actions) {
   applySlotClass(app, state);
   app.innerHTML = "";
 
-  if (state.view === "setup") {
-    app.appendChild(renderSetup(state, actions));
-    focusMainHeading(app);
-    return;
-  }
-
   if (state.view === "ending") {
     app.appendChild(renderEnding(state, actions));
     focusMainHeading(app);
@@ -28,57 +22,12 @@ export function render(app, state, actions) {
 
   app.appendChild(renderGameShell(state, actions));
   focusMainHeading(app);
-}
-
-function renderSetup(state, actions) {
-  const screen = el("main", "screen setup");
-
-  const card = el("section", "card");
-  const inner = el("div", "card-inner");
-  card.appendChild(inner);
-
-  inner.appendChild(el("h1", null, "Still Got It"));
-  inner.appendChild(el("p", null, "A friendship life sim about moving into Summer Hills and discovering that the good bit may not be over."));
-
-  const form = el("form", "form-grid");
-  form.innerHTML = `
-    <div class="field">
-      <label for="player-name">Your name</label>
-      <input id="player-name" name="name" autocomplete="name" maxlength="40" placeholder="New Resident" />
-    </div>
-    <div class="field">
-      <label for="pronouns">Pronouns</label>
-      <select id="pronouns" name="pronouns">
-        <option value="they/them">they/them</option>
-        <option value="she/her">she/her</option>
-        <option value="he/him">he/him</option>
-      </select>
-    </div>
-    <button class="primary-button" type="submit">Move in</button>
-  `;
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    const data = new FormData(form);
-    actions.startGame({
-      name: data.get("name"),
-      pronouns: data.get("pronouns")
-    });
-  });
-
-  inner.appendChild(form);
-
-  const note = el("p", "small muted", "Your first three weeks at Summer Hills start on a Monday.");
-  inner.appendChild(note);
-
-  screen.appendChild(card);
-  return screen;
+  scheduleFlowScroll(app, state);
 }
 
 function renderGameShell(state, actions) {
   const screen = el("main", "screen");
   screen.appendChild(renderTopbar(state));
-  if (state.systemWarning) screen.appendChild(renderSystemWarning(state, actions));
   screen.appendChild(renderTabs(state, actions));
 
   const stage = el("section", "stage");
@@ -107,17 +56,13 @@ function renderGameShell(state, actions) {
   stage.appendChild(panel);
   screen.appendChild(stage);
 
-  if (state.overlayTab) {
-    screen.appendChild(renderModalOverlay(state, actions));
-  }
-
   return screen;
 }
 
 function renderTopbar(state) {
   const current = getCurrentDate(state);
-  const totalSlots = DAYS.length * 3;
-  const elapsedSlots = state.dayIndex * 3 + state.slotIndex;
+  const totalSlots = DAYS.length * 2;
+  const elapsedSlots = state.dayIndex * 2 + state.slotIndex;
   const progress = totalSlots > 0 ? Math.max(0, Math.min(1, elapsedSlots / totalSlots)) : 0;
 
   const top = el("section", "card");
@@ -152,8 +97,7 @@ function renderTabs(state, actions) {
   ];
 
   for (const [id, label] of items) {
-    const active = state.overlayTab === id || (state.activeTab === id && state.view === "noticeboard");
-    const button = el("button", `tab-button ${active ? "active" : ""}`, label);
+    const button = el("button", `tab-button ${state.activeTab === id && state.view === "noticeboard" ? "active" : ""}`, label);
     button.type = "button";
     button.addEventListener("click", () => actions.openTab(id));
     tabs.appendChild(button);
@@ -191,9 +135,32 @@ function renderArtPanel(state) {
   }
 
   const art = el("aside", "art-panel");
+  const loc = (state.view === "scene" || state.view === "outcome") ? title : "Noticeboard";
+  art.classList.add("loc-" + slugLocation(loc));
   art.appendChild(el("p", "kicker", kicker));
   art.appendChild(el("h2", null, title));
   return art;
+}
+
+function slugLocation(name) {
+  const map = {
+    "Community Lounge": "lounge",
+    "Village Café": "cafe",
+    "Village Cafe": "cafe",
+    "Gardens": "garden",
+    "Garden": "garden",
+    "Workshop": "workshop",
+    "Craft Room": "craft",
+    "Library": "library",
+    "Cinema Room": "cinema",
+    "TV Room": "tvroom",
+    "Hall": "hall",
+    "Reception": "walking",
+    "Foyer": "walking",
+    "Your Apartment": "apartment",
+    "Noticeboard": "noticeboard"
+  };
+  return map[name] || "noticeboard";
 }
 
 function renderNoticeboard(state, actions) {
@@ -222,14 +189,16 @@ function renderNoticeboard(state, actions) {
 
 function renderScene(state, actions) {
   const scene = substituteScene(resolveScene(state, state.activeSceneId), state);
+  const transcript = state.flowTranscript;
   const wrapper = el("div", "scene-card");
 
-  wrapper.appendChild(el("h2", null, scene.title));
-  wrapper.appendChild(renderSceneText(scene.content));
+  wrapper.appendChild(el("h2", null, transcript?.title || scene.title));
+  wrapper.appendChild(renderSceneText(transcript?.content || scene.content));
 
   const choices = el("div", "choice-list");
+  if (transcript) choices.dataset.flowAnchor = "true";
   for (const [index, choice] of scene.choices.entries()) {
-    const button = el("button", "choice-button", choice.text);
+    const button = el("button", "choice-button", getChoiceButtonText(scene, choice));
     button.type = "button";
     button.addEventListener("click", () => actions.chooseSceneOption(index));
     choices.appendChild(button);
@@ -243,11 +212,19 @@ function renderOutcome(state, actions) {
   const wrapper = el("div", "scene-card");
   wrapper.appendChild(el("h2", null, state.pendingOutcome.title));
   wrapper.appendChild(renderSceneText(state.pendingOutcome.content));
-  const button = el("button", "primary-button", state.pendingOutcome.nextSceneId ? "Continue" : "Continue");
+  const button = el("button", "primary-button", "Continue");
+  if (state.pendingOutcome.flow) button.dataset.flowAnchor = "true";
   button.type = "button";
   button.addEventListener("click", actions.continueAfterOutcome);
   wrapper.appendChild(button);
   return wrapper;
+}
+
+function getChoiceButtonText(scene, choice) {
+  if (scene.choices.length === 1 && !choice.nextSceneId && !/^continue[.!?]?$/i.test(choice.text.trim())) {
+    return "Continue";
+  }
+  return choice.text;
 }
 
 function renderSceneText(content) {
@@ -263,51 +240,6 @@ function renderSceneText(content) {
     box.appendChild(p);
   }
   return box;
-}
-
-function renderSystemWarning(state, actions) {
-  const banner = el("div", "system-warning");
-  banner.setAttribute("role", "status");
-  banner.appendChild(el("span", null, state.systemWarning));
-
-  const dismiss = el("button", "link-button", "Dismiss");
-  dismiss.type = "button";
-  dismiss.addEventListener("click", actions.dismissWarning);
-  banner.appendChild(dismiss);
-
-  return banner;
-}
-
-function renderModalOverlay(state, actions) {
-  const overlay = el("div", "modal-overlay");
-  overlay.addEventListener("click", event => {
-    if (event.target === overlay) actions.closeOverlay();
-  });
-
-  const modal = el("section", "card modal-card");
-  modal.setAttribute("role", "dialog");
-  modal.setAttribute("aria-modal", "true");
-
-  const closeRow = el("div", "modal-close-row");
-  const close = el("button", "secondary-button modal-close", "Close");
-  close.type = "button";
-  close.addEventListener("click", actions.closeOverlay);
-  closeRow.appendChild(close);
-  modal.appendChild(closeRow);
-
-  if (state.overlayTab === "journal") {
-    modal.setAttribute("aria-label", "Journal");
-    modal.appendChild(renderJournal(state));
-  } else if (state.overlayTab === "residents") {
-    modal.setAttribute("aria-label", "Residents");
-    modal.appendChild(renderResidents(state));
-  } else if (state.overlayTab === "settings") {
-    modal.setAttribute("aria-label", "Settings");
-    modal.appendChild(renderSettings(actions));
-  }
-
-  overlay.appendChild(modal);
-  return overlay;
 }
 
 function renderJournal(state) {
@@ -378,14 +310,14 @@ function renderEnding(state, actions) {
   const screen = el("main", "screen");
 
   const art = el("aside", "art-panel");
-  art.appendChild(el("p", "kicker", "After the concert"));
+  art.appendChild(el("p", "kicker", "One month later"));
   art.appendChild(el("h2", null, "Summer Hills"));
   screen.appendChild(art);
 
   const card = el("section", "card");
   const inner = el("div", "card-inner");
   card.appendChild(inner);
-  inner.appendChild(el("h2", null, "After the concert"));
+  inner.appendChild(el("h2", null, "One month later"));
 
   const list = el("div", "ending-list");
   for (const line of ending.lines) {
@@ -407,7 +339,7 @@ function renderEnding(state, actions) {
 }
 
 function applySlotClass(app, state) {
-  const slotClasses = ["slot-morning", "slot-afternoon", "slot-evening"];
+  const slotClasses = ["slot-morning", "slot-evening"];
   const current = getCurrentDate(state);
   const slotClass = `slot-${String(current.slot || "").toLowerCase()}`;
   app.classList.remove(...slotClasses);
@@ -418,8 +350,17 @@ function applySlotClass(app, state) {
   }
 }
 
+
+function scheduleFlowScroll(app, state) {
+  if (!state.flowTranscript || typeof requestAnimationFrame !== "function") return;
+  requestAnimationFrame(() => {
+    const anchor = app.querySelector('[data-flow-anchor="true"]');
+    if (anchor) anchor.scrollIntoView({ behavior: "smooth", block: "end" });
+  });
+}
+
 function focusMainHeading(app) {
-  const heading = app.querySelector(".modal-card h2") || app.querySelector(".scene-card h2, .noticeboard h2, .panel h2, .setup h1, section.card h2, main h1, main h2");
+  const heading = app.querySelector(".scene-card h2, .noticeboard h2, .panel h2, .setup h1, section.card h2, main h1, main h2");
   if (!heading) return;
   heading.setAttribute("tabindex", "-1");
   heading.focus({ preventScroll: true });

@@ -1,11 +1,9 @@
-// Generated from the approved Still Got It script for Chunk 2.
+// Two-resident duet scenes transcribed from sol-scenes.json.
 export const DUET_SCENES = {
   "pablo_miranda_tea": {
     "title": "Morning tea",
     "location": "Village Café",
     "art": "Village Café",
-    "variantId": "pablo_miranda_tea.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The café is busy, with every small table taken except the one by the window."
@@ -59,14 +57,12 @@ export const DUET_SCENES = {
             "pablo": 1,
             "miranda": 1
           },
-          "flags": {
-            "saw_pablo_miranda_tea": true,
-            "met_miranda": true,
-            "met_pablo": true
-          },
           "memories": [
             "pablo_miranda_tea"
-          ]
+          ],
+          "flags": {
+            "saw_pablo_miranda_tea": true
+          }
         }
       },
       {
@@ -80,14 +76,12 @@ export const DUET_SCENES = {
           }
         ],
         "effects": {
-          "flags": {
-            "saw_pablo_miranda_tea": true,
-            "met_miranda": true,
-            "met_pablo": true
-          },
           "memories": [
             "pablo_miranda_tea"
-          ]
+          ],
+          "flags": {
+            "saw_pablo_miranda_tea": true
+          }
         }
       }
     ]
@@ -96,8 +90,6 @@ export const DUET_SCENES = {
     "title": "Seedlings",
     "location": "Gardens",
     "art": "Gardens",
-    "variantId": "pablo_miranda_seedlings.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "Miranda is standing beside three crates of seedlings."
@@ -152,14 +144,12 @@ export const DUET_SCENES = {
             "pablo": 1,
             "miranda": 1
           },
-          "flags": {
-            "saw_pablo_miranda_seedlings": true,
-            "met_miranda": true,
-            "met_pablo": true
-          },
           "memories": [
             "miranda_accepts_help"
-          ]
+          ],
+          "flags": {
+            "saw_pablo_miranda_seedlings": true
+          }
         }
       },
       {
@@ -173,84 +163,11 @@ export const DUET_SCENES = {
           }
         ],
         "effects": {
-          "flags": {
-            "saw_pablo_miranda_seedlings": true,
-            "met_miranda": true,
-            "met_pablo": true
-          },
           "memories": [
             "miranda_accepts_help"
-          ]
-        }
-      }
-    ]
-  },
-  "pablo_miranda_corner_table": {
-    "title": "Corner table",
-    "location": "Village Café",
-    "art": "Village Café",
-    "variantId": "pablo_miranda_corner_table.v1",
-    "oneShot": true,
-    "content": [
-      {
-        "text": "Pablo is sitting at the corner table with two cups of tea."
-      },
-      {
-        "text": "Miranda arrives a few minutes later."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "You are in my seat. I sit here."
-      },
-      {
-        "speaker": "PABLO",
-        "text": "I am saving your seat. We can sit together."
-      },
-      {
-        "text": "Miranda looks at the second cup."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "Ah. Thank you."
-      },
-      {
-        "text": "She sits."
-      },
-      {
-        "text": "They sip their tea."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "Lovely tea."
-      },
-      {
-        "speaker": "PABLO",
-        "text": "I used the Fortnum & Mason one. From David Jones."
-      },
-      {
-        "text": "Miranda gasps."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "What? So wasteful!"
-      },
-      {
-        "text": "You glance over. She's smiling."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Continue.",
-        "outcome": [
-          {
-            "text": "The moment passes."
-          }
-        ],
-        "effects": {
+          ],
           "flags": {
-            "met_miranda": true,
-            "met_pablo": true,
-            "saw_pablo_miranda_corner_table": true
+            "saw_pablo_miranda_seedlings": true
           }
         }
       }
@@ -260,8 +177,6 @@ export const DUET_SCENES = {
     "title": "Writing circle",
     "location": "Library",
     "art": "Library",
-    "variantId": "jean_al_heckle_1.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The writing circle has three notebooks open and one plate of biscuits already reduced to crumbs."
@@ -317,9 +232,7 @@ export const DUET_SCENES = {
             "al": 1
           },
           "flags": {
-            "saw_jean_al_1": true,
-            "met_al": true,
-            "met_jean": true
+            "saw_jean_al_1": true
           }
         }
       }
@@ -329,8 +242,6 @@ export const DUET_SCENES = {
     "title": "Request list",
     "location": "Community Lounge",
     "art": "Community Lounge",
-    "variantId": "jean_al_heckle_2.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "Al is in the lounge with a library book open on his knee. Jean watches from the armchair opposite, shoes off, one foot tucked under her."
@@ -397,20 +308,73 @@ export const DUET_SCENES = {
             "al": 1
           },
           "flags": {
-            "saw_jean_al_2": true,
-            "met_al": true,
-            "met_jean": true
+            "saw_jean_al_2": true
           }
         }
       }
     ]
   },
+  "pablo_miranda_corner_table": {
+    "title": "Corner table",
+    "location": "Village Café",
+    "art": "Village Café",
+    "content": [
+      {
+        "text": "Pablo is sitting at the corner table with two cups of tea."
+      },
+      {
+        "text": "Miranda arrives a few minutes later."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "You are in my seat. I sit here."
+      },
+      {
+        "speaker": "PABLO",
+        "text": "I am saving your seat. We can sit together."
+      },
+      {
+        "text": "Miranda looks at the second cup."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "Ah. Thank you."
+      },
+      {
+        "text": "She sits."
+      },
+      {
+        "text": "They sip their tea."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "Lovely tea."
+      },
+      {
+        "speaker": "PABLO",
+        "text": "I used the Fortnum & Mason one. From David Jones."
+      },
+      {
+        "text": "Miranda gasps."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "What? So wasteful!"
+      },
+      {
+        "text": "You glance over. She's smiling."
+      }
+    ],
+    "terminalEffects": {
+      "flags": {
+        "saw_pablo_miranda_corner_table": true
+      }
+    }
+  },
   "jean_al_heckle_3": {
     "title": "Folded chairs",
     "location": "Hall",
     "art": "Hall",
-    "variantId": "jean_al_heckle_3.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The hall smells faintly of floor polish. You are helping Jean set out folding chairs near the stage."
@@ -447,234 +411,19 @@ export const DUET_SCENES = {
         "text": "Thank you. It’s beautiful."
       },
       {
-        "text": "Al tips his hat to her."
+        "text": "Al tips his hat to her. - effect: Jean friendship +1; Al friendship +1; marks: saw_jean_al_3"
       }
     ],
-    "choices": [
-      {
-        "text": "Continue.",
-        "outcome": [
-          {
-            "text": "The moment passes."
-          }
-        ],
-        "effects": {
-          "flags": {
-            "met_al": true,
-            "met_jean": true,
-            "saw_jean_al_3": true
-          },
-          "friendship": {
-            "jean": 1,
-            "al": 1
-          }
-        }
+    "terminalEffects": {
+      "flags": {
+        "saw_jean_al_3": true
       }
-    ]
-  },
-  "rhonda_bob_coaching_1": {
-    "title": "Reading practice",
-    "location": "Hall",
-    "art": "Hall",
-    "variantId": "rhonda_bob_coaching_1.v1",
-    "oneShot": true,
-    "content": [
-      {
-        "text": "The hall is empty except for a lectern, two chairs, and a microphone left switched off on the piano."
-      },
-      {
-        "text": "Bob stands behind the lectern with a folded page. Rhonda sits in the front row, hands still in her lap, listening."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Again, from the first line. Don’t push it. Just let it reach the back."
-      },
-      {
-        "speaker": "BOB",
-        "text": "That’s what you said last time."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "And you nearly had it. You're doing well."
-      },
-      {
-        "text": "Bob reads the opening lines. He pauses at the comma this time and looks up once before continuing."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Good."
-      },
-      {
-        "text": "She says it with a gentleness you would associate with someone else."
-      },
-      {
-        "speaker": "BOB",
-        "text": "Felt bad."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "It sounded good. Don't drop your head at the end. Let us see your face."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Continue.",
-        "outcome": [
-          {
-            "text": "The moment passes."
-          }
-        ],
-        "effects": {
-          "flags": {
-            "met_rhonda": true,
-            "met_bob": true
-          }
-        }
-      }
-    ]
-  },
-  "rhonda_bob_coaching_2": {
-    "title": "Quiet rehearsal",
-    "location": "Hall",
-    "art": "Hall",
-    "variantId": "rhonda_bob_coaching_2.v1",
-    "oneShot": true,
-    "content": [
-      {
-        "text": "The hall is set for rehearsal, but the back corner is quiet. A lectern has been turned toward the wall."
-      },
-      {
-        "text": "Bob holds a printed page. Rhonda stands beside him with a pencil in one hand."
-      },
-      {
-        "speaker": "BOB",
-        "text": "This one’s harmless enough."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Good. Let’s hear it then."
-      },
-      {
-        "text": "Bob reads a short bush verse about rain on a tin roof. He keeps his eyes on the paper until the last line."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "Look up at the full stop. You don’t need to smile."
-      },
-      {
-        "speaker": "BOB",
-        "text": "Wasn’t likely."
-      },
-      {
-        "speaker": "RHONDA",
-        "text": "That’s alright. Just let us see you."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Let them rehearse.",
-        "outcome": [
-          {
-            "text": "You leave them to it. Rhonda’s next note is quiet enough that only Bob hears it."
-          },
-          {
-            "text": "Bob reads the last line again and waits half a second longer before folding the page."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "rhonda": 1,
-            "bob": 1
-          },
-          "flags": {
-            "saw_rhonda_bob_2": true,
-            "met_rhonda": true,
-            "met_bob": true
-          }
-        }
-      }
-    ],
-    "variants": [
-      {
-        "id": "rhonda_bob_coaching_2.v2",
-        "oneShot": true,
-        "when": {
-          "flag": "bob_went_reunion"
-        },
-        "content": [
-          {
-            "text": "The hall is set for rehearsal, but the back corner is quiet. A lectern has been turned toward the wall."
-          },
-          {
-            "text": "Bob holds a folded sheet of paper. Rhonda moves one chair aside so he has room to stand."
-          },
-          {
-            "speaker": "BOB",
-            "text": "June wrote this. About her rose garden."
-          },
-          {
-            "text": "Bob looks at the page for a while before he begins."
-          },
-          {
-            "text": "He reads the first two lines too quickly, stops, and presses his thumb against the fold."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "There’s no hurry."
-          },
-          {
-            "text": "He starts again. This time he lets the first line finish before moving on."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "That’s it."
-          },
-          {
-            "text": "Near the end, his voice catches. Rhonda waits. Bob keeps his eyes on the paper and finishes the last line."
-          },
-          {
-            "speaker": "BOB",
-            "text": "Again?"
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "If you want."
-          },
-          {
-            "speaker": "BOB",
-            "text": "Yeah."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Leave them to it.",
-            "outcome": [
-              {
-                "text": "You step back before Bob begins again. Rhonda stays beside him, one hand resting on the back of the chair."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "rhonda": 1,
-                "bob": 1
-              },
-              "flags": {
-                "saw_rhonda_bob_2": true,
-                "met_rhonda": true,
-                "met_bob": true
-              }
-            }
-          }
-        ]
-      }
-    ]
+    }
   },
   "pablo_miranda_gift": {
     "title": "Red gold",
     "location": "Village Café",
     "art": "Village Café",
-    "variantId": "pablo_miranda_gift.v1",
-    "oneShot": true,
     "content": [
       {
         "text": "The café is between rushes. Pablo is wiping the counter when Miranda comes in holding a small, neatly wrapped package."
@@ -710,32 +459,16 @@ export const DUET_SCENES = {
       },
       {
         "speaker": "PABLO",
-        "text": "Nothing special! It’s a treasure. Oro rojo — red gold! Thank you, my dear."
+        "text": "Nothing special! It’s a treasure. Oro rojo - red gold! Thank you, my dear."
       },
       {
-        "text": "You look away politely while Miranda straightens her cardigan and Pablo holds the jar up to the light."
+        "text": "You look away politely while Miranda straightens her cardigan and Pablo holds the jar up to the light. - effect: Pablo friendship +1; Miranda friendship +1; marks: saw_pablo_miranda_gift"
       }
     ],
-    "choices": [
-      {
-        "text": "Continue.",
-        "outcome": [
-          {
-            "text": "The moment passes."
-          }
-        ],
-        "effects": {
-          "flags": {
-            "met_miranda": true,
-            "met_pablo": true,
-            "saw_pablo_miranda_gift": true
-          },
-          "friendship": {
-            "pablo": 1,
-            "miranda": 1
-          }
-        }
+    "terminalEffects": {
+      "flags": {
+        "saw_pablo_miranda_gift": true
       }
-    ]
+    }
   }
 };

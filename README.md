@@ -1,6 +1,6 @@
 # Still Got It — v0.4.3
 
-A friendship life sim set in Summer Hills Retirement Village. 21 days, three weeks,
+A friendship life sim set in Summer Hills Retirement Village. 28 days, four weeks,
 three time slots a day, ending at the Autumn Concert. Flat-file, no build step,
 GitHub Pages friendly.
 
@@ -16,13 +16,13 @@ Flow/routing patch:
 
 ## What's new in 0.4.2
 
-- Full 21-day / 3-week calendar (previously a 7-day proof route)
+- Full 28-day / 4-week calendar (previously a 7-day proof route)
 - Village schedule split into a recurring WEEKLY_TEMPLATE plus SPECIALS story beats
 - Scene variants: scenes deepen with friendship and repeat visits
 - Conditional content blocks: the concert scene converges the outcomes of every arc
-- Six arcs built and validated: Rhonda (concert route), Bob (reunion), Miranda (garden competition), Pablo (harvest feast), Jean (fig tree), Al (cards and songs)
-- The player's own arc: the apartment scenes change across the three weeks
-- The concert converges all six arcs; endings reflect each
+- Four arcs built and validated: Rhonda (concert route), Bob (reunion), Miranda (garden competition), Pablo (harvest feast)
+- The player's own arc: the apartment scenes change across the four weeks
+- The concert converges all four arcs; endings reflect each
 - Data split into per-character files so arcs can be edited in isolation
 - `validate.js`: run `node validate.js` after any edit; it checks all references
   and plays the game six ways before you deploy
@@ -51,4 +51,5 @@ folder. Replace files with the same names. GitHub Pages: deploy from branch,
 Read `HANDOFF.md` before touching anything. Run `node validate.js` after every
 edit. Exit code 0 means safe to upload. The game also shows a red banner on load
 if any scheduled scene is missing.
+
 
