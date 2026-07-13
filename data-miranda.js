@@ -1,7 +1,3 @@
-// Built mechanically from sol-scenes.json under the Verbatim Law.
-// Binding instruction: the dismissive garden choice sets miranda_dismissed.
-// Authored scenes with content and no choices remain choice-free terminal beats;
-// the engine supplies the standard Continue navigation control at runtime.
 export const MIRANDA_SCENES = {
   "generic_garden_miranda": {
     "title": "Garden volunteers",
@@ -17,34 +13,6 @@ export const MIRANDA_SCENES = {
       {
         "speaker": "MIRANDA",
         "text": "Can you follow instructions?"
-      },
-      {
-        "text": "A few people remain milling around the garden. Miranda looks at you."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
-      },
-      {
-        "text": "Jean's ears prick up."
-      },
-      {
-        "speaker": "JEAN",
-        "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
-      },
-      {
-        "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "They win because they have the best garden."
-      },
-      {
-        "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
-      },
-      {
-        "speaker": "MIRANDA",
-        "text": "I intend to have the best garden this year."
       }
     ],
     "choices": [
@@ -66,13 +34,19 @@ export const MIRANDA_SCENES = {
           "friendship": {
             "miranda": 1
           }
-        }
+        },
+        "nextSceneId": "generic_garden_miranda_comp",
+        "flow": true
       },
       {
         "text": "Say you can try.",
         "outcome": [
           {
-            "text": "Miranda's face doesn't move. MIRANDA. That is not what I asked."
+            "text": "Miranda's face doesn't move."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "That is not what I asked."
           },
           {
             "text": "But she hands you gloves anyway. You learn quickly, and Miranda doesn't seem too annoyed. This feels like success."
@@ -82,53 +56,9 @@ export const MIRANDA_SCENES = {
           "friendship": {
             "miranda": 1
           }
-        }
-      },
-      {
-        "text": "\"Oh! I have a vision for a garden. Listen.",
-        "outcome": [
-          {
-            "text": "Miranda holds her hand up, stopping you."
-          },
-          {
-            "speaker": "MIRANDA",
-            "text": "I've already planned everything. But you can help - if you can follow instructions."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "miranda": 2
-          }
-        }
-      },
-      {
-        "text": "Ask if she wants your help.",
-        "outcome": [
-          {
-            "text": "Miranda smiles a little. >MIRANDA. Yes. Be here on time and follow instructions."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "miranda": 2
-          }
-        }
-      },
-      {
-        "text": "Sounds like a waste of time.",
-        "outcome": [
-          {
-            "text": "Miranda looks at you blankly. MIRANDA. Then you needn't be involved."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "miranda": -1
-          },
-          "flags": {
-            "miranda_dismissed": true
-          }
-        }
+        },
+        "nextSceneId": "generic_garden_miranda_comp",
+        "flow": true
       }
     ],
     "variants": [
@@ -538,10 +468,101 @@ export const MIRANDA_SCENES = {
             "text": "Thought we deserved some rewards."
           },
           {
-            "text": "Outside, three residents are deadheading flowers and pruning bushes. Inside, you three stay and chat for a while. - effect: Miranda friendship +1"
+            "text": "Outside, three residents are deadheading flowers and pruning bushes. Inside, you three stay and chat for a while."
           }
         ],
         "choices": []
+      }
+    ]
+  },
+  "generic_garden_miranda_comp": {
+    "title": "Garden volunteers",
+    "location": "Gardens",
+    "art": "Gardens",
+    "content": [
+      {
+        "text": "A few people remain milling around the garden. Miranda looks at you."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "There's a garden competition. A few of the villages are entering. Silver Springs Retirement Community always wins."
+      },
+      {
+        "text": "Jean's ears prick up."
+      },
+      {
+        "speaker": "JEAN",
+        "text": "Silver Springs only win because they're a bunch of rich people from Hawthorn and Toorak who pay for professional landscaping. We're the ones getting our creaky old knees dirty."
+      },
+      {
+        "text": "Miranda's mouth corner quivers towards a smirk, but she is stern in her response."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "They win because they have the best garden."
+      },
+      {
+        "text": "Jean raises an eyebrow, and then seems to think the better of arguing."
+      },
+      {
+        "speaker": "MIRANDA",
+        "text": "I intend to have the best garden this year."
+      }
+    ],
+    "choices": [
+      {
+        "text": "Oh! I have a vision for a garden. Listen...",
+        "outcome": [
+          {
+            "text": "Miranda holds her hand up, stopping you."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "I've already planned everything. But you can help - if you can follow instructions."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 2
+          }
+        }
+      },
+      {
+        "text": "Ask if she wants your help.",
+        "outcome": [
+          {
+            "text": "Miranda smiles a little."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Yes. Be here on time and follow instructions."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": 2
+          }
+        }
+      },
+      {
+        "text": "Sounds like a waste of time.",
+        "outcome": [
+          {
+            "text": "Miranda looks at you blankly."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "Then you needn't be involved."
+          }
+        ],
+        "effects": {
+          "friendship": {
+            "miranda": -1
+          },
+          "flags": {
+            "miranda_dismissed": true
+          }
+        }
       }
     ]
   }

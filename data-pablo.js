@@ -1,8 +1,3 @@
-// Built mechanically from sol-scenes.json under the Verbatim Law.
-// Authored scenes with content and no choices remain choice-free terminal beats;
-// the engine supplies the standard Continue navigation control at runtime.
-// The final café repeat requires Carmen’s recipe and the later café duet,
-// encoding the source instruction that all preceding café beats have played.
 export const PABLO_SCENES = {
   "generic_cafe_pablo": {
     "title": "Tea in the café",
@@ -25,7 +20,11 @@ export const PABLO_SCENES = {
             "text": "Tea? And a biscuit?"
           },
           {
-            "text": "You ask if the biscuit has to be dry. Pablo laughs. PABLO. Cake, then."
+            "text": "You ask if the biscuit has to be dry. Pablo laughs."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Cake, then."
           },
           {
             "text": "He brings your tea and a slice of almond cake."
@@ -111,10 +110,18 @@ export const PABLO_SCENES = {
             "text": "Why do you need make a copy of it?",
             "outcome": [
               {
-                "text": "Pablo looks at the cards. PABLO. I don't know."
+                "text": "Pablo looks at the cards."
               },
               {
-                "text": "He pauses for a while. You hear the clock on the wall ticking quietly. PABLO. I haven't made it since she died."
+                "speaker": "PABLO",
+                "text": "I don't know."
+              },
+              {
+                "text": "He pauses for a while. You hear the clock on the wall ticking quietly."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "I haven't made it since she died."
               },
               {
                 "text": "He speaks quietly."
@@ -254,7 +261,11 @@ export const PABLO_SCENES = {
             "text": "How did you know what I wanted?",
             "outcome": [
               {
-                "text": "Pablo grins. PABLO. Experience. I have had many restaurants. I am a chef my whole life. I know what you want from the moment you sit down."
+                "text": "Pablo grins."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "Experience. I have had many restaurants. I am a chef my whole life. I know what you want from the moment you sit down."
               },
               {
                 "speaker": "PLAYER",
@@ -398,10 +409,18 @@ export const PABLO_SCENES = {
                 "text": "I don't know."
               },
               {
-                "text": "He stirs. Then he stops. He sighs. PABLO. Okay. We will make Carmen's rice."
+                "text": "He stirs. Then he stops. He sighs."
               },
               {
-                "text": "He sounds defeated for a moment. But then he nods, and he gazes at the recipe card with warmth and appreciation. PABLO. Yes. Right!"
+                "speaker": "PABLO",
+                "text": "Okay. We will make Carmen's rice."
+              },
+              {
+                "text": "He sounds defeated for a moment. But then he nods, and he gazes at the recipe card with warmth and appreciation."
+              },
+              {
+                "speaker": "PABLO",
+                "text": "Yes. Right!"
               },
               {
                 "text": "He claps his hands, and begins directing you and Jean around the kitchen."
@@ -558,9 +577,6 @@ export const PABLO_SCENES = {
           {
             "speaker": "PABLO",
             "text": "Try - it's good."
-          },
-          {
-            "text": "- effect: Pablo friendship +1"
           }
         ],
         "choices": []

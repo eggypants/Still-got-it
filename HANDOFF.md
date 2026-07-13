@@ -30,7 +30,7 @@ character. This file is the operating manual.
 
 ## How the pieces fit (60-second engine tour)
 
-- `data-core.js` — calendar (28 days × 3 slots), CHARACTERS, MEMORIES,
+- `data-core.js` — calendar (28 days × 2 slots), CHARACTERS, MEMORIES,
   WEEKLY_TEMPLATE (recurring activities keyed "Weekday-slot"), SPECIALS (story
   beats keyed "dayIndex-slot"; items can `replaces:` a template id; a slot can
   be `exclusive`).

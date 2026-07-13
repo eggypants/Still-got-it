@@ -1,7 +1,7 @@
 # Still Got It — v0.4.3
 
 A friendship life sim set in Summer Hills Retirement Village. 28 days, four weeks,
-three time slots a day, ending at the Autumn Concert. Flat-file, no build step,
+two time slots a day, ending at the Autumn Concert. Flat-file, no build step,
 GitHub Pages friendly.
 
 ## What changed in v0.4.3

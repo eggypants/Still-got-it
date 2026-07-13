@@ -1,4 +1,3 @@
-// The Autumn Concert — transcribed from CONCERT-FINAL.txt.
 export const CONCERT_SCENES = {
   "rhonda_opening_night": {
     "title": "Autumn concert",

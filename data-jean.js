@@ -1,8 +1,3 @@
-// Built mechanically from sol-scenes.json under the Verbatim Law.
-// Authored scenes with content and no choices remain choice-free terminal beats;
-// the engine supplies the standard Continue navigation control at runtime.
-// The final library repeat requires the base visit, the festival memory, and
-// the biographies flag, encoding the source instruction that all prior beats played.
 export const JEAN_SCENES = {
   "generic_library_jean": {
     "title": "Library hour",
@@ -103,7 +98,7 @@ export const JEAN_SCENES = {
                 "text": "Lovely man. Rae's dad, as you've probably guessed. A great father. But he found worse things than pot and LSD. I tried, for a few years, but eventually I had to let go."
               },
               {
-                "text": "She smiles at the image, - not sadly, as you expected - but lovingly. Then she turns to you. >JEAN. Letting go of him was the hardest thing I'd ever done. But once I did, our new life began."
+                "text": "She smiles at the image, - not sadly, as you expected - but lovingly. Then she turns to you."
               }
             ],
             "effects": {
@@ -312,7 +307,7 @@ export const JEAN_SCENES = {
             "text": "You offer to help, but she's decided to abandon whatever she was doing. She disappears among the shelves."
           },
           {
-            "text": "You sit down with a new magazine. Eventually, Jean returns, back in good spirits, and reads with you for a while. - effects: Jean friendship +1"
+            "text": "You sit down with a new magazine. Eventually, Jean returns, back in good spirits, and reads with you for a while."
           }
         ],
         "choices": []
@@ -372,7 +367,11 @@ export const JEAN_SCENES = {
         "text": "I prefer fiction.",
         "outcome": [
           {
-            "text": "Jean looks unbothered. JEAN. So do I. Have you had a look around the library yet?"
+            "text": "Jean looks unbothered."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "So do I. Have you had a look around the library yet?"
           },
           {
             "text": "Jean walks you through the library, pointing out some of her favourite fiction works. You pick a few up, and thank her as you head off to do some reading."
@@ -771,7 +770,11 @@ export const JEAN_SCENES = {
             "text": "Slam. Poetry."
           },
           {
-            "text": "You look at her, not sure how to react. Jean turns to Al. JEAN. Show her, Al."
+            "text": "You look at her, not sure how to react. Jean turns to Al."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Show her, Al."
           },
           {
             "text": "Al snaps back to reality."

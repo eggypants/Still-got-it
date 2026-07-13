@@ -1,4 +1,3 @@
-// Two-resident duet scenes transcribed from sol-scenes.json.
 export const DUET_SCENES = {
   "pablo_miranda_tea": {
     "title": "Morning tea",
@@ -411,7 +410,7 @@ export const DUET_SCENES = {
         "text": "Thank you. It’s beautiful."
       },
       {
-        "text": "Al tips his hat to her. - effect: Jean friendship +1; Al friendship +1; marks: saw_jean_al_3"
+        "text": "Al tips his hat to her."
       }
     ],
     "terminalEffects": {
@@ -462,7 +461,7 @@ export const DUET_SCENES = {
         "text": "Nothing special! It’s a treasure. Oro rojo - red gold! Thank you, my dear."
       },
       {
-        "text": "You look away politely while Miranda straightens her cardigan and Pablo holds the jar up to the light. - effect: Pablo friendship +1; Miranda friendship +1; marks: saw_pablo_miranda_gift"
+        "text": "You look away politely while Miranda straightens her cardigan and Pablo holds the jar up to the light."
       }
     ],
     "terminalEffects": {

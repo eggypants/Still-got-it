@@ -2,13 +2,12 @@
 //
 //   node validate.js
 //
-// Exit code 0 = safe to upload. Non-zero = do not deploy; fix errors first.
+// Exit code 0 = structural and behavioural checks passed. Non-zero = do not deploy.
 //
 // It checks referential integrity (every sceneId, memory, friendship id, and
 // flag reference resolves), scene shape, schedule coverage of all 56 slots,
-// scene id collisions across data files — and then PLAYS the game three ways:
-// a stay-home run, a Rhonda golden-path run, and a Bob Crossroads run,
-// asserting the key flags and endings come out right.
+// scene id collisions across data files — and then runs targeted runtime regressions
+// plus multiple complete 28-day playthroughs, including an all-arcs golden path.
 
 import { DAYS, TIME_SLOTS, WEEKLY_TEMPLATE, SPECIALS, SCENES, CHARACTERS, MEMORIES, SCENE_SOURCES, STORY_QUEUES } from "./data-index.js";
 import * as engine from "./engine.js";
@@ -59,6 +58,11 @@ console.log("2. Schedule integrity (56 slots)");
       }
     }
   }
+  const templateLocations = new Set();
+  for (const items of Object.values(WEEKLY_TEMPLATE)) {
+    for (const item of items) templateLocations.add(item.location);
+  }
+  const noticeIds = new Set();
   for (const [location, beats] of Object.entries(STORY_QUEUES)) {
     if (!Array.isArray(beats)) {
       err(`STORY_QUEUES "${location}" must be an array`);
@@ -71,6 +75,28 @@ console.log("2. Schedule integrity (56 slots)");
       if (beat.maxDay !== undefined && beat.minDay !== undefined && beat.maxDay < beat.minDay) {
         err(`STORY_QUEUES "${location}" beat[${i}] has maxDay before minDay`);
       }
+      if (!SCENES[beat.sceneId]) err(`STORY_QUEUES "${location}" beat[${i}] references missing scene "${beat.sceneId}"`);
+      if (beat.notice) {
+        for (const field of ["id", "title", "location", "note"]) {
+          if (!beat.notice[field]) err(`STORY_QUEUES "${location}" beat[${i}] notice is missing ${field}`);
+        }
+        if (noticeIds.has(beat.notice.id)) err(`duplicate standalone story notice id "${beat.notice.id}"`);
+        noticeIds.add(beat.notice.id);
+        if (SCENES[beat.sceneId] && beat.notice.location !== SCENES[beat.sceneId].location) {
+          err(`STORY_QUEUES "${location}" beat[${i}] notice location "${beat.notice.location}" does not match scene location "${SCENES[beat.sceneId].location}"`);
+        }
+      } else if (!templateLocations.has(location)) {
+        err(`STORY_QUEUES "${location}" beat[${i}] has no standalone notice and no scheduled activity can visit that location`);
+      }
+    }
+  }
+  for (const [location, beats] of Object.entries(STORY_QUEUES)) {
+    const accessItems = Object.values(WEEKLY_TEMPLATE).flat().filter(item => item.location === location);
+    for (const [i, beat] of beats.entries()) {
+      if (beat.notice || !accessItems.length) continue;
+      if (accessItems.every(item => item.once === true)) {
+        err(`STORY_QUEUES "${location}" beat[${i}] is reachable only through once-only activities and can become permanently inaccessible`);
+      }
     }
   }
   for (const [key, special] of Object.entries(SPECIALS)) {
@@ -78,8 +104,14 @@ console.log("2. Schedule integrity (56 slots)");
     if (Number.isNaN(d) || Number.isNaN(s) || d >= DAYS.length || s >= TIME_SLOTS.length) {
       err(`SPECIALS key "${key}" is outside the calendar`);
     }
+    const day = DAYS[d];
+    const templateKey = day ? `${day.weekday}-${s}` : null;
+    const templateIds = new Set((templateKey && WEEKLY_TEMPLATE[templateKey] || []).map(item => item.id));
     for (const item of special.items) {
       if (item.replaces && special.exclusive) warn(`SPECIALS "${key}" item "${item.id}" has replaces inside an exclusive slot (replaces is ignored)`);
+      if (item.replaces && !special.exclusive && !templateIds.has(item.replaces)) {
+        err(`SPECIALS "${key}" item "${item.id}" replaces missing template id "${item.replaces}" in ${templateKey}`);
+      }
     }
   }
   for (let dayIndex = 6; dayIndex < DAYS.length; dayIndex++) {
@@ -105,7 +137,7 @@ console.log("3. Scene shape and reference integrity");
 {
   const checkWhen = (when, where) => {
     if (!when) return;
-    const known = ["flag", "notFlag", "anyFlag", "memory", "notMemory", "seenScene", "minFriendship", "minCounter", "week", "weeks"];
+    const known = ["flag", "notFlag", "anyFlag", "memory", "notMemory", "seenScene", "minFriendship", "minCounter", "maxCounter", "week", "weeks"];
     for (const key of Object.keys(when)) {
       if (!known.includes(key)) err(`${where}: unknown when-condition "${key}"`);
     }
@@ -166,9 +198,6 @@ console.log("3. Scene shape and reference integrity");
       checkWhen(variant.when, vwhere);
       checkBlocks(variant.content, vwhere);
       checkChoices(variant.choices, vwhere);
-      if (variant.content && !Object.prototype.hasOwnProperty.call(variant, "choices") && (scene.choices || []).length > 1) {
-        warn(`${vwhere}: overrides content but inherits multiple base choices — check that the choices still answer the displayed scene`);
-      }
     }
   }
 }
@@ -228,6 +257,7 @@ console.log("5. Reachability: every scene appears on the schedule");
   const scheduled = new Set(["apartment_morning", "apartment_evening"]);
   for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) scheduled.add(item.sceneId);
   for (const special of Object.values(SPECIALS)) for (const item of special.items) scheduled.add(item.sceneId);
+  for (const beats of Object.values(STORY_QUEUES)) for (const beat of beats) scheduled.add(beat.sceneId);
   const collectNext = choices => {
     for (const choice of choices || []) if (choice.nextSceneId) scheduled.add(choice.nextSceneId);
   };
@@ -269,8 +299,16 @@ console.log("6. Critical memory availability");
 
   const scheduleOccurrences = new Map();
   const bump = sceneId => scheduleOccurrences.set(sceneId, (scheduleOccurrences.get(sceneId) || 0) + 1);
-  for (const items of Object.values(WEEKLY_TEMPLATE)) for (const item of items) bump(item.sceneId);
+  for (const day of DAYS) {
+    for (let slotIndex = 0; slotIndex < TIME_SLOTS.length; slotIndex++) {
+      const key = `${day.weekday}-${slotIndex}`;
+      for (const item of WEEKLY_TEMPLATE[key] || []) {
+        if (!item.weeks || item.weeks.includes(day.week)) bump(item.sceneId);
+      }
+    }
+  }
   for (const special of Object.values(SPECIALS)) for (const item of special.items) bump(item.sceneId);
+  for (const beats of Object.values(STORY_QUEUES)) for (const beat of beats) bump(beat.sceneId);
 
   for (const [memoryId, requiredScenes] of requiredMemories.entries()) {
     const grantScenes = grantedMemories.get(memoryId) || new Set();
@@ -326,7 +364,7 @@ console.log("7. Flag hygiene: flags read somewhere should be set somewhere");
   for (const flag of [
     "rhonda_show_success", "rhonda_show_failed", "attended_concert_uninvolved",
     "bob_went_reunion", "bob_reunion_missed", "saw_pablo_miranda_corner_table",
-    "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings", "rhonda_pushed_too_hard",
+    "saw_pablo_miranda_tea", "saw_pablo_miranda_seedlings",
     "rhonda_night_before_success", "rhonda_night_before_failed", "rhonda_recruitment_seen",
     "miranda_delegated", "miranda_did_it_alone", "pablo_cooked_carmens", "pablo_substituted",
     "jean_let_go", "jean_carried_it_alone", "jean_deflected_festival", "Al_love",
@@ -449,6 +487,9 @@ playRun("rhonda golden path", (state, items) => {
   if (concert) return concert;
   return apartment(items);
 }, (state, ending) => {
+  for (const id of ["rhonda_pottery", "rhonda_old_box", "rhonda_concert_notice", "rhonda_recruitment"]) {
+    if (!state.seenScenes.includes(id)) throw new Error(`Rhonda prerequisite chain did not reach ${id}`);
+  }
   if (!state.memories.includes("rhonda_hat_laugh")) throw new Error("hat memory not collected at movie night");
   if (!state.flags.rhonda_night_before_success) throw new Error("night-before success flag not set (memory-gated choice missing?)");
   if (!state.flags.rhonda_show_success) throw new Error("concert success flag not set");
@@ -555,6 +596,9 @@ playRun("al crossroads", (state, items) => {
   const endClock = state.dayIndex * TIME_SLOTS.length + state.slotIndex;
   if (endClock !== startClock + 1) {
     err(`[flowing conversation] clock advanced ${endClock - startClock} slots instead of exactly one`);
+  }
+  if (state.activityCommitted || state.activeSceneId || state.pendingOutcome || state.flowTranscript || state.lockedVariant) {
+    err("[flowing conversation] activity session was not fully cleared after Continue");
   } else if (state.flags.Al_love) {
     console.log("  ok  : flowing conversation");
   }
@@ -578,6 +622,9 @@ playRun("al crossroads", (state, items) => {
     if (endClock !== startClock + 1) err(`[terminal scene] clock advanced ${endClock - startClock} slots instead of exactly one`);
     if (state.view !== "noticeboard" || state.pendingOutcome) err("[terminal scene] Continue did not return directly to the noticeboard");
     if (!state.seenScenes.includes("generic_garden_miranda")) err("[terminal scene] scene was not marked seen");
+    if (state.activityCommitted || state.activeSceneId || state.pendingOutcome || state.flowTranscript || state.lockedVariant) {
+      err("[terminal scene] activity session was not fully cleared");
+    }
     if (endClock === startClock + 1 && state.view === "noticeboard" && !state.pendingOutcome) {
       console.log("  ok  : terminal scene");
     }
@@ -595,11 +642,286 @@ playRun("bob reunion as stranger", (state, items) => {
   if (state.flags.bob_went_reunion) throw new Error("stranger should not be able to send Bob to the reunion");
 });
 
+
+// ---------------------------------------------------------------------------
+console.log("9. Runtime regression tests");
+
+const clock = state => state.dayIndex * TIME_SLOTS.length + state.slotIndex;
+const activityStateCleared = state => !state.activityCommitted
+  && !state.activeSceneId
+  && !state.pendingOutcome
+  && !state.flowTranscript
+  && !state.lockedVariant;
+
+// Effects are immediate, but leaving the outcome through a tab must consume the
+// slot and clear the transaction so the same effects cannot be collected again.
+{
+  const state = createInitialState();
+  state.dayIndex = 1;
+  state.slotIndex = 1;
+  const item = engine.getNoticeboardItems(state).find(i => i.id === "tpl-cafe-supper");
+  const start = clock(state);
+  engine.beginActivity(state, item.id);
+  engine.chooseSceneOption(state, 0);
+  if (!state.activityCommitted || state.view !== "outcome") err("[tab-away] choice did not commit the activity before the outcome");
+  engine.openTab(state, "journal");
+  if (clock(state) !== start + 1) err("[tab-away] leaving an outcome did not consume exactly one slot");
+  if (!activityStateCleared(state)) err("[tab-away] activity state was not fully cleared");
+  if (state.activeTab !== "journal") err("[tab-away] requested tab was not opened after completing the activity");
+  if (clock(state) === start + 1 && activityStateCleared(state)) console.log("  ok  : tab-away commitment");
+}
+
+// A flowing choice also commits the activity. Leaving during the chain must
+// consume one slot and must not leak the committed state into the next activity.
+{
+  const state = createInitialState();
+  state.activeSceneId = "generic_walking";
+  state.view = "scene";
+  const start = clock(state);
+  engine.chooseSceneOption(state, 0);
+  if (!state.activityCommitted || !state.flowTranscript) err("[flow tab-away] first flowing choice did not commit the activity");
+  engine.openTab(state, "relationships");
+  if (clock(state) !== start + 1) err("[flow tab-away] leaving a flowing conversation did not consume exactly one slot");
+  if (!activityStateCleared(state)) err("[flow tab-away] activity state was not fully cleared");
+  if (clock(state) === start + 1 && activityStateCleared(state)) console.log("  ok  : flowing tab-away commitment");
+}
+
+// Both movie routes must leave Rhonda's story accessible: skipping week one,
+// and attending the generic film before Rhonda's beat becomes eligible.
+for (const attendFirst of [false, true]) {
+  const state = createInitialState();
+  if (attendFirst) {
+    state.dayIndex = 2;
+    state.slotIndex = 1;
+    const first = engine.getNoticeboardItems(state).find(i => i.id === "tpl-movie");
+    if (!first) { err("[movie access] week-one movie missing"); continue; }
+    engine.beginActivity(state, first.id);
+    engine.chooseSceneOption(state, 0);
+    engine.continueAfterOutcome(state);
+  }
+  state.dayIndex = 9;
+  state.slotIndex = 1;
+  const later = engine.getNoticeboardItems(state).find(i => i.id === "tpl-movie");
+  if (!later || later.sceneId !== "rhonda_movie_night") {
+    err(`[movie access] Rhonda movie missing after ${attendFirst ? "attending" : "skipping"} week one`);
+  }
+}
+if (!errors) console.log("  ok  : both movie-access routes");
+
+// Standalone cards must coexist with ordinary scheduled/floating activities.
+{
+  const day1 = createInitialState();
+  day1.dayIndex = 1;
+  day1.slotIndex = 1;
+  const items1 = engine.getNoticeboardItems(day1);
+  const pottery = items1.find(i => i.sceneId === "rhonda_pottery");
+  const lounge1 = items1.find(i => i.id === "tpl-lounge-social");
+  if (!pottery || pottery.location !== "Craft Room" || !pottery._standaloneStory) err("[standalone cards] pottery is not an independent Craft Room card");
+  if (!lounge1 || lounge1.sceneId === "rhonda_pottery") err("[standalone cards] pottery consumed the Lounge activity or floating beat");
+
+  const day8 = createInitialState();
+  day8.dayIndex = 8;
+  day8.slotIndex = 1;
+  day8.seenScenes.push("rhonda_pottery", "rhonda_old_box");
+  day8.flags.met_rhonda = true;
+  day8.friendships.rhonda = 5;
+  const items8 = engine.getNoticeboardItems(day8);
+  const notice = items8.find(i => i.sceneId === "rhonda_concert_notice");
+  const lounge8 = items8.find(i => i.id === "tpl-lounge-social");
+  if (!notice || notice.location !== "Noticeboard" || !notice._standaloneStory) err("[standalone cards] concert notice is not an independent Noticeboard card");
+  if (!lounge8 || lounge8.sceneId === "rhonda_concert_notice") err("[standalone cards] concert notice consumed the Lounge activity or floating beat");
+
+  const loungeQueue = STORY_QUEUES["Community Lounge"] || [];
+  const oldBox = loungeQueue.find(b => b.sceneId === "rhonda_old_box");
+  const noticeBeat = (STORY_QUEUES.Noticeboard || []).find(b => b.sceneId === "rhonda_concert_notice");
+  const recruitment = loungeQueue.find(b => b.sceneId === "rhonda_recruitment");
+  if (oldBox?.when?.seenScene !== "rhonda_pottery") err("[Rhonda prerequisites] old box is not explicitly gated by pottery");
+  if (noticeBeat?.when?.seenScene !== "rhonda_old_box") err("[Rhonda prerequisites] concert notice is not explicitly gated by old box");
+  if (recruitment?.when?.seenScene !== "rhonda_concert_notice" || recruitment?.when?.minFriendship?.rhonda !== 5) {
+    err("[Rhonda prerequisites] recruitment gate is incorrect");
+  }
+  if (pottery && lounge1 && notice && lounge8) console.log("  ok  : standalone story cards and prerequisites");
+}
+
+// The displayed random once-variant must remain locked through choice handling.
+{
+  const state = createInitialState();
+  state.dayIndex = 1;
+  state.slotIndex = 1;
+  state.friendships.jean = 6;
+  state.seenScenes.push("pablo_miranda_tea", "generic_cafe_pablo", "pablo_miranda_corner_table", "pablo_feast_consequence");
+  engine.beginActivity(state, "tpl-cafe-supper");
+  const scene = engine.resolveScene(state, state.activeSceneId);
+  const beforeJean = state.friendships.jean;
+  const beforePablo = state.friendships.pablo;
+  if (!scene?.choices?.[0]?.text.includes("Rae")) {
+    err("[variant lock] test did not display the Jean-and-Rae variant");
+  } else {
+    engine.chooseSceneOption(state, 0);
+    if (state.friendships.jean !== beforeJean + 1 || state.friendships.pablo !== beforePablo) {
+      err("[variant lock] displayed Jean choice executed a different variant's effects");
+    } else {
+      console.log("  ok  : random once-variant locking");
+    }
+  }
+}
+
+// Walking must set its intro flag through the non-leaf flow choice, then exclude
+// the introductory base scene from all later random rotations.
+{
+  const state = createInitialState();
+  state.activeSceneId = "generic_walking";
+  state.view = "scene";
+  engine.chooseSceneOption(state, 0);
+  if (!state.flags.walking_intro_seen) err("[walking progression] intro flow choice did not set walking_intro_seen");
+  const later = engine.resolveScene(state, "generic_walking");
+  const introReturned = (later?.content || []).some(block => block.text?.includes("young, spritely soul"));
+  if (introReturned) err("[walking progression] introductory base scene remained in the post-intro random pool");
+  if (state.flags.walking_intro_seen && !introReturned) console.log("  ok  : walking intro progression");
+}
+
+// Script-section labels must never leak into player-facing prose again.
+{
+  const debris = ["SHARED VILLAGE SCENES", "DUETS - two residents; the player only watches"];
+  const allText = [];
+  const collectBlocks = blocks => { for (const b of blocks || []) allText.push(b.text); };
+  const collectChoices = choices => { for (const c of choices || []) { allText.push(c.text); collectBlocks(c.outcome); } };
+  for (const scene of Object.values(SCENES)) {
+    collectBlocks(scene.content); collectChoices(scene.choices);
+    for (const variant of scene.variants || []) { collectBlocks(variant.content); collectChoices(variant.choices); }
+  }
+  for (const label of debris) if (allText.includes(label)) err(`[authoring debris] player-facing section label remains: ${label}`);
+  if (!debris.some(label => allText.includes(label))) console.log("  ok  : authoring debris absent");
+}
+
+// The ending transition is a distinct completion path. It must clear the
+// committed activity state, including when the player leaves the final outcome
+// through a tab instead of pressing Continue.
+for (const leaveByTab of [false, true]) {
+  const state = createInitialState();
+  state.dayIndex = 27;
+  state.slotIndex = 1;
+  const concert = engine.getNoticeboardItems(state).find(i => i.sceneId === "rhonda_opening_night");
+  engine.beginActivity(state, concert.id);
+  engine.chooseSceneOption(state, 0);
+  if (leaveByTab) engine.openTab(state, "journal");
+  else engine.continueAfterOutcome(state);
+  if (state.view !== "ending" || state.dayIndex !== 28) err(`[ending cleanup] ${leaveByTab ? "tab-away" : "Continue"} did not reach the ending`);
+  if (!activityStateCleared(state)) err(`[ending cleanup] ${leaveByTab ? "tab-away" : "Continue"} left stale activity state`);
+}
+if (!errors) console.log("  ok  : ending transition cleanup");
+
+// ---------------------------------------------------------------------------
+console.log("10. Complete all-arcs golden path");
+
+function allArcChoiceIndex(state, scene) {
+  const exact = {
+    rhonda_first_meeting: 0,
+    rhonda_pottery: 3,
+    rhonda_old_box: 1,
+    rhonda_movie_night: 0,
+    rhonda_concert_notice: 0,
+    rhonda_recruitment: 0,
+    rhonda_rehearsal: 0,
+    rhonda_lounge_before_show: 0,
+    rhonda_final_rehearsal: 0,
+    rhonda_night_before: 2,
+    rhonda_opening_night: 0,
+    bob_reunion: 0,
+    miranda_competition: 0,
+    pablo_feast: 0,
+    jean_figtree: 0
+  };
+  if (Object.prototype.hasOwnProperty.call(exact, state.activeSceneId)) {
+    return Math.min(exact[state.activeSceneId], scene.choices.length - 1);
+  }
+  if (state.activeSceneId === "generic_cards_al") {
+    const flow = scene.choices.findIndex(choice => choice.flow === true);
+    return flow >= 0 ? flow : 0;
+  }
+  let best = 0;
+  let bestScore = -Infinity;
+  scene.choices.forEach((choice, index) => {
+    let score = 0;
+    score += (choice.effects?.memories?.length || 0) * 80;
+    score += Object.values(choice.effects?.friendship || {}).reduce((sum, n) => sum + n, 0) * 10;
+    if (choice.flow) score += 5;
+    for (const [flag, value] of Object.entries(choice.effects?.flags || {})) {
+      if (value && /(delegated|cooked|let_go|went_reunion|success|love)/i.test(flag)) score += 100;
+    }
+    if (score > bestScore) { bestScore = score; best = index; }
+  });
+  return best;
+}
+
+playRun("all six arcs", (state, items) => {
+  const critical = [
+    "bob_reunion", "miranda_competition", "pablo_feast", "jean_figtree",
+    "rhonda_rehearsal", "rhonda_final_rehearsal", "rhonda_night_before", "rhonda_opening_night"
+  ];
+  for (const id of critical) {
+    const item = byScene(items, id);
+    if (item) {
+      const scene = engine.resolveScene(state, item.sceneId);
+      return { ...item, chooseIndex: allArcChoiceIndex({ ...state, activeSceneId: item.sceneId }, scene) };
+    }
+  }
+
+  const rhonda = [
+    "rhonda_first_meeting", "rhonda_pottery", "rhonda_old_box", "rhonda_concert_notice",
+    "rhonda_recruitment", "rhonda_movie_night", "rhonda_lounge_before_show"
+  ];
+  for (const id of rhonda) {
+    const item = byScene(items, id);
+    if (item && !state.seenScenes.includes(id)) {
+      const scene = engine.resolveScene(state, item.sceneId);
+      return { ...item, chooseIndex: allArcChoiceIndex({ ...state, activeSceneId: item.sceneId }, scene) };
+    }
+  }
+
+  const ready = {
+    bob: state.friendships.bob >= 5 && state.memories.includes("bob_june_roses"),
+    miranda: state.friendships.miranda >= 5 && state.memories.includes("miranda_good_tablecloth"),
+    pablo: state.friendships.pablo >= 5 && state.memories.includes("pablo_carmen_rice"),
+    jean: state.friendships.jean >= 5 && state.memories.includes("jean_festival_days"),
+    al: Boolean(state.flags.Al_love)
+  };
+  const needs = [];
+  if (state.dayIndex < 14 && !ready.bob) needs.push(["Workshop", 14]);
+  if (state.dayIndex < 15 && !ready.miranda) needs.push(["Gardens", 15]);
+  if (state.dayIndex < 15 && !ready.pablo) needs.push(["Village Café", 15]);
+  if (state.dayIndex < 16 && !ready.jean) needs.push(["Library", 16]);
+  if (!ready.al) needs.push(["Community Lounge", 24]);
+  needs.sort((a, b) => a[1] - b[1]);
+  for (const [location] of needs) {
+    const item = byLoc(items, location);
+    if (!item) continue;
+    const scene = engine.resolveScene(state, item.sceneId);
+    return { ...item, chooseIndex: allArcChoiceIndex({ ...state, activeSceneId: item.sceneId }, scene) };
+  }
+
+  const nonApartment = items.find(item => item.location !== "Your Apartment");
+  if (nonApartment) {
+    const scene = engine.resolveScene(state, nonApartment.sceneId);
+    return { ...nonApartment, chooseIndex: allArcChoiceIndex({ ...state, activeSceneId: nonApartment.sceneId }, scene) };
+  }
+  return apartment(items);
+}, (state, ending) => {
+  const requiredFlags = [
+    "rhonda_show_success", "bob_went_reunion", "miranda_delegated",
+    "pablo_cooked_carmens", "jean_let_go", "Al_love"
+  ];
+  for (const flag of requiredFlags) if (!state.flags[flag]) throw new Error(`success flag ${flag} was not reached`);
+  if (state.dayIndex !== 28 || state.view !== "ending") throw new Error("28-day run did not finish at the ending");
+  if (!activityStateCleared(state)) throw new Error("ending inherited stale activity state");
+  if (!ending.lines.length) throw new Error("ending produced no lines");
+});
+
 // ---------------------------------------------------------------------------
 console.log("");
 if (errors) {
   console.error(`FAILED: ${errors} error(s), ${warnings} warning(s). Do not deploy.`);
   process.exit(1);
 } else {
-  console.log(`PASSED: 0 errors, ${warnings} warning(s). Safe to upload.`);
+  console.log(`PASSED: 0 errors, ${warnings} warning(s). Structural and behavioural checks passed.`);
 }

@@ -15,6 +15,7 @@ import { JEAN_SCENES } from "./data-jean.js";
 import { AL_SCENES } from "./data-al.js";
 import { DUET_SCENES } from "./data-duets.js";
 import { CONCERT_SCENES } from "./data-concert.js";
+import { NEW_SCENES } from "./data-newscenes.js";
 
 export const SCENE_SOURCES = {
   "data-generic.js": GENERIC_SCENES,
@@ -25,7 +26,8 @@ export const SCENE_SOURCES = {
   "data-jean.js": JEAN_SCENES,
   "data-al.js": AL_SCENES,
   "data-duets.js": DUET_SCENES,
-  "data-concert.js": CONCERT_SCENES
+  "data-concert.js": CONCERT_SCENES,
+  "data-newscenes.js": NEW_SCENES
 };
 
 export const SCENES = {
@@ -37,5 +39,6 @@ export const SCENES = {
   ...JEAN_SCENES,
   ...AL_SCENES,
   ...DUET_SCENES,
-  ...CONCERT_SCENES
+  ...CONCERT_SCENES,
+  ...NEW_SCENES
 };

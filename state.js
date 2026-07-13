@@ -14,6 +14,9 @@ export function createInitialState() {
     slotIndex: 0,
     activeSceneId: null,
     pendingOutcome: null,
+    flowTranscript: null,
+    lockedVariant: null,
+    activityCommitted: false,
     friendships: {
       rhonda: 0,
       pablo: 0,

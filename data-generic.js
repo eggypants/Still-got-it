@@ -1,184 +1,4 @@
-// Village-wide shared and apartment scenes.
 export const GENERIC_SCENES = {
-  "generic_tv_room": {
-    "title": "Television room",
-    "location": "TV Room",
-    "art": "TV Room",
-    "content": [
-      {
-        "text": "A quiz show is on. Everyone knows the answer after the contestant gets it wrong. This seems to be the main pleasure of the format."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected."
-          }
-        ],
-        "effects": {}
-      }
-    ]
-  },
-  "generic_cafe_supper": {
-    "title": "Café supper",
-    "location": "Village Café",
-    "art": "Village Café",
-    "content": [
-      {
-        "text": "Supper is soup and bread. Pablo says the soup needs lemon. Miranda says it needs salt. Jean says it needs a better funding model."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "pablo": 1,
-            "miranda": 1,
-            "jean": 1
-          }
-        }
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "weeks": [
-            2,
-            3
-          ],
-          "minFriendship": {
-            "pablo": 2
-          },
-          "notMemory": "pablo_carmen_rice"
-        },
-        "content": [
-          {
-            "text": "Supper is almost over when Pablo brings out one last bowl for the table to try. He says it is only rice, which makes everyone suspicious."
-          },
-          {
-            "text": "He stands behind his chair while people eat. In his hand is a folded recipe card, soft at the edges."
-          },
-          {
-            "speaker": "PABLO",
-            "text": "Carmen never wrote it properly. She tasted, frowned, added a little more, and then it was right. This is not that. But it is close enough for supper."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Tell him people want seconds.",
-            "outcome": [
-              {
-                "text": "Pablo looks toward the table. Jean is already scraping the serving spoon around the bowl."
-              },
-              {
-                "speaker": "PABLO",
-                "text": "Then perhaps it is close enough to survive."
-              },
-              {
-                "text": "He folds the card and returns it to his wallet, behind the photographs."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "pablo": 2
-              },
-              "memories": [
-                "pablo_carmen_rice"
-              ],
-              "flags": {
-                "pablo_recipe_seen": true
-              }
-            }
-          },
-          {
-            "text": "Stay quiet and let the table answer.",
-            "outcome": [
-              {
-                "text": "The table answers by emptying the bowl. Pablo pretends not to watch."
-              },
-              {
-                "text": "When he clears it away, the serving spoon is clean. He looks annoyed by how much this matters."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "pablo": 1
-              },
-              "memories": [
-                "pablo_carmen_rice"
-              ],
-              "flags": {
-                "pablo_recipe_seen": true
-              }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "generic_market": {
-    "title": "Village market table",
-    "location": "Foyer",
-    "art": "Foyer",
-    "content": [
-      {
-        "text": "The foyer table has books, jams, plants, and one mysterious box labelled 'useful'. Al buys nothing and compliments everyone. This is apparently his contribution."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "The time passes more quickly than you expected."
-          }
-        ],
-        "effects": {
-          "friendship": {
-            "al": 1
-          }
-        }
-      }
-    ]
-  },
-  "generic_pottery": {
-    "title": "Pottery",
-    "location": "Craft Room",
-    "art": "Craft Room",
-    "content": [
-      {
-        "text": "The craft room smells of wet clay and optimism."
-      },
-      {
-        "text": "People are making uneven bowls and pretending they meant to. The teacher says ‘lovely’ at regular intervals, to everyone, about everything."
-      },
-      {
-        "text": "A wheel is free."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Have a go.",
-        "outcome": [
-          {
-            "text": "Your bowl begins as a vase, becomes a plate, and settles on being an ashtray for a household that does not smoke."
-          },
-          {
-            "text": "The teacher says it is lovely. You suspect a pattern."
-          }
-        ],
-        "effects": {}
-      }
-    ]
-  },
   "generic_movie": {
     "title": "Movie night",
     "location": "Cinema Room",
@@ -277,106 +97,6 @@ export const GENERIC_SCENES = {
               "flags": {
                 "rhonda_told_hat_story": true
               }
-            }
-          }
-        ]
-      }
-    ]
-  },
-  "generic_lounge_evening": {
-    "title": "Lounge after dinner",
-    "location": "Community Lounge",
-    "art": "Community Lounge",
-    "content": [
-      {
-        "text": "The lounge after dinner runs on tea and settled opinions."
-      },
-      {
-        "text": "Somebody’s grandson has done something either wonderful or alarming; the room is divided. The biscuits are not, and go quickly."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Stay for a while.",
-        "outcome": [
-          {
-            "text": "You stay until the tea goes cold and the argument resolves itself into agreement that young people are, on balance, a mixed bag."
-          }
-        ],
-        "effects": {}
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "weeks": [
-            2,
-            3,
-            4
-          ],
-          "minFriendship": {
-            "rhonda": 3
-          },
-          "notMemory": "rhonda_miss_performing"
-        },
-        "content": [
-          {
-            "text": "The lounge after dinner is busy enough that no one notices the old programme on Rhonda’s lap until she closes it."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Tiny theatre. Terrible seats. Twenty-seven people and a damp patch on the ceiling."
-          },
-          {
-            "text": "She taps the programme once with her finger."
-          },
-          {
-            "speaker": "RHONDA",
-            "text": "Best laugh I ever got. Not glamorous. Just alive."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Ask if she misses it.",
-            "outcome": [
-              {
-                "speaker": "RHONDA",
-                "text": "No."
-              },
-              {
-                "text": "She says it too quickly."
-              },
-              {
-                "speaker": "RHONDA",
-                "text": "Yes. Not in the way people think."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "rhonda": 2
-              },
-              "memories": [
-                "rhonda_miss_performing"
-              ]
-            }
-          },
-          {
-            "text": "Let the programme stay closed.",
-            "outcome": [
-              {
-                "text": "You do not ask. Rhonda keeps one hand on the programme while Al tells a story from across the room."
-              },
-              {
-                "text": "When someone laughs, Rhonda looks toward the sound before she remembers not to."
-              }
-            ],
-            "effects": {
-              "friendship": {
-                "rhonda": 1
-              },
-              "memories": [
-                "rhonda_miss_performing"
-              ]
             }
           }
         ]
@@ -496,92 +216,7 @@ export const GENERIC_SCENES = {
     "variants": [
       {
         "when": {
-          "notFlag": "walking_intro_seen",
-          "anyFlag": [
-            "met_al",
-            "jean_carried_it_alone"
-          ]
-        },
-        "content": [
-          {
-            "text": "The walking group gathers by reception, and a brief discussion leads to a decision that the park would be nice today."
-          },
-          {
-            "text": "The group sets off, past the spot where big fig tree used to stand."
-          },
-          {
-            "text": "Al sidles up to you."
-          },
-          {
-            "speaker": "AL",
-            "text": "Now, settle this for me. I'm trying to figure it out. Who's more handsome? Me, or Bob?"
-          },
-          {
-            "text": "Bob looks embarrassed. Al looks delighted by this."
-          }
-        ],
-        "choices": [
-          {
-            "text": "Al.",
-            "outcome": [
-              {
-                "text": "Al laughs heartily, then slaps Bob on the shoulder."
-              },
-              {
-                "speaker": "AL",
-                "text": "Now, Bob, I still think you're a looker. Bet you broke your fair share of hearts back in the day."
-              },
-              {
-                "text": "Bob gives Al grumpy look as he power-walks ahead, catching up to Miranda. Al looks at you, both amused and apologetic. AL. I can't help myself. The man's too much fun to tease. I'd feel worse, but he keeps coming back for more. Best buddy I ever had, the old codger."
-              },
-              {
-                "text": "The group arrives at a small nature reserve. A colossal mountain ash shades a few benches and picnic tables. It's so tall that you worry about your balance for a moment as you look up at it."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "Tallest flowering plant in the world."
-              }
-            ],
-            "nextSceneId": "generic_walking__v1_c1",
-            "flow": true,
-            "effects": {
-              "flags": {
-                "walking_intro_seen": true
-              }
-            }
-          },
-          {
-            "text": "\"\"Bob\"\" >Al laughs heartily, then slaps Bob on the shoulder.",
-            "outcome": [
-              {
-                "speaker": "AL",
-                "text": "He sure is a looker. Bet you broke your fair share of hearts back in the day."
-              },
-              {
-                "text": "Bob gives Al grumpy look as he power-walks ahead, catching up to Miranda. Al looks at you, both amused and apologetic. AL. I can't help myself. The man's too much fun to tease. I'd feel worse, but he keeps coming back for more. Best buddy I ever had, the old codger."
-              },
-              {
-                "text": "The group arrives at a small nature reserve. A colossal mountain ash shades a few benches and picnic tables. It's so tall that you worry about your balance for a moment as you look up at it."
-              },
-              {
-                "speaker": "MIRANDA",
-                "text": "Tallest flowering plant in the world."
-              }
-            ],
-            "nextSceneId": "generic_walking__v1_c2",
-            "flow": true,
-            "effects": {
-              "flags": {
-                "walking_intro_seen": true
-              }
-            }
-          }
-        ]
-      },
-      {
-        "when": {
-          "flag": "walking_intro_seen",
-          "notFlag": "walking_v2_seen"
+          "flag": "walking_intro_seen"
         },
         "content": [
           {
@@ -620,7 +255,7 @@ export const GENERIC_SCENES = {
             "text": "The walk meanders around for a while and loops back towards the retirement village."
           },
           {
-            "text": "Outside the village, you see a woman with short, pink hair. Not young, but too young to live here. She gets in a dirty red hatchback with too many bumper stickers and drives away."
+            "text": "Outside the village, you see a young woman with short, pink hair get in a dirty red hatchback and drive away."
           },
           {
             "speaker": "PABLO",
@@ -632,9 +267,6 @@ export const GENERIC_SCENES = {
           {
             "speaker": "MIRANDA",
             "text": "Lovely girl."
-          },
-          {
-            "text": "- effects: Miranda friendship +1, Pablo friendship +1, Bob friendship +1."
           }
         ],
         "terminalEffects": {
@@ -646,8 +278,7 @@ export const GENERIC_SCENES = {
       },
       {
         "when": {
-          "flag": "walking_v2_seen",
-          "notFlag": "walking_v3_seen"
+          "flag": "walking_intro_seen"
         },
         "content": [
           {
@@ -684,9 +315,6 @@ export const GENERIC_SCENES = {
           },
           {
             "text": "She says this with the sort of tone that some parents would employ when telling you their child was a brain surgeon or a magistrate. The group turns down a tree-lined street, and amble down the shady footpath. A laneway, enclosed in back fences, leads you back towards the retirement village. On one fence, a grey cat with yellow eyes stares you down, as though he thinks you a trespasser."
-          },
-          {
-            "text": "- effects: Jean friendship +1, Miranda friendship +1"
           }
         ],
         "terminalEffects": {
@@ -698,19 +326,112 @@ export const GENERIC_SCENES = {
       },
       {
         "when": {
-          "flag": "walking_v3_seen"
+          "flag": "walking_intro_seen"
         },
         "content": [
           {
             "text": "The usual suspects set off on a walk to the nature reserve. You chat with Al, and then with Miranda, and you share a few words with Bob. You see a currawong hopping weightlessly between branches and a honeyeater effortfully hovering at the banksias. Walking back through the alley, the grey cat has become no less displeased with your presence."
-          },
-          {
-            "text": "DUETS - two residents; the player only watches"
           }
         ],
         "choices": []
+      },
+      {
+        "when": {
+          "flag": "walking_intro_seen"
+        },
+        "content": [
+          {
+            "text": "Today it's just you and Bob in the walking group. Miranda is busy weeding, Jean is out for coffee with Rae, Pablo decided to sleep in, Al didn't like the weather and Rhonda never goes for a walk."
+          },
+          {
+            "text": "You look at each other a little awkwardly."
+          },
+          {
+            "speaker": "BOB",
+            "text": "Park?"
+          },
+          {
+            "text": "You nod. Bob sets off toward the nature reserve at his usual brisk pace and you keep up. The walk is silent, except for when Bob points out an old Kingswood with club plates parked on the side of the road, just like one he had in the 80s. On the way back from the park, the Kingswood is gone."
+          }
+        ],
+        "terminalEffects": {}
+      },
+      {
+        "when": {
+          "flag": "walking_intro_seen"
+        },
+        "content": [
+          {
+            "text": "As you reach Reception, you hear a deep crack, followed by the heavens opening like a dam gate over the village."
+          },
+          {
+            "speaker": "PABLO",
+            "text": "Oh dear. That is not what the weather was supposed to do today. I am not walking in this."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "Well, I'm out too. Coffee, anyone?"
+          },
+          {
+            "speaker": "BOB",
+            "text": "It's just a bit of rain. Never killed anyone."
+          },
+          {
+            "text": "Jean looks at him sceptically."
+          },
+          {
+            "speaker": "JEAN",
+            "text": "People have absolutely been killed by rain. Flooding? Monsoons?"
+          },
+          {
+            "text": "Bob shrugs."
+          }
+        ],
+        "choices": [
+          {
+            "text": "Walk in the rain with Bob.",
+            "outcome": [
+              {
+                "text": "You agree with Bob. It's just a bit of rain. The pair of you pull your jacket hoods up and step outside."
+              },
+              {
+                "text": "It's pelting down. You suggest a shorter route around the side streets rather than the park, and Bob agrees."
+              },
+              {
+                "text": "The heavy rain forces you to squint, and gusts of wind drive the rain almost horizontal. It's too loud to talk."
+              },
+              {
+                "text": "Water creeps into your shoes, then through your socks, then up your pant legs."
+              },
+              {
+                "text": "As you round the last corner home, you gratefully contemplate the hot shower and cup of tea you'll be having soon."
+              },
+              {
+                "text": "You arrive back at Reception, shoes squelching. Bob nods his thanks to you and walks back to his apartment. You squelch back to yours."
+              }
+            ],
+            "effects": {
+              "friendship": {
+                "bob": 1
+              }
+            }
+          },
+          {
+            "text": "Go to the cafe with Jean and Pablo.",
+            "outcome": [
+              {
+                "text": "The three of you go to the cafe. Pablo pulls a jar of biscuits from the shelf. Jean insists on making coffee, dusting off a plunger that Pablo never uses. The three of you chat for a while as rain pelts the window. After twenty minutes, you see Bob, drenched, marching briskly past the window, looking totally unbothered."
+              }
+            ],
+            "effects": {}
+          }
+        ]
       }
-    ]
+    ],
+    "pickVariant": "random",
+    "baseWhen": {
+      "notFlag": "walking_intro_seen"
+    }
   },
   "generic_walking__v0_c1": {
     "title": "Walking group",
@@ -732,12 +453,22 @@ export const GENERIC_SCENES = {
             "text": "He doesn't elaborate. You take two laps around the reserve, and you try to keep up while suppressing the urge to pant."
           },
           {
-            "text": "After two laps, Bob stops abruptly. BOB. Ah, good to get the heart going. Nice walking with you."
+            "text": "After two laps, Bob stops abruptly."
           },
           {
-            "text": "He turns and begins power-walking back to the retirement village. You and Al walk back together at a more reasonable pace. - effects Al friendship +1, Bob friendship +2."
+            "speaker": "BOB",
+            "text": "Ah, good to get the heart going. Nice walking with you."
+          },
+          {
+            "text": "He turns and begins power-walking back to the retirement village. You and Al walk back together at a more reasonable pace."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 2
+          }
+        }
       },
       {
         "text": "Sit with Al",
@@ -763,9 +494,15 @@ export const GENERIC_SCENES = {
             "text": "Never owned a house - kept my money in stocks. So when the last lease ended, I took a look in the kitchen and the shed and decided to retire from cleaning."
           },
           {
-            "text": "You don't tell him why you moved in. - effects Al friendship +2, Bob friendship +1."
+            "text": "You don't tell him why you moved in."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "bob": 1
+          }
+        }
       }
     ]
   },
@@ -799,9 +536,15 @@ export const GENERIC_SCENES = {
             "text": "Never owned a house - kept my money in stocks. So when the last lease ended, I took a look in the kitchen and the shed and decided to retire from cleaning."
           },
           {
-            "text": "You don't tell him why you moved in. - effects Al friendship +2, Miranda friendship +1."
+            "text": "You don't tell him why you moved in."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "miranda": 1
+          }
+        }
       },
       {
         "text": "Sit with Miranda",
@@ -821,7 +564,11 @@ export const GENERIC_SCENES = {
             "text": "People don't use them nowadays. We used to go out in the backyard and pick them. We'd gather them off the nature strip."
           },
           {
-            "text": "She sees your confusion. MIRANDA. For salads, pies, anything. They can be bitter if you don't blanch them first."
+            "text": "She sees your confusion."
+          },
+          {
+            "speaker": "MIRANDA",
+            "text": "For salads, pies, anything. They can be bitter if you don't blanch them first."
           },
           {
             "text": "You nod, thinking of something to say."
@@ -875,12 +622,22 @@ export const GENERIC_SCENES = {
             "text": "You take two laps around the reserve, and you try to keep up while suppressing the urge to pant."
           },
           {
-            "text": "After two laps, the walk stops abruptly. BOB. Ah, good to get the heart going. Nice walking with you both."
+            "text": "After two laps, the walk stops abruptly."
           },
           {
-            "text": "He turns and begins power-walking back to the retirement village. You, Miranda and Al walk back together at a more reasonable pace. - effects Al friendship +1, Bob friendship +1, Miranda friendship +1."
+            "speaker": "BOB",
+            "text": "Ah, good to get the heart going. Nice walking with you both."
+          },
+          {
+            "text": "He turns and begins power-walking back to the retirement village. You, Miranda and Al walk back together at a more reasonable pace."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 2
+          }
+        }
       },
       {
         "text": "Sit with Al",
@@ -906,9 +663,16 @@ export const GENERIC_SCENES = {
             "text": "Never owned a house - kept my money in stocks. So when the last lease ended, I took a look in the kitchen and the shed and decided to retire from cleaning."
           },
           {
-            "text": "You don't tell him why you moved in. - effects Al friendship +2, Bob friendship +1, Miranda friendship +1."
+            "text": "You don't tell him why you moved in."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "bob": 1,
+            "miranda": 1
+          }
+        }
       }
     ]
   },
@@ -944,12 +708,23 @@ export const GENERIC_SCENES = {
             "text": "You take two laps around the reserve, and you try to keep up while suppressing the urge to pant."
           },
           {
-            "text": "After two laps, the walk stops abruptly. BOB. Ah, good to get the heart going. Nice walking with you both."
+            "text": "After two laps, the walk stops abruptly."
           },
           {
-            "text": "He turns and begins power-walking back to the retirement village. You, Miranda and Al walk back together at a more reasonable pace. - effects Al friendship +1, Bob friendship +1, Miranda friendship +1."
+            "speaker": "BOB",
+            "text": "Ah, good to get the heart going. Nice walking with you both."
+          },
+          {
+            "text": "He turns and begins power-walking back to the retirement village. You, Miranda and Al walk back together at a more reasonable pace."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 1,
+            "bob": 1,
+            "miranda": 1
+          }
+        }
       },
       {
         "text": "Sit with Al",
@@ -975,9 +750,16 @@ export const GENERIC_SCENES = {
             "text": "Never owned a house - kept my money in stocks. So when the last lease ended, I took a look in the kitchen and the shed and decided to retire from cleaning."
           },
           {
-            "text": "You don't tell him why you moved in. - effects Al friendship +2, Bob friendship +1, Miranda friendship +1."
+            "text": "You don't tell him why you moved in."
           }
-        ]
+        ],
+        "effects": {
+          "friendship": {
+            "al": 2,
+            "bob": 1,
+            "miranda": 1
+          }
+        }
       }
     ]
   },
@@ -987,7 +769,7 @@ export const GENERIC_SCENES = {
     "art": "Village Café",
     "content": [
       {
-        "text": "The concert is tonight. The café has the feeling of a place pretending to be normal. Pablo says the food will be ready. Al says there better be enough room for his fans. Bob straightens up the rows of chairs. - effect: Pablo friendship +1; Al friendship +1; Bob friendship +1"
+        "text": "The concert is tonight. The café has the feeling of a place pretending to be normal. Pablo says the food will be ready. Al says there better be enough room for his fans. Bob straightens up the rows of chairs."
       }
     ]
   },
@@ -1000,7 +782,7 @@ export const GENERIC_SCENES = {
         "text": "You spend the afternoon in your apartment. Through the wall, faintly, you hear chairs scraping in the hall."
       },
       {
-        "text": "Later, the light has changed. - effect: marks: spent_time_alone"
+        "text": "Later, the light has changed."
       },
       {
         "text": "A quiet concert night - delete, the player has to attend concert. It's the only one they have to attend."
@@ -1012,35 +794,6 @@ export const GENERIC_SCENES = {
       }
     }
   },
-  "apartment_miss_concert": {
-    "title": "apartment_miss_concert",
-    "location": "Your Apartment",
-    "art": "Your Apartment",
-    "content": [
-      {
-        "text": "You stay in your apartment while the concert happens down the hall. Sometimes there is applause. Once, a burst of laughter. Later, footsteps pass your door."
-      }
-    ],
-    "choices": [
-      {
-        "text": "Let the evening pass.",
-        "outcome": [
-          {
-            "text": "The hall quiets. Tomorrow, people will be talking about things you did not see."
-          }
-        ],
-        "effects": {
-          "flags": {
-            "missed_concert": true,
-            "spent_time_alone": true
-          },
-          "counters": {
-            "spent_time_alone": 1
-          }
-        }
-      }
-    ]
-  },
   "apartment_morning": {
     "title": "A quiet morning",
     "location": "Your Apartment",
@@ -1048,9 +801,6 @@ export const GENERIC_SCENES = {
     "content": [
       {
         "text": "You stay in your apartment and make toast. Somewhere outside, a trolley squeaks down the hall."
-      },
-      {
-        "text": "- effect: marks: spent_time_alone"
       }
     ],
     "variants": [
@@ -1061,42 +811,6 @@ export const GENERIC_SCENES = {
         "content": [
           {
             "text": "You stay in and make toast. The trolley squeaks past, on time."
-          }
-        ],
-        "choices": [],
-        "terminalEffects": {
-          "counters": {
-            "spent_time_alone": 1
-          }
-        }
-      }
-    ],
-    "terminalEffects": {
-      "counters": {
-        "spent_time_alone": 1
-      }
-    }
-  },
-  "apartment_afternoon": {
-    "title": "A quiet afternoon",
-    "location": "Your Apartment",
-    "art": "Your Apartment",
-    "content": [
-      {
-        "text": "You stay in your apartment while the light moves across the carpet. A mower starts, stops, then starts again."
-      },
-      {
-        "text": "- effect: marks: spent_time_alone"
-      }
-    ],
-    "variants": [
-      {
-        "when": {
-          "week": 3
-        },
-        "content": [
-          {
-            "text": "You stay in while the light moves across the carpet. You hear voices outside, and then birds, and then silence."
           }
         ],
         "choices": [],

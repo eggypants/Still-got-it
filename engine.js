@@ -44,20 +44,41 @@ export function getCurrentKey(state) {
 // The next unseen, eligible story beat for a location, or null. This is the
 // floating-scene system: story advances when the player visits the place, not
 // on an exact calendar day. See data-stories.js.
+function storyBeatEligible(state, beat) {
+  if (state.seenScenes.includes(beat.sceneId)) return false;
+  if (beat.minDay !== undefined && state.dayIndex < beat.minDay) return false;
+  if (beat.maxDay !== undefined && state.dayIndex > beat.maxDay) return false;
+  if (!matchWhen(state, beat.when)) return false;
+  return true;
+}
+
 export function getNextStoryBeat(state, location) {
   const queue = STORY_QUEUES[location];
   if (!queue) return null;
-  // Priority list, not a gate chain: return the first beat that is unseen AND
-  // currently eligible. An ineligible or expired beat is SKIPPED so it can't
-  // wall off later beats or the recurring reveal scene.
+  // Priority list, not a gate chain: return the first floating beat that is
+  // unseen and eligible. Beats with their own noticeboard cards are excluded:
+  // they must not consume this location visit's one-floating-beat allowance.
   for (const beat of queue) {
-    if (state.seenScenes.includes(beat.sceneId)) continue;
-    if (beat.minDay !== undefined && state.dayIndex < beat.minDay) continue;
-    if (beat.maxDay !== undefined && state.dayIndex > beat.maxDay) continue;
-    if (!matchWhen(state, beat.when)) continue;
-    return beat;
+    if (beat.notice) continue;
+    if (storyBeatEligible(state, beat)) return beat;
   }
   return null;
+}
+
+export function getStandaloneStoryItems(state) {
+  const items = [];
+  for (const beats of Object.values(STORY_QUEUES)) {
+    for (const beat of beats) {
+      if (!beat.notice || !storyBeatEligible(state, beat)) continue;
+      items.push({
+        ...beat.notice,
+        sceneId: beat.sceneId,
+        _story: true,
+        _standaloneStory: true
+      });
+    }
+  }
+  return items;
 }
 
 export function getNoticeboardItems(state) {
@@ -74,6 +95,7 @@ export function getNoticeboardItems(state) {
     items = (WEEKLY_TEMPLATE[slotKey] || []).filter(item => {
       if (item.weeks && !item.weeks.includes(day.week)) return false;
       if (item.once === true && state.seenScenes.includes(item.sceneId)) return false;
+      if (item.when && !matchWhen(state, item.when)) return false;
       return true;
     });
     if (special) {
@@ -109,6 +131,14 @@ export function getNoticeboardItems(state) {
       }
       return true;
     });
+
+    // Standalone story cards have their own authored location and noticeboard
+    // entry. They coexist with scheduled activities and do not use or suppress
+    // any location's floating-story beat for this slot.
+    const scheduledScenes = new Set(items.map(item => item.sceneId));
+    const standalone = getStandaloneStoryItems(state)
+      .filter(item => !scheduledScenes.has(item.sceneId));
+    items = [...standalone, ...items];
   }
 
   const apartmentListed = items.some(item => item.location === "Your Apartment");
@@ -133,7 +163,13 @@ export function getNoticeboardItems(state) {
 // Condition matching
 // ---------------------------------------------------------------------------
 
-export function matchWhen(state, when) {
+export 
+function hashString(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+  return Math.abs(h);
+}
+function matchWhen(state, when) {
   if (!when) return true;
   if (when.flag && !state.flags[when.flag]) return false;
   if (when.notFlag && state.flags[when.notFlag]) return false;
@@ -146,6 +182,11 @@ export function matchWhen(state, when) {
   if (when.minCounter) {
     for (const [id, min] of Object.entries(when.minCounter)) {
       if ((state.counters?.[id] || 0) < min) return false;
+    }
+  }
+  if (when.maxCounter) {
+    for (const [id, max] of Object.entries(when.maxCounter)) {
+      if ((state.counters?.[id] || 0) > max) return false;
     }
   }
   if (when.minFriendship) {
@@ -167,9 +208,45 @@ export function resolveScene(state, sceneId) {
   let scene = base;
 
   if (base.variants) {
-    const variant = base.variants.find(v => matchWhen(state, v.when));
+    let variant;
+    if (base.pickVariant === "random") {
+      // If this scene is currently open and we've locked a variant, honour it
+      // so the scene can't reshuffle between resolves.
+      if (state.lockedVariant && state.lockedVariant.sceneId === sceneId) {
+        const li = state.lockedVariant.index;
+        base._variantIndex = li;
+        variant = li < 0 ? null : base.variants[li];
+      } else {
+      // The base scene (index -1) is also a pickable option in the random pool,
+      // alongside any variants whose conditions match and that aren't spent.
+      const pool = [];
+      if (!base.baseWhen || matchWhen(state, base.baseWhen)) {
+        pool.push({ v: null, i: -1 });
+      }
+      base.variants.forEach((v, i) => {
+        if (matchWhen(state, v.when) && (!v.once || !(state.seenVariants || {})[sceneId + "#" + i])) {
+          pool.push({ v, i });
+        }
+      });
+      if (pool.length) {
+        const seed = (hashString(sceneId) + state.dayIndex * 131 + state.slotIndex * 17) >>> 0;
+        const pick = pool[seed % pool.length];
+        base._variantIndex = pick.i;
+        variant = pick.v;
+      }
+      }
+    } else {
+      variant = base.variants.find(v => matchWhen(state, v.when));
+      if (variant) base._variantIndex = base.variants.indexOf(variant);
+    }
     if (variant) {
       const { when, ...overrides } = variant;
+      // A variant that supplies its own content but no choices is a terminal
+      // beat — it must NOT inherit the base scene's choices. Only carry base
+      // choices when the variant explicitly omits content (pure gate variant).
+      if (overrides.content && !("choices" in overrides)) {
+        overrides.choices = [];
+      }
       scene = { ...base, ...overrides };
     }
   }
@@ -225,12 +302,39 @@ export function getSceneForActivity(state, activityId) {
 // Game flow
 // ---------------------------------------------------------------------------
 
-export function openTab(state, tabName) {
-  state.activeTab = tabName;
-  state.view = "noticeboard";
+function clearActivitySession(state) {
   state.activeSceneId = null;
   state.pendingOutcome = null;
   state.flowTranscript = null;
+  state.lockedVariant = null;
+  state.activityCommitted = false;
+}
+
+function finishActivity(state) {
+  clearActivitySession(state);
+  advanceTime(state);
+  state.activeTab = "noticeboard";
+  state.view = state.dayIndex >= DAYS.length ? "ending" : "noticeboard";
+  return state;
+}
+
+export function openTab(state, tabName) {
+  // Once the player has made any choice, the activity is committed. Leaving
+  // through a tab completes it and consumes the slot, including from the
+  // outcome view. pendingOutcome/flowTranscript are retained as compatibility
+  // fallbacks for saves created before activityCommitted existed.
+  const committed = Boolean(
+    state.activityCommitted || state.pendingOutcome || state.flowTranscript
+  );
+  if (committed) {
+    finishActivity(state);
+    if (state.view !== "ending") state.activeTab = tabName;
+    return state;
+  }
+
+  clearActivitySession(state);
+  state.activeTab = tabName;
+  state.view = "noticeboard";
   return state;
 }
 
@@ -240,6 +344,15 @@ export function beginActivity(state, activityId) {
   state.activeSceneId = item.sceneId;
   state.pendingOutcome = null;
   state.flowTranscript = null;
+  state.activityCommitted = false;
+  // Lock the random-variant choice for the whole time this scene is open, so it
+  // can't reshuffle between resolves (which would let a displayed choice execute
+  // a different variant's outcome). Cleared when the scene ends.
+  state.lockedVariant = null;
+  const resolved = resolveScene(state, state.activeSceneId);
+  if (resolved && resolved._variantIndex !== undefined) {
+    state.lockedVariant = { sceneId: state.activeSceneId, index: resolved._variantIndex };
+  }
   state.view = "scene";
   state.activeTab = "noticeboard";
   return state;
@@ -252,35 +365,39 @@ export function chooseSceneOption(state, choiceIndex) {
   const choice = scene.choices[choiceIndex];
   if (!choice) return state;
 
-  if (choice.terminal === true) {
-    applyEffects(state, choice.effects || {});
-    markSeen(state, state.activeSceneId);
-    state.pendingOutcome = null;
-    state.activeSceneId = null;
-    state.flowTranscript = null;
-    advanceTime(state);
-    if (state.dayIndex >= DAYS.length) {
-      state.view = "ending";
-      state.activeTab = "noticeboard";
-    } else {
-      state.view = "noticeboard";
-      state.activeTab = "noticeboard";
-    }
-    return state;
+  // Record which variant was shown, AFTER we've locked in the scene the player
+  // actually saw — so a `once` variant isn't swapped out mid-decision.
+  if (scene._variantIndex !== undefined && scene._variantIndex !== null && scene._variantIndex >= 0) {
+    state.seenVariants ||= {};
+    state.seenVariants[state.activeSceneId + "#" + scene._variantIndex] = true;
   }
 
-  // Flowing chains stay on one transcript. Their non-leaf choices carry no
-  // effects; the leaf applies its effects and is the only point that offers
-  // Continue.
-  if (choice.nextSceneId && choice.flow === true) {
-    const nextScene = resolveScene(state, choice.nextSceneId);
-    if (!nextScene) return state;
+  if (choice.terminal === true) {
+    state.activityCommitted = true;
+    applyEffects(state, choice.effects || {});
+    markSeen(state, state.activeSceneId);
+    return finishActivity(state);
+  }
+
+  // Flowing chains stay on one transcript. Non-leaf choices may apply effects,
+  // but the leaf is the only point that offers Continue.
+  const flowTarget = (choice.nextSceneId && choice.flow === true)
+    ? resolveScene(state, choice.nextSceneId)
+    : null;
+  const flowGateOk = flowTarget && (!flowTarget.when || matchWhen(state, flowTarget.when));
+  if (flowTarget && flowGateOk) {
+    const nextScene = flowTarget;
 
     const outcomeBlocks = (choice.outcome || [{ text: "The time passes." }])
       .filter(block => matchWhen(state, block.when));
     const substitutedOutcome = substituteLines(outcomeBlocks, state);
 
     markSeen(state, state.activeSceneId);
+    state.activityCommitted = true;
+
+    // Non-leaf flowing choices may still carry effects (e.g. setting an intro
+    // flag, or a friendship bump mid-conversation). Apply them now.
+    if (choice.effects) applyEffects(state, choice.effects);
 
     if (!state.flowTranscript) {
       state.flowTranscript = {
@@ -289,6 +406,19 @@ export function chooseSceneOption(state, choiceIndex) {
         art: scene.art,
         content: substituteLines(scene.content || [], state)
       };
+    }
+
+    // Show what the player just did, so the accumulating transcript stays legible.
+    // A spoken choice ("Bob") becomes: PLAYER NAME. Bob
+    // An action choice ("Join them") becomes: *You join them* (italic narration)
+    const label = String(choice.text || "").trim();
+    const looksSpoken = /^["“”].*["“”]$/.test(label);
+    if (looksSpoken) {
+      const spoken = label.replace(/^["“”]+|["“”]+$/g, "");
+      const playerName = state.player.name || "You";
+      state.flowTranscript.content.push({ kind: "dialogue", speaker: playerName.toUpperCase(), text: spoken });
+    } else {
+      state.flowTranscript.content.push({ kind: "narration", text: "You " + label.charAt(0).toLowerCase() + label.slice(1) });
     }
 
     state.flowTranscript.content.push(...substitutedOutcome);
@@ -300,6 +430,7 @@ export function chooseSceneOption(state, choiceIndex) {
     return state;
   }
 
+  state.activityCommitted = true;
   applyEffects(state, choice.effects || {});
   markSeen(state, state.activeSceneId);
 
@@ -343,17 +474,7 @@ export function continueAfterOutcome(state) {
     return state;
   }
 
-  state.activeSceneId = null;
-  state.flowTranscript = null;
-  advanceTime(state);
-  if (state.dayIndex >= DAYS.length) {
-    state.view = "ending";
-    state.activeTab = "noticeboard";
-  } else {
-    state.view = "noticeboard";
-    state.activeTab = "noticeboard";
-  }
-  return state;
+  return finishActivity(state);
 }
 
 export function advanceTime(state) {
@@ -419,7 +540,6 @@ export function getResidentNote(id, state) {
   if (id === "rhonda") {
     if (state.flags.rhonda_show_success) return "She has started saying ‘next time’ as if next time is already real.";
     if (state.flags.rhonda_show_failed) return "She still makes people laugh, but the old programmes have disappeared.";
-    if (state.flags.rhonda_pushed_too_hard && score >= 2) return "She has not forgotten what you said at rehearsal. She has decided it was possibly, irritatingly, fair.";
     if (score >= 5) return "She saves you a seat and pretends it is an accident.";
     if (score >= 2) return "She has decided not to take your ignorance to heart.";
   }

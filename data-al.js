@@ -1,8 +1,3 @@
-// Built mechanically from sol-scenes.json under the Verbatim Law.
-// The source's four card-room versions are merged in variant_index order.
-// Internal progression flags implement the source when_text without adding story text.
-// Authored scenes with content and no choices remain choice-free terminal beats;
-// the engine supplies the standard Continue navigation control at runtime.
 export const AL_SCENES = {
   "generic_cards_al": {
     "title": "Cards",
@@ -29,7 +24,11 @@ export const AL_SCENES = {
             "text": "History likes a handsome winner."
           },
           {
-            "text": "You play again. This time, you win. AL. Oh. Shouldn't have been so cocky."
+            "text": "You play again. This time, you win."
+          },
+          {
+            "speaker": "AL",
+            "text": "Oh. Shouldn't have been so cocky."
           },
           {
             "text": "He deals the cards again."
@@ -42,10 +41,18 @@ export const AL_SCENES = {
             "text": "You look at him. You're the same age."
           },
           {
-            "text": "He laughs. AL. Alright. Tell me about yourself."
+            "text": "He laughs."
           },
           {
-            "text": "You give him the spiel. It's brief, and it ends with moving into a retirement village. Where people go to die. AL. Oof. That's grim. Well, a group of oldies sitting around playing cards isn't helping the optics."
+            "speaker": "AL",
+            "text": "Alright. Tell me about yourself."
+          },
+          {
+            "text": "You give him the spiel. It's brief, and it ends with moving into a retirement village. Where people go to die."
+          },
+          {
+            "speaker": "AL",
+            "text": "Oof. That's grim. Well, a group of oldies sitting around playing cards isn't helping the optics."
           },
           {
             "text": "Bob wins the round."
@@ -55,7 +62,11 @@ export const AL_SCENES = {
             "text": "You're out, Al."
           },
           {
-            "text": "Al grasps his chest as though mortally wounded. AL. No! Not again."
+            "text": "Al grasps his chest as though mortally wounded."
+          },
+          {
+            "speaker": "AL",
+            "text": "No! Not again."
           },
           {
             "text": "He turns to you."
@@ -127,10 +138,22 @@ export const AL_SCENES = {
                 "text": "Just a guitar-playing man.."
               },
               {
-                "text": "Jean, who is sitting on the couch, reading, looks up. JEAN. What did I say about singing in the lounge? AL. Only if it's a good song. Yes ma'am."
+                "text": "Jean, who is sitting on the couch, reading, looks up."
               },
               {
-                "text": "He shuffles the cards and speaks the rest of his answer. AL. A trip down memory lane. I played in a band back in the ancient times. Rock 'n' roll."
+                "speaker": "JEAN",
+                "text": "What did I say about singing in the lounge?"
+              },
+              {
+                "speaker": "AL",
+                "text": "Only if it's a good song. Yes ma'am."
+              },
+              {
+                "text": "He shuffles the cards and speaks the rest of his answer."
+              },
+              {
+                "speaker": "AL",
+                "text": "A trip down memory lane. I played in a band back in the ancient times. Rock 'n' roll."
               },
               {
                 "text": "Bob looks impatiently at the cards. Al starts to deal."
@@ -276,7 +299,11 @@ export const AL_SCENES = {
             "text": "Don't remember which pub that was - we played anywhere they'd let us."
           },
           {
-            "text": "He points at the guitarist. AL. Darren. Would play a seven-minute solo if you let him. And Mike on the drums. He ended up in an outback religious cult in the 80s. I think he's got nine kids. Probably a hundred grandkids by now."
+            "text": "He points at the guitarist."
+          },
+          {
+            "speaker": "AL",
+            "text": "Darren. Would play a seven-minute solo if you let him. And Mike on the drums. He ended up in an outback religious cult in the 80s. I think he's got nine kids. Probably a hundred grandkids by now."
           },
           {
             "text": "He points at the bassist."
@@ -339,7 +366,11 @@ export const AL_SCENES = {
             "text": "Don't remember which pub that was - we played anywhere they'd let us."
           },
           {
-            "text": "He points at the guitarist. AL. Darren. Would play a seven-minute solo if you let him. And Mike on the drums. He ended up in an outback religious cult in the 80s. I think he's got nine kids. Probably a hundred grandkids by now."
+            "text": "He points at the guitarist."
+          },
+          {
+            "speaker": "AL",
+            "text": "Darren. Would play a seven-minute solo if you let him. And Mike on the drums. He ended up in an outback religious cult in the 80s. I think he's got nine kids. Probably a hundred grandkids by now."
           },
           {
             "text": "He points at the bassist."

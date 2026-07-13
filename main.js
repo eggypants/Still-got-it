@@ -19,6 +19,7 @@ if (saved && saved.version === SAVE_VERSION) {
 const actions = {
   openTab(tabName) {
     openTab(state, tabName);
+    persistGame(state);
     update();
   },
 
